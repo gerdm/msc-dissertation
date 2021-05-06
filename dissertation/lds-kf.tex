@@ -782,9 +782,32 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	Using equation \eqref{eq:Q-LDS}, we notice that
 	\begin{align}
 		&\argmax{{\bf A}} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})\\
-		&= \argmax{{\bf A}} -\frac{1}{2}\sum_{n=1}^N \text{Tr}\left(\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}\boldsymbol{\Gamma}^{-1}{\bf A} - 2\expectation{\z_{n-1}\z_n^T}{\bf A}\boldsymbol{\Gamma}^{-1}\right)\\
-		&= \argmax{{\bf A}} -\frac{1}{2}\sum_{n=1}^N \text{Tr}\left({\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) + \sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right)\\
-		&= \argmax{{\bf A}} - \left(\boldsymbol{\Gamma}^{-1}{\bf A}\sum_{n=1}^N\expectation{\z_{n-1}\z_{n-1}^T}\right) + \sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right).
+		&= \argmax{{\bf A}} -\frac{1}{2}\sum_{n=2}^N \text{Tr}\left({\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) + \sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right)\\
+		&= \argmax{\bf A} \text{Tr}\left({\bf A} \left(\sum_{n=2}^N \expectation{\z_{n-1}\z_n^T}\right) \boldsymbol\Gamma^{-1}\right) - \frac{1}{2}\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} {\bf A} \left(\sum_{n=1}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)\right).
+	\end{align}
+	
+	Taking the derivate of equation and setting the value to zero, we observe
+	\begin{align}
+		&\boldsymbol{\Gamma}^{-1} \sum_{n=2}^N \expectation{\z_n\z_{n-1}^T} - \boldsymbol{\Gamma}^{-1} {\bf A} \sum_{n=2}^N\expectation{\z_{n-1}\z_{n-1}^T} = 0\\
+		\iff& {\bf A} = \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1}.
+	\end{align}
+\end{proof}
+
+\begin{proof}
+	Next, we proof the result in equation \eqref{eq:mstep-Gamma}. As before, we make use of equation \eqref{eq:Q-LDS} and consider the terms that depend on $\boldsymbol{\Gamma}$, namely
+	\begin{align}
+		& \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert -\frac{1}{2}\sum_{n=2}^N\text{Tr}\Big(\expectation{\z_n\z_n^T}\boldsymbol\Gamma^{-1}\\
+		&\hspace{1cm} -2{\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol\Gamma^{-1} + {\bf A}^T\boldsymbol\Gamma^{-1}{\bf A} \expectation{\z_{n-1}\z_{n-1}^T}\Big)\\
+		&= \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert - \frac{1}{2}\text{Tr}\left(\boldsymbol\Gamma^{-1} \sum_{n=2}^N \expectation{\z_n\z_n^T}\right) \\
+		&\hspace{1cm} + \text{Tr}\left(\boldsymbol\Gamma^{-1}{\bf A}\sum_{n=2}^N\expectation{\z_{n-1}\z_n^T}\right) - \frac{1}{2}\text{Tr}\left(\boldsymbol\Gamma^{-1} {\bf A} \sum_{n=2}^N\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}^T\right).
+	\end{align}
+	
+	To maximise equation with respect of $\boldsymbol{\Gamma}$, it's useful to take the derivative with respect to $\boldsymbol{\Gamma}^{-1}$. We obtain
+	\begin{align}
+		&\frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}Q(\boldsymbol\theta', \boldsymbol\theta) \\
+		&= \frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}\Bigg( \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert - \frac{1}{2}\text{Tr}\left(\boldsymbol\Gamma^{-1} \sum_{n=2}^N \expectation{\z_n\z_n^T}\right) \\
+		&\hspace{1cm} + \text{Tr}\left(\boldsymbol\Gamma^{-1}{\bf A}\sum_{n=2}^N\expectation{\z_{n-1}\z_n^T}\right) - \frac{1}{2}\text{Tr}\left(\boldsymbol\Gamma^{-1} {\bf A} \sum_{n=2}^N\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}^T\right)\Bigg)\\
+		&= \frac{N-1}{2}\boldsymbol{\Gamma} - \frac{1}{2}\sum_{n=2}^N\expectation{\z_n\z_n^T} + 
 	\end{align}
 \end{proof}
 
