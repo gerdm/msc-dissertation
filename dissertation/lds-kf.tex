@@ -124,7 +124,8 @@ To make use of the E-step, it is helpful to distinguish which elements depend on
 	   &= \frac{1}{2}\log \vert
 	  {\bf V}_0^{-1}\vert -\frac{1}{2}\left[\text{Tr}\left(\z_1 \z_1^T {\bf V}_0^{-1}\right) -2 \z_1^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\right] \nonumber \\
 	  &\hspace{1cm}+ \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert + \frac{N}{2}\log\vert \boldsymbol\Sigma^{-1}\vert \nonumber \\
-	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\left(\z_n\z_n^T\boldsymbol\Gamma^{-1} -2 {\bf A} \z_{n-1}\z_n^T\boldsymbol\Gamma^{-1} + {\bf A}^T \boldsymbol\Gamma^{-1}{\bf A}\z_{n-1}\z_{n-1}^T\right) \nonumber\\
+	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\big(\z_n\z_n^T\boldsymbol\Gamma^{-1} -{\bf A} \z_{n-1}\z_n^T\boldsymbol\Gamma^{-1} - \nonumber\\
+	  &\hspace{1.8cm}{\bf A}^T\boldsymbol{\Gamma}^{-1}\z_n\z_{n-1}^T + {\bf A}^T \boldsymbol\Gamma^{-1}{\bf A}\z_{n-1}\z_{n-1}^T\big) \nonumber\\
 	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\left[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n-2\z_n^T\boldsymbol\Sigma^{-1}\x_n + \text{Tr}(\z_n\z_n^T{\bf C}\boldsymbol\Sigma^{-1}{\bf C})\right] \nonumber\\
 	  &\hspace{1cm} + \text{const.}
 \end{align}
@@ -135,12 +136,13 @@ Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From thi
 	Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) &= \frac{1}{2}\log \vert
 	  {\bf V}_0^{-1}\vert -\frac{1}{2}\left[\text{Tr}\left(\mathbb{E}\left[\z_1 \z_1^T\right] {\bf V}_0^{-1}\right) -2 \mathbb{E}\left[\z_1\right]^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\right] \nonumber \\
 	  &\hspace{1cm}+ \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert + \frac{N}{2}\log\vert \boldsymbol\Sigma^{-1}\vert \nonumber \\
-	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\left(\mathbb{E}\left[\z_n\z_n^T\right]\boldsymbol\Gamma^{-1} -2{\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol\Gamma^{-1} + {\bf A}^T\boldsymbol\Gamma^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) \nonumber\\
+	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\big(\expectation{\z_n\z_n^T}\boldsymbol\Gamma^{-1} - {\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol\Gamma^{-1} \nonumber\\
+	  &\hspace{1.8cm} - {\bf A}^T\boldsymbol{\Gamma}\expectation{\z_n\z_{n-1}^T} + {\bf A}^T\boldsymbol\Gamma^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\big) \nonumber\\
 	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\left[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n-2\mathbb{E}\left[\z_n^T\right]\boldsymbol\Sigma^{-1}\x_n + \text{Tr}(\mathbb{E}\left[\z_n\z_n^T\right]{\bf C}\boldsymbol\Sigma^{-1}{\bf C})\right] \nonumber\\
 	  &\hspace{1cm} + \text{const.} \label{eq:Q-LDS}
 \end{align}
 
-Before computing the expected values of the latent variables, it is useful to find the posterior distributions of the latent variables $\gamma(\z_n) := p(\z_n\vert \x)$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert \x)$. %why is it useful?
+To compute the expected values of the latent variables, it is useful to first find the posterior distributions of the latent variables $\gamma(\z_n) := p(\z_n\vert \x)$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert \x)$. %why is it useful?
 
 \begin{proposition}
 	The term $\gamma(\z_n)$ can be written as a product of the joint probabilities of the first $n$ observations and $\z_n$, and the conditional probability of the observations that follow $\z_n$ conditional on $\z_n$.
