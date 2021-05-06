@@ -124,7 +124,7 @@ To make use of the E-step, it is helpful to distinguish which elements depend on
 	   &= \frac{1}{2}\log \vert
 	  {\bf V}_0^{-1}\vert -\frac{1}{2}\left[\text{Tr}\left(\z_1 \z_1^T {\bf V}_0^{-1}\right) -2 \z_1^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\right] \nonumber \\
 	  &\hspace{1cm}+ \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert + \frac{N}{2}\log\vert \boldsymbol\Sigma^{-1}\vert \nonumber \\
-	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\left(\z_n\z_n^T\boldsymbol\Gamma^{-1} -2 \z_{n-1}\z_n^T{\bf A}\boldsymbol\Gamma^{-1} +  \z_{n-1}\z_{n-1}^T{\bf A}\boldsymbol\Gamma^{-1}{\bf A}\right) \nonumber\\
+	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\left(\z_n\z_n^T\boldsymbol\Gamma^{-1} -2 {\bf A} \z_{n-1}\z_n^T\boldsymbol\Gamma^{-1} + {\bf A}^T \boldsymbol\Gamma^{-1}{\bf A}\z_{n-1}\z_{n-1}^T\right) \nonumber\\
 	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\left[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n-2\z_n^T\boldsymbol\Sigma^{-1}\x_n + \text{Tr}(\z_n\z_n^T{\bf C}\boldsymbol\Sigma^{-1}{\bf C})\right] \nonumber\\
 	  &\hspace{1cm} + \text{const.}
 \end{align}
@@ -135,7 +135,7 @@ Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From thi
 	Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) &= \frac{1}{2}\log \vert
 	  {\bf V}_0^{-1}\vert -\frac{1}{2}\left[\text{Tr}\left(\mathbb{E}\left[\z_1 \z_1^T\right] {\bf V}_0^{-1}\right) -2 \mathbb{E}\left[\z_1\right]^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\right] \nonumber \\
 	  &\hspace{1cm}+ \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert + \frac{N}{2}\log\vert \boldsymbol\Sigma^{-1}\vert \nonumber \\
-	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\left(\mathbb{E}\left[\z_n\z_n^T\right]\boldsymbol\Gamma^{-1} -2\mathbb{E}\left[ \z_{n-1}\z_n^T\right]{\bf A}\boldsymbol\Gamma^{-1} + \mathbb{E}\left[\z_{n-1}\z_{n-1}^T\right]{\bf A}\boldsymbol\Gamma^{-1}{\bf A}\right) \nonumber\\
+	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\left(\mathbb{E}\left[\z_n\z_n^T\right]\boldsymbol\Gamma^{-1} -2{\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol\Gamma^{-1} + {\bf A}^T\boldsymbol\Gamma^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) \nonumber\\
 	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\left[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n-2\mathbb{E}\left[\z_n^T\right]\boldsymbol\Sigma^{-1}\x_n + \text{Tr}(\mathbb{E}\left[\z_n\z_n^T\right]{\bf C}\boldsymbol\Sigma^{-1}{\bf C})\right] \nonumber\\
 	  &\hspace{1cm} + \text{const.} \label{eq:Q-LDS}
 \end{align}
@@ -769,12 +769,12 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	The updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, $\boldsymbol{\Sigma}$ in the M-step are given by
 	
 	\begin{align}
-		{\bf A} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \\
+		{\bf A} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A}\\
 		\boldsymbol{\Gamma} &= \frac{1}{N-1}\sum_{n=1}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}{\bf A}^T \nonumber\\
-		&\hspace{1cm} - {\bf A}\expectation{\z_{n-1}\z_n^T} - {\bf A}\expectation{\z_{n-1} \z_{n-1}^T}{\bf A}^T \bigg) \\
-		{\bf C} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1} \\
+		&\hspace{1cm} - {\bf A}\expectation{\z_{n-1}\z_n^T} - {\bf A}\expectation{\z_{n-1} \z_{n-1}^T}{\bf A}^T \bigg) \label{eq:mstep-Gamma}\\
+		{\bf C} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1} \label{eq:mstep-C}\\
 		\boldsymbol{\Sigma} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T {\bf C}^T \nonumber\\
-		&\hspace{1cm} - {\bf C}\expectation{\z_n}\x_n^T + {\bf C} \expectation{\z_n \z_n^T}{\bf C}^T \bigg)
+		&\hspace{1cm} - {\bf C}\expectation{\z_n}\x_n^T + {\bf C} \expectation{\z_n \z_n^T}{\bf C}^T \bigg) \label{eq:mstep-Sigma}
 	\end{align}
 \end{proposition}
 
