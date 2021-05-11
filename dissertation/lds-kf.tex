@@ -141,7 +141,7 @@ Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From thi
 	  &\hspace{1cm}+ \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert + \frac{N}{2}\log\vert \boldsymbol\Sigma^{-1}\vert \nonumber \\
 	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\big(\expectation{\z_n\z_n^T}\boldsymbol\Gamma^{-1} - {\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol\Gamma^{-1} \nonumber\\
 	  &\hspace{1.8cm} - {\bf A}^T\boldsymbol{\Gamma}^{-1}\expectation{\z_n\z_{n-1}^T} + {\bf A}^T\boldsymbol\Gamma^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\big) \nonumber\\
-	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\big[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n-\expectation{\z_n^T}{\bf C}^T \boldsymbol\Sigma^{-1}\x_n - \x_n \boldsymbol\Sigma^{-1}{\bf C}\expectation{\z_n} \nonumber\\
+	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\big[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n-\expectation{\z_n^T}{\bf C}^T \boldsymbol\Sigma^{-1}\x_n - \x_n^T\boldsymbol\Sigma^{-1}{\bf C}\expectation{\z_n} \nonumber\\
 	  &\hspace{1cm} + \text{Tr}(\mathbb{E}\left[\z_n\z_n^T\right]{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C})\big] + \text{const.}  \label{eq:Q-LDS}
 \end{align}
 
