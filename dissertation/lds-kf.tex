@@ -840,6 +840,20 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	Setting equation \eqref{eq:part-C-terms1} to zero and solving for $\bf C$ we arrive at equation \eqref{eq:mstep-C}.
 \end{proof}
 
+\begin{proof}
+	Finally, to prove equation \eqref{eq:mstep-Sigma}, we consider the terms on \eqref{eq:Q-LDS} that depend on $\boldsymbol{\Sigma}$. We obtain
+	\begin{align}
+		 & \frac{N}{2}\log\vert\boldsymbol\Sigma^{-1}\vert -\frac{1}{2}\sum_{n=1}^N \left[ \x_n^T \boldsymbol{\Sigma}^{-1}\x_n - \expectation{\z_n}{\bf C}^T\boldsymbol{\Sigma}^{-1}\x_n - \x_n^T \boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n} + \Tr{\expectation{\z_n\z_n^T}{\bf C}^T\boldsymbol{\Sigma}^{-1}{\bf C}} \right]\\
+		=& \frac{N}{2}\log\vert\boldsymbol\Sigma^{-1}\vert -\frac{1}{2}\sum_{n=1}^N\Tr{\boldsymbol\Sigma^{-1} \left( \x_n\x_n^T - \x_n\expectation{\z_n}{\bf C}^T - {\bf C}\expectation{\z_n}\x_n^T + {\bf C}\expectation{\z_n\z_n^T}{\bf C}^T \right)}. \label{eq:part-Sigma-terms1}
+	\end{align}
+	
+	Taking the derivative of \eqref{eq:part-Sigma-terms1} with respect to $\boldsymbol{\Sigma}^{-1}$ we obtain
+	\begin{align}
+		\frac{\partial}{\partial \boldsymbol{\Sigma}^{-1}} Q(\boldsymbol\theta', \boldsymbol\theta) = \frac{N}{2}\boldsymbol{\Sigma} - \frac{1}{2}\sum_{n=1}^N\left( \boldsymbol\Sigma^{-1} \left( \x_n\x_n^T - \x_n\expectation{\z_n}{\bf C}^T - {\bf C}\expectation{\z_n}\x_n^T + {\bf C}\expectation{\z_n\z_n^T}{\bf C}^T \right) \right) \label{eq:part-Sigma-terms2}.
+	\end{align}
+	We conclude this proof by noting that setting equation \eqref{eq:part-Sigma-terms2} to zero and solving for $\boldsymbol{\Sigma}$ yields equation \eqref{eq:mstep-Sigma}.
+\end{proof}
+
 \section{Graphical Models}
 In this section we present some useful proposition of graphical models.
 
