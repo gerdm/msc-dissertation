@@ -824,7 +824,20 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 \end{proof}
 
 \begin{proof}
-	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms on $Q(\boldsymbol\theta', \boldsymbol\theta)$ that depend on $\bf C$.
+	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms on $Q(\boldsymbol\theta', \boldsymbol\theta)$ that depend on $\bf C$. These are
+	\begin{align}
+		& -\frac{1}{2}\sum_{n=1}^N \left[ -\expectation{\z_n^T} {\bf C}^T \boldsymbol{\Sigma}^{-1}\x_n - \x_n^T \boldsymbol{\Sigma}^{-1} {\bf C} \expectation{\z_n} + \text{Tr}\left(\expectation{\z_n\z_n^T}{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C}\right)\right]\\
+		=& -\frac{1}{2}\sum_{n=1}^N \left[ -\Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}\x_n \expectation{\z_n^T}} - \Tr{{\bf C}\expectation{\z_n}\x_n^T\boldsymbol{\Sigma}^{-1}} +  \Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T}} \right].
+	\end{align}
+	
+	% to-do: add references to equations (100), (103), and (117)
+	Next, taking the derivative of $Q(\boldsymbol{\theta}', \boldsymbol{\theta})$ with respect to $\bf C$ yields:
+	\begin{align}
+		\frac{\partial}{\partial {\bf C}} Q(\boldsymbol{\theta}', \boldsymbol{\theta}) &= -\frac{1}{2}\sum_{n=1}^N \left[ \boldsymbol{\Sigma}^{-1} \x_n \expectation{\z_n^T} + \boldsymbol{\Sigma}^{-1}\x_n\expectation{\z_n^T} - 2 \boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T} \right] \\
+		&= \boldsymbol{\Sigma}^{-1} \left( {\bf C} \sum_{n=1}^N \expectation{\z_n\z_n^T} - \sum_{n=1}^N\x_n\expectation{\z_n^T} \right). \label{eq:part-C-terms1}
+	\end{align}
+	
+	Setting equation \eqref{eq:part-C-terms1} to zero and solving for $\bf C$ we arrive at equation \eqref{eq:mstep-C}.
 \end{proof}
 
 \section{Graphical Models}
