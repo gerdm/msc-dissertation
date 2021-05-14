@@ -36,7 +36,7 @@
 Dynamical systems are models that capture the time evolution of a system \cite{strogatz}. A discrete-time linear dynamical system is a dynamical system in which an $M$-dimensional vector $\x_n$ evolves in the form.
 
 \begin{equation}
-	\x_{n+1} = {\bf A x}_n
+	\x_{n+1} = {\bf A x}_n.
 \end{equation}
 
 % An example of a linear dynamical system is...
@@ -54,8 +54,8 @@ In this work, we are interested in dynamical systems that depend on some unobser
 One way to represent such system is to assume the existence of an unobserved signal $\z_n$ that evolves over time according to the matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n}$ is updated, the observed value $\x_{n+1}$ is the result of a linear transformation for $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such system can be written in the form:
 
 \begin{align*}
-	\z_{n+1} &= {\bf A} \z_{n}\\
-	\x_{n+1} &= {\bf C} \z_{n+1}
+	\z_{n+1} &= {\bf A} \z_{n},\\
+	\x_{n+1} &= {\bf C} \z_{n+1}.
 \end{align*}
 
 An example of such system is presented in Figure \ref{fig:hidden-dynamical-system}, in which the dynamics of the vector $\x_n$ is completely determined by the vector $\z_n$. Hence, the evolution of the system is completely determined by the initial condition $\z_0$. Assuming that $\z_0$ is known and we observed a fixed number of $N$ observations, the problem reduces to find matrices ${\bf A}$ and ${\bf C}$ that generated the observed values.
@@ -73,20 +73,18 @@ In some settings, however, we assume that the underlying signal $\z_n$ and the o
 % as we will see, the procedure can be achieved by the EM-algorithm and the dataset Z can be found using a known algorithm known as the Kalman-filter equations.
 
 \subsection{Linear dynamical systems with added noise}
-We begin this section by modifying our previous system to take into account the uncertainty in the system. We follow from the ideas presented in \cite{prml}. As previously mentioned, we assume that that both the underlying signal and the observed signal are corrupted by some noise.
+We begin this section by modifying our previous system to take into account the uncertainty in the system. We follow from the ideas presented in \cite{prml}. As previously mentioned, we assume that that both the underlying signal and the observed signal are corrupted by some noise. That is
  
 
 \begin{align*}
-	\z_{n+1} &= {\bf A} \z_{n} + \boldsymbol\varepsilon_n\\
-	\x_{n+1} &= {\bf C} \z_{n+1} + \boldsymbol\varphi_n
+	\z_{n+1} &= {\bf A} \z_{n} + \boldsymbol\varepsilon_n,\\
+	\x_{n+1} &= {\bf C} \z_{n+1} + \boldsymbol\varphi_n.
 \end{align*}
 
-The noise terms $\boldsymbol{\varepsilon}_n$, and $\boldsymbol{\varphi}_n$ are assumed to be normally distributed with mean zero and covariance matrices $\boldsymbol{\Gamma}$, and $\boldsymbol{\Sigma}$.
-
-Given the structure of the dynamical system, the likelihood of the model is given by
+The noise terms $\boldsymbol{\varepsilon}_n$, and $\boldsymbol{\varphi}_n$ are assumed to be normally distributed with mean zero and covariance matrices $\boldsymbol{\Gamma}$, and $\boldsymbol{\Sigma}$. Given the structure of the dynamical system, the likelihood of the model is given by
 
 \begin{equation}
-	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n)
+	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
 \end{equation}
 
 % to-do: Add equations for the initial condition z0
@@ -103,14 +101,14 @@ We can also represent this system as a graphical model as specified in Figure \r
 % to-do: rewrite this paragraph. Motivate the EM algorithm by rewriting the log-likelihood and show that the resulting
 % rewrite of equations lead to the E and the M steps. Furthermore, add that criterion for converge of the algorithm can be
 % found on a paper (find paper)	
-Our purpose is to find parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$ that best represent the data. This is usually done maximising the likelihood of the data with respect to the parameters $\boldsymbol{\theta}$. Maximising the likelihood of this model, however, is not straightforward. This is because the only observed data we have is given by the dataset $\bf X$. % Explain more this step
+Our goal is to find the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$ that best represent the data. From a frequentist perspective, this is done by maximising the likelihood of the data with respect to the parameters $\boldsymbol{\theta}$. Maximising the likelihood of this model, however, is not straightforward. This is because the only observed data we have is given by the dataset $\bf X$. % Explain more this step
 
 
 One approach of finding such parameters is to make use of the EM algorithm: an iterative approach to maximise the likelihood of the complete-data log-likelihood as follows
 
 \begin{align}
 	\boldsymbol{\theta}^\text{new} &= \argmax{\boldsymbol{\theta}} \mathbb{E}_{\z\vert \x, \boldsymbol{\theta}^\text{old}}[\log p(\x, \z\vert \boldsymbol\theta)]\\
-	&= \argmax{\boldsymbol{\theta}} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})
+	&= \argmax{\boldsymbol{\theta}} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
 \end{align}
 
 Where we have defined $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) := \mathbb{E}_{\z\vert \x, \boldsymbol{\theta}^\text{old}}[\log p(\x, \z\vert \boldsymbol\theta)]$. The computation of the posterior probability of latent variables $p(\z\vert \x, \boldsymbol\theta)$ is called the E-step. The maximisation of the complete-data log-likelihood with respect to the posterior latent variables is called the M-step.
@@ -130,10 +128,10 @@ To make use of the E-step, it is helpful to distinguish which elements depend on
 	  &\hspace{1cm}-\frac{1}{2} \sum_{n=2}^{N}\text{Tr}\big(\z_n\z_n^T\boldsymbol\Gamma^{-1} -{\bf A} \z_{n-1}\z_n^T\boldsymbol\Gamma^{-1} - \nonumber\\
 	  &\hspace{1.8cm}{\bf A}^T\boldsymbol{\Gamma}^{-1}\z_n\z_{n-1}^T + {\bf A}^T \boldsymbol\Gamma^{-1}{\bf A}\z_{n-1}\z_{n-1}^T\big) \nonumber\\
 	  &\hspace{1cm}-\frac{1}{2}\sum_{n=1}^N\big[\x_n^T\boldsymbol{\Sigma}^{-1}\x_n - \z_n^T{\bf C}^T\boldsymbol\Sigma^{-1}\x_n - \x_n^T\boldsymbol{\Sigma}^{-1}{\bf C}\z_n  \\
-	  &\hspace{1cm} + \text{Tr}(\z_n\z_n^T{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C})\big] + \text{const.}
+	  &\hspace{1cm} + \text{Tr}(\z_n\z_n^T{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C})\big] + \text{const.} \label{eq:complete-log-likelihood}
 \end{align}
 
-Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From this last equation, we note that the expectation with respect to the posterior distribution comes only in the form of the expectations $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$. We obtain:
+Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From equation \eqref{eq:complete-log-likelihood}, we note that the expectation with respect to the posterior distribution comes only in the form of the expectations $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$. That is,
 
 \begin{align}
 	Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) &= \frac{1}{2}\log \vert
@@ -146,7 +144,9 @@ Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From thi
 \end{align}
 
 
-To compute the expected values of the latent variables, it is useful to first find the posterior distributions of the latent variables $\gamma(\z_n) := p(\z_n\vert \x)$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert \x)$. %why is it useful?
+To compute the expected values of the latent variables, we first find the posterior distribution of the latent variables $\gamma(\z_n) := p(\z_n\vert {\bf X})$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$. As we will see, computing these distributions show that their values are depended on past and future 
+
+%why is it useful?
 
 \begin{proposition}\label{prop:gamma-factorisation}
 	The term $\gamma(\z_n)$ can be written as a product of the joint probabilities of the first $n$ observations and $\z_n$, and the conditional probability of the observations that follow $\z_n$ conditional on $\z_n$.
@@ -155,11 +155,11 @@ To compute the expected values of the latent variables, it is useful to first fi
 \begin{proof}
 Consider  $\gamma(\z_n)$ and equation \eqref{eq:gm-1} from proposition \ref{prop:graphical-models-separation}. We have
 \begin{align}
-	\gamma(\z_n) &= p(\z_n \vert \x)\\
-					  &= \frac{1}{p(\x)}p(\z_n)p(\x \vert \z_n)\\
+	\gamma(\z_n) &= p(\z_n \vert {\bf X})\\
+					  &= \frac{1}{p(\x)}p(\z_n)p({\bf X} \vert \z_n)\\
 					  &= \frac{1}{p(\x)} p(\z_n) p(\x_1, \ldots, \x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N\vert \z_n)\\
 					  &= \frac{1}{p(\x)}p(\x_1, \ldots, \x_n, \z_n) p(\x_{n+1}, \ldots, \x_N\vert \z_n)\\
-					  &= \frac{1}{p(\x)}\alpha(\z_n)\beta(\z_n)
+					  &= \frac{1}{p(\x)}\alpha(\z_n)\beta(\z_n).
 \end{align}
 
 Where we have defined $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of the observed data up to $n$, and $\beta(\z_n) := p(\x_{n+1}, \ldots, \x_N\vert \z_n)$ as the probability of all data that follows the $n$-th observation, conditional on the $n$-th latent variable $\z_n$.
@@ -179,7 +179,7 @@ Where we have defined $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint
 			&\hspace{1cm} p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
 		&= \frac{1}{p(\x)} p(\z_{n} \vert \z_{n-1}) p(\x_1, \ldots, \x_{n-1}, \z_{n-1}) \nonumber \\
 			&\hspace{1cm} p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
-		&= \frac{1}{p(\x)} \alpha(\z_{n-1}) p(\z_{n} \vert \z_{n-1}) p(\x_n \vert \z_n) \beta(\z_n)
+		&= \frac{1}{p(\x)} \alpha(\z_{n-1}) p(\z_{n} \vert \z_{n-1}) p(\x_n \vert \z_n) \beta(\z_n).
 	\end{align}
 \end{proof}
 
@@ -191,7 +191,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \begin{proposition} \label{prop:alpha-recursive}
 	$\alpha(\z_n)$ can be written recursively as
 	\begin{equation}
-		\alpha(\z_n) = p(\x_n\vert \z_n) \int_{\z_{n-1}} \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}
+		\alpha(\z_n) = p(\x_n\vert \z_n) \int_{\z_{n-1}} \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}.
 	\end{equation}
 \end{proposition}
 
@@ -207,7 +207,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}, \z_n) d\z_{n-1}\\
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}) d\z_{n-1}\\
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1}, \z_{n-1}) d\z_{n-1}\\
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})\alpha(\z_{n-1}) d\z_{n-1}\\
+		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})\alpha(\z_{n-1}) d\z_{n-1}.\\
 	\end{align}
 \end{proof}
 
@@ -215,7 +215,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \begin{proposition} \label{prop:beta-recursive}
 	$\beta(\z_n)$ can be written recursively as
 	\begin{equation}
-		\beta(\z_n) = \int_{\z_{n+1}} \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}
+		\beta(\z_n) = \int_{\z_{n+1}} \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
 	\end{equation} 
 \end{proposition}
 
@@ -227,31 +227,31 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \\
 		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \x_{n+1}, \z_{n+1}) d\z_{n+1} \\
 		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1}\\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) \beta(\z_{n+1}) d\z_{n+1}
+		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) \beta(\z_{n+1}) d\z_{n+1}.
 	\end{align}
 \end{proof}
 
 % We argue that alpha and beta values can become small very quick, so we require another way to compute its values
-For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve this we work with re-scaled values for $\alpha$ and $\beta$. This has the additional benefit that the re-scaled values $\alpha(\z_n)$ can be written in form of a Normal distribution whose updating equations are  called the \textbf{Kalman equations}.
+For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve this drawback, we work with re-scaled values for $\alpha$ and $\beta$. This has the additional benefit that the re-scaled values $\alpha(\z_n)$ can be written in form of a Normal distribution whose updating equations are  called the \textbf{Kalman equations}.
 
 % Introduce alpha hat and beta hat: show that they can be written
 
 \begin{proposition} \label{prop:alpha-hat}
 	Defining the scaled value $\hat\alpha(\z_n)$ as
 	\begin{equation}
-		\hat\alpha(\z_n) := \frac{\alpha(\z_n)}{p(\x_1, \ldots, \x_n)} = p(\z_n \vert \x_1, \ldots, \x_n)
+		\hat\alpha(\z_n) := \frac{\alpha(\z_n)}{p(\x_1, \ldots, \x_n)} = p(\z_n \vert \x_1, \ldots, \x_n),
 	\end{equation}
 	
 	results in an updating equation of the form
 	
 	\begin{equation}
-		 c_n \hat\alpha(\z_n) = p(\x_n\vert\z_n)\int \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_{n-1}
+		 c_n \hat\alpha(\z_n) = p(\x_n\vert\z_n)\int \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_{n-1},
 	\end{equation}
 	
 	with
 	
 	\begin{equation}
-		c_n = p(\x_n \vert \x_{n-1}, \ldots, \x_1)
+		c_n = p(\x_n \vert \x_{n-1}, \ldots, \x_1).
 	\end{equation}
 \end{proposition}
 
@@ -259,19 +259,19 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 	We begin defining the coefficient $c_n = p(\x_n \vert \x_{n-1}, \ldots, \x_1)$. We see that
 	\begin{align}
 		p(\x_1, \ldots, \x_N) &=  p(\x_1) p(\x_2 \vert \x_1) \cdots p(\x_N \vert \x_1, \ldots, \x_{N-1})\\
-		&= \prod_{n=1}^N c_n
+		&= \prod_{n=1}^N c_n.
 	\end{align}
 	
 	Considering the definition of $\hat\alpha(\z_n)$, we rewrite $\alpha(\z_n)$ as follows
 	\begin{equation} \label{eq:alpha-rewrite}
-		\alpha(\z_n) = \hat\alpha(\z_n) p(\x_1, \ldots, \x_n) = \hat\alpha(\z_n) \prod_{j=1}^n c_j
+		\alpha(\z_n) = \hat\alpha(\z_n) p(\x_1, \ldots, \x_n) = \hat\alpha(\z_n) \prod_{j=1}^n c_j.
 	\end{equation}
 	
 	Using proposition \ref{prop:alpha-recursive} and equation \eqref{eq:alpha-rewrite} we observe
 	\begin{align}
 		&\alpha(\z_n) = p(\x_n\vert \z_n) \int_{\z_{n-1}} \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
 		\iff & \hat\alpha(\z_n) \prod_{j=1}^{n} c_n = p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1}) \prod_{j=1}^{n-1} c_j \cdot  p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
-		\iff & \hat\alpha(\z_n) c_n =   p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})   p(\z_n\vert\z_{n-1}) d\z_{n-1}
+		\iff & \hat\alpha(\z_n) c_n =   p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})   p(\z_n\vert\z_{n-1}) d\z_{n-1}.
 	\end{align}
 	
 	
@@ -280,11 +280,11 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 \begin{proposition} \label{prop:beta-hat}
 	Defining the scaled value $\hat\beta(\z_n)$ as
 	\begin{equation}
-		\hat\beta(\z_n) = \frac{p(\x_{n+1}, \ldots, \x_N \vert \z_n)}{p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n)}
+		\hat\beta(\z_n) = \frac{p(\x_{n+1}, \ldots, \x_N \vert \z_n)}{p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n)},
 	\end{equation}
 	results in an equation of the form
 	\begin{equation}
-		\hat\beta(\z_n) = \frac{1}{c_{n+1}}\int p(\x_{n+1}\vert\z_{n+1})p(\z_{n+1}\vert\z_n) d\z_{n+1} 
+		\hat\beta(\z_n) = \frac{1}{c_{n+1}}\int p(\x_{n+1}\vert\z_{n+1})p(\z_{n+1}\vert\z_n) d\z_{n+1}.
 	\end{equation}
 \end{proposition}
 
@@ -296,7 +296,7 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 		&= p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n) \frac{p(\x_{n+1}, \ldots, \x_N \vert \z_N)}{p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n)}\\
 		&= p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n) \hat\beta(\z_n)\\
 		&= \hat\beta(\z_n) p(\x_{n+1} \vert \x_1, \ldots \x_n) \cdot \ldots \cdot p(\x_{N} \vert \x_1, \ldots \x_{N-1})\\
-		&= \hat\beta(\z_n) \prod_{j=n+1}^N c_j \label{eq:beta-rewrite}
+		&= \hat\beta(\z_n) \prod_{j=n+1}^N c_j \label{eq:beta-rewrite}.
 	\end{align}
 	
 	Using proposition \ref{prop:beta-recursive} and equation \eqref{eq:beta-rewrite}, we see that
@@ -304,14 +304,14 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 	\begin{align}
 		&\beta(\z_n) = \int_{\z_{n+1}} \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
 		\iff& \hat\beta(\z_n) \prod_{j=n+1}^N c_j = \int_{\z_{n+1}}\hat\beta(\z_n) \prod_{j=n+2}^N c_jp(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
-		\iff& c_{n+1} \hat\beta(\z_n) = \int_{\z_{n+1}} \hat\beta(\z_n) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}
+		\iff& c_{n+1} \hat\beta(\z_n) = \int_{\z_{n+1}} \hat\beta(\z_n) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
 	\end{align}
 \end{proof}
 
 \begin{proposition}
 	The term $c_n$ can be written as a recursive function of the form
 	\begin{equation}
-		c_n = \int_{\z_n} p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_n\z_{n-1}
+		c_n = \int_{\z_n} p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_n\z_{n-1}.
 	\end{equation}
 \end{proposition}
 
@@ -337,14 +337,14 @@ In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1},
 		\gamma(\z_n) &= \frac{\alpha(\z_n) \beta(\z_n)}{p({\bf X})} \\
 		&= \frac{1}{p({\bf X})}\left(\hat\alpha(\z_n) \prod_{j=1}^n c_j\right)\left(\hat\beta(\z_n) \prod_{j={n+1}}^N c_j\right) \\
 		&= \frac{1}{p(\bf X)} \prod_{j=1}^N c_j \cdot \hat\alpha(\z_n) \hat\beta(\z_n)\\
-		&= \hat\alpha(\z_n) \hat\beta(\z_n)
+		&= \hat\alpha(\z_n) \hat\beta(\z_n).
 	\end{align}
 \end{proof}
 
 \begin{proposition} \label{prop:xi-rewrite}
 	$\xi(\z_{n-1}, \z_n)$ can be written in terms of the re-scaled factors $\hat\alpha(\z_n)$, and $\hat\beta(\z_n)$ as
 	\begin{equation}
-		\xi(\z_{n-1}, \z_{n}) = c_n^{-1}\hat\alpha(\z_n)p(\x_n \vert \z_n) p(\z_{n-1}\vert \z_n)\hat\beta(\z_n)
+		\xi(\z_{n-1}, \z_{n}) = c_n^{-1}\hat\alpha(\z_n)p(\x_n \vert \z_n) p(\z_{n-1}\vert \z_n)\hat\beta(\z_n).
 	\end{equation}
 \end{proposition}
 
@@ -353,7 +353,7 @@ In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1},
 		\xi(\z_{n-1}, \z_n) &= \frac{1}{p({\bf X})} \alpha(\z_n) p(\x_n \vert \z_n) p(\z_{n-1} \vert \z_n) \beta(\z_n) \\
 		&= \left(\prod_{j=1}^N c_j\right)^{-1} \left(\hat\alpha(\z_{n-1}) \prod_{j=1}^{n-1} c_j\right)p(\x_n \vert \z_n) p(\z_{n-1} \vert \z_n)\left(\hat\beta(\z_n) \prod_{j={n+1}}^N c_j\right) \\
 		&= \left(\prod_{j=1}^N c_j\right)^{-1} \left(\prod_{j\neq n}^N c_j\right) \hat\alpha(\z_{n-1}) p(\x_n \vert \z_n) p(\z_{n-1} \vert \z_n) \hat\beta(\z_n)\\
-		&= c_n^{-1}\hat\alpha(\z_{n-1}) p(\x_n \vert \z_n) p(\z_{n-1} \vert \z_n) \hat\beta(\z_n)
+		&= c_n^{-1}\hat\alpha(\z_{n-1}) p(\x_n \vert \z_n) p(\z_{n-1} \vert \z_n) \hat\beta(\z_n).
 	\end{align}
 \end{proof}
 
@@ -366,12 +366,12 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 \begin{theorem} (\textbf{Kalman Filter: initial condition}) \label{theorem:alpha-forward-equations-1}
 	The factor $\hat\alpha(\z_1)$ can be written as normal probability density function with mean and covariance matrix given by
 	\begin{align}
-		\boldsymbol{\mu}_1 &= \boldsymbol{\mu}_0 + {\bf K}_1(\x_1 -{\bf C}\boldsymbol\mu_0)\\
-		{\bf V}_1 &=  ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0
+		\boldsymbol{\mu}_1 &= \boldsymbol{\mu}_0 + {\bf K}_1(\x_1 -{\bf C}\boldsymbol\mu_0),\\
+		{\bf V}_1 &=  ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0.
 	\end{align}
 	Furthermore, $c_1$ is a normal probability density function of the form
 	\begin{equation}
-		c_1 = \N(\x_1\vert {\bf C}\boldsymbol\mu_0, \boldsymbol\Sigma + {\bf C} {\bf V}_0 {\bf C})
+		c_1 = \N(\x_1\vert {\bf C}\boldsymbol\mu_0, \boldsymbol\Sigma + {\bf C} {\bf V}_0 {\bf C}),
 	\end{equation}
 	with ${\bf K}_1 = {\bf V}_0{\bf C}({\bf C} {\bf V}_0 {\bf C} + \boldsymbol\Sigma)^{-1}$.
 \end{theorem}
@@ -385,7 +385,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 	
 	Where $c_1$ is the normalisation coefficient. To find $\boldsymbol{\mu}_1$ and ${\bf V}_1$, we make use of equation \eqref{eq:normal-conditional}. We  obtain
 	\begin{align}
-		\boldsymbol{\mu}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1} \left\{{\bf C}\boldsymbol\Sigma^{-1}\x_1 + {\bf V}_0^{-1}\boldsymbol\mu_0\right\}\\
+		\boldsymbol{\mu}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1} \left\{{\bf C}\boldsymbol\Sigma^{-1}\x_1 + {\bf V}_0^{-1}\boldsymbol\mu_0\right\},\\
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}.
 	\end{align}
 	
@@ -424,7 +424,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 	
 	Which can be written as follows using equation \eqref{eq:normal-marginal}:
 	\begin{equation}
-		c_1 = \N(\x_1 \vert {\bf C}\boldsymbol\mu_0, \boldsymbol\Sigma + {\bf C}{\bf V}_0 {\bf C}^T)
+		c_1 = \N(\x_1 \vert {\bf C}\boldsymbol\mu_0, \boldsymbol\Sigma + {\bf C}{\bf V}_0 {\bf C}^T).
 	\end{equation}
 \end{proof}
 
@@ -435,14 +435,14 @@ More generally, we have the following proposition
 \begin{theorem} \label{thorem:alpha-forward-equations-n}
 	(\textbf{Kalman Filters}) For every $n \geq 2$, the scaled factor $\hat\alpha(\z_n)$ can be written as a normal probability density function with mean and covariance matrix given by
 	\begin{align}
-		\boldsymbol{\mu}_n &= {\bf A}\boldsymbol{\mu}_{n-1} + {\bf K}_n(\x_n -{\bf C}{\bf A}\boldsymbol\mu_{n-1})\\
-		{\bf V}_n &=  ({\bf I} - {\bf K}_n{\bf C}){\bf P}_{n-1}
+		\boldsymbol{\mu}_n &= {\bf A}\boldsymbol{\mu}_{n-1} + {\bf K}_n(\x_n -{\bf C}{\bf A}\boldsymbol\mu_{n-1}),\\
+		{\bf V}_n &=  ({\bf I} - {\bf K}_n{\bf C}){\bf P}_{n-1},
 	\end{align}
 	
 	with
 	\begin{align}
-		{\bf P}_{n-1} &:= \boldsymbol{\Gamma} + {\bf A}{\bf V}_{n-1}{\bf A}^T\\
-		{\bf K}_n &:= {\bf P}_{n-1}{\bf C}^T({\bf C} {\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1}
+		{\bf P}_{n-1} &:= \boldsymbol{\Gamma} + {\bf A}{\bf V}_{n-1}{\bf A}^T,\\
+		{\bf K}_n &:= {\bf P}_{n-1}{\bf C}^T({\bf C} {\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1}.
 	\end{align}
 	
 	Furthermore, $c_n$ is a normal probability density function of the form
@@ -471,7 +471,7 @@ More generally, we have the following proposition
 	Finally, making use of equation \eqref{eq:normal-conditional}, we notice that
 	
 	\begin{align}
-		\boldsymbol{\mu}_n &= \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1} \left\{{\bf C}\boldsymbol\Sigma^{-1}\x_n + {\bf P}_{n-1}^{-1}{\bf A}\boldsymbol\mu_{n-1}\right\}\\
+		\boldsymbol{\mu}_n &= \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1} \left\{{\bf C}\boldsymbol\Sigma^{-1}\x_n + {\bf P}_{n-1}^{-1}{\bf A}\boldsymbol\mu_{n-1}\right\},\\
 		{\bf V}_n &= \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1}.
 	\end{align}
 	
@@ -496,7 +496,7 @@ More generally, we have the following proposition
 		&= \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1} {\bf C}\boldsymbol\Sigma^{-1}\x_n + \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1}{\bf P}_{n-1}^{-1}{\bf A}\boldsymbol\mu_{n-1}\\
 		&= 	{\bf K}_n \x_n + ({\bf I} + {\bf K}_n {\bf C}){\bf P}_{n-1}{\bf P}_{n-1}^{-1}{\bf A}\boldsymbol\mu_{n-1} \label{eq:part-mn-rewrite}\\
 		&= {\bf K}_n \x_n + {\bf A}\boldsymbol\mu_{n-1} - {\bf K}_n {\bf C}{\bf A}\boldsymbol\mu_{n-1}\\
-		&= {\bf A}\boldsymbol{\mu}_{n-1} + {\bf K}_{n}(\x_n - {\bf CA}\boldsymbol\mu_{n-1})
+		&= {\bf A}\boldsymbol{\mu}_{n-1} + {\bf K}_{n}(\x_n - {\bf CA}\boldsymbol\mu_{n-1}).
 	\end{align}
 	Note that we have used equations \eqref{eq:part-kn-rewrite} and \eqref{eq:part-v1-rewrite} to derive equation \eqref{eq:part-mn-rewrite}.
 	
@@ -557,7 +557,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 		c_{n+1}\hat\alpha(\z_n)\hat\beta(\z_n) &= \hat\alpha(\z_n) \int \hat\beta(\z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\z_{n+1} \vert \z_n) d\z_{n+1}\\
 		&= p(\z_n)\int \hat\beta(\z_{n+1}) p(\x_{n+1}\vert \z_{n+1})p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
 		&= \int \hat\beta(\z_{n+1}) p(\x_{n+1}\vert \z_{n+1}) p(\z_n) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
-		&= \int \hat\beta(\z_{n+1 }) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}) p(\z_{n}\vert \z_{n+1}) d\z_{n+1} \label{eq:part-c-alpha-beta}.
+		&= \int \hat\beta(\z_{n+1 }) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}) p(\z_{n}\vert \z_{n+1}) d\z_{n+1}. \label{eq:part-c-alpha-beta}.
 	\end{align}
 	
 	To further simplify equation \eqref{eq:part-c-alpha-beta}, recall that
@@ -570,7 +570,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 	Making use of equation \eqref{eq:normal-conditional}, we observe that $p(\z_n \vert \z_{n+1})$ is a multivariate Normal distribution with mean and covariance matrix given by
 	
 	\begin{align}
-		{\bf m}_n &= {\bf M}_n \left({\bf A}^T\boldsymbol\Gamma^{-1}\z_{n+1} + {\bf V}_n^{-1}\boldsymbol\mu_n\right)\\
+		{\bf m}_n &= {\bf M}_n \left({\bf A}^T\boldsymbol\Gamma^{-1}\z_{n+1} + {\bf V}_n^{-1}\boldsymbol\mu_n\right),\\
 		{\bf M}_n &= \left( {\bf V}_n^{-1}  + {\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A} \right)^{-1},
 	\end{align}
 	
@@ -594,8 +594,8 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 	\end{align}
 	Using equation \eqref{eq:normal-marginal}, we obtain
 	\begin{align}
-		\hat{\boldsymbol{\mu}}_n &= {\bf M}_n {\bf A}^T \boldsymbol\Gamma ^{-1} \hat{\boldsymbol{\mu}} + {\bf M}_n {\bf V}_n^{-1} \boldsymbol\mu_n \label{eq:part-muhat-1}\\
-		\hat{{\bf V}}_n&= {\bf M}_n + {\bf M}_n {\bf A}^T \boldsymbol{\Gamma}^{-1} \hat{\bf V}_{n+1}\boldsymbol\Gamma^{-1}{\bf A}{\bf M}_n \label{eq:part-Vhat-1}
+		\hat{\boldsymbol{\mu}}_n &= {\bf M}_n {\bf A}^T \boldsymbol\Gamma ^{-1} \hat{\boldsymbol{\mu}} + {\bf M}_n {\bf V}_n^{-1} \boldsymbol\mu_n \label{eq:part-muhat-1},\\
+		\hat{{\bf V}}_n&= {\bf M}_n + {\bf M}_n {\bf A}^T \boldsymbol{\Gamma}^{-1} \hat{\bf V}_{n+1}\boldsymbol\Gamma^{-1}{\bf A}{\bf M}_n \label{eq:part-Vhat-1}.
 	\end{align}
 	
 	Therefore, $\gamma(\z_n) = \N(\z_n \vert \hat{\boldsymbol{\mu}_n}, \hat {\bf V}_n)$ as stated. 
@@ -646,7 +646,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 \begin{theorem}
 	The term $\xi(\z_n, \z_{n-1})$ can be written as a normal distribution with mean and covariance matrix given by
 	\begin{equation}
-		\xi(\z_n, \z_{n-1}) = \N\left(\left[\gamma(\z_{n-1}), \gamma(\z_{n})\right]^T, {\bf J}_{n-1}\hat{\bf V}_{n}\right)
+		\xi(\z_n, \z_{n-1}) = \N\left(\left[\gamma(\z_{n-1}), \gamma(\z_{n})\right]^T, {\bf J}_{n-1}\hat{\bf V}_{n}\right).
 	\end{equation}
 \end{theorem}
 
@@ -728,8 +728,8 @@ To achieve this step, it is required to the take the derivative of $Q(\boldsymbo
 \begin{proposition}
 	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}$, ${\bf V}_0$ are given by
 	\begin{align}
-		\boldsymbol{\mu} &= \mathbb{E}[{\z_1}] \\
-		{\bf V}_0 &= \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T
+		\boldsymbol{\mu} &= \mathbb{E}[{\z_1}], \\
+		{\bf V}_0 &= \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T.
 	\end{align}
 \end{proposition}
 
@@ -737,35 +737,34 @@ To achieve this step, it is required to the take the derivative of $Q(\boldsymbo
 	We begin by computing the update equations for initial condition, namely, $\boldsymbol\mu$, and $\bf Z$. From equation \eqref{eq:Q-LDS}, we notice that the only terms that depend on $\boldsymbol{\mu}_0$ are given only by the terms in $p(\z_1)$. Hence
 
 \begin{align}
-	\argmax{\boldsymbol{\mu}_0} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) = \argmax{\boldsymbol{\mu}_0} \boldsymbol{\mu}_0 {\bf V}_0^{-1}\boldsymbol{\mu}_0^T -2\mathbb{E}[{\z_1}]{\bf V}_0^{-1}\boldsymbol{\mu}_0 \nonumber
+	\argmax{\boldsymbol{\mu}_0} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) = \argmax{\boldsymbol{\mu}_0} \boldsymbol{\mu}_0 {\bf V}_0^{-1}\boldsymbol{\mu}_0^T -2\mathbb{E}[{\z_1}]{\bf V}_0^{-1}\boldsymbol{\mu}_0.
 \end{align}
 
 Taking the derivative with respect to the vector $\boldsymbol{\mu}_0$ we find that
 
 \begin{equation}
-	\boldsymbol{\mu}_0^\text{new} = \mathbb{E}[{\z_1}]
+	\boldsymbol{\mu}_0^\text{new} = \mathbb{E}[{\z_1}].
 \end{equation}
 
 Next, for ${\bf V}_0$, we consider the terms in $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that only depend on ${\bf V}_0$. Namely,
 
-\begin{align}
-	\argmax{{\bf V}_0} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) &= \frac{1}{2}\log \vert
-	  {\bf V}_0^{-1}\vert -\frac{1}{2}\Big[\text{Tr}\left(\mathbb{E}\left[\z_1 \z_1^T\right] {\bf V}_0^{-1}\right) \nonumber\\
-	  &\hspace{1cm} -2 \mathbb{E}\left[\z_1\right]^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\Big] \nonumber
-\end{align}
+\begin{equation}
+	\frac{1}{2}\log \vert
+	  {\bf V}_0^{-1}\vert -\frac{1}{2}\Big[\text{Tr}\left(\mathbb{E}\left[\z_1 \z_1^T\right] {\bf V}_0^{-1}\right) -2 \mathbb{E}\left[\z_1\right]^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\Big].
+\end{equation}
 
-Taking the derivative with respect to ${\bf V}_0^{-1}$, we see that
+Taking the derivative with respect to ${\bf V}_0^{-1}$, we observe
 
 \begin{align}
 	\frac{\partial}{\partial {\bf V}_0^{-1}} Q &= \frac{1}{2}\left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - 2\expectation{\z_1}\boldsymbol{\mu}_0^T + \boldsymbol{\mu}_0 \boldsymbol{\mu}_0^T \right] \nonumber \\
 	&= \frac{1}{2} \left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - 2\expectation{\z_1}\expectation{\z_1}^T + \expectation{\z_1}\expectation{\z_1}^T \right] \nonumber \\
-	&= \frac{1}{2}\left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - \expectation{\z_1}\expectation{\z_1}^T\right]
+	&= \frac{1}{2}\left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - \expectation{\z_1}\expectation{\z_1}^T\right].
 \end{align}
 
 Setting the last equation to zero and solving for ${\bf V}_0$, we find that
 
 \begin{equation}
-	{\bf V}_0 = \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T
+	{\bf V}_0 = \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T.
 \end{equation}
 \end{proof}
 
@@ -775,22 +774,22 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	The updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, $\boldsymbol{\Sigma}$ in the M-step are given by
 	
 	\begin{align}
-		{\bf A} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A}\\
+		{\bf A} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A},\\
 		\boldsymbol{\Gamma} &= \frac{1}{N-1}\sum_{n=2}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}{\bf A}^T \nonumber\\
-		&\hspace{1cm} - {\bf A}\expectation{\z_{n-1}\z_n^T} - {\bf A}\expectation{\z_{n-1} \z_{n-1}^T}{\bf A}^T \bigg) \label{eq:mstep-Gamma}\\
-		{\bf C} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1} \label{eq:mstep-C}\\
+		&\hspace{1cm} - {\bf A}\expectation{\z_{n-1}\z_n^T} - {\bf A}\expectation{\z_{n-1} \z_{n-1}^T}{\bf A}^T \bigg), \label{eq:mstep-Gamma}\\
+		{\bf C} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1}, \label{eq:mstep-C}\\
 		\boldsymbol{\Sigma} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T {\bf C}^T \nonumber\\
-		&\hspace{1cm} - {\bf C}\expectation{\z_n}\x_n^T + {\bf C} \expectation{\z_n \z_n^T}{\bf C}^T \bigg) \label{eq:mstep-Sigma}
+		&\hspace{1cm} - {\bf C}\expectation{\z_n}\x_n^T + {\bf C} \expectation{\z_n \z_n^T}{\bf C}^T \bigg). \label{eq:mstep-Sigma}
 	\end{align}
 \end{proposition}
 
 \begin{proof}
-	We begin by proving \eqref{eq:mstep-A} considering only the terms in equation \eqref{eq:Q-LDS}that depend on $\bf A$. We obtain:
+	We begin by proving \eqref{eq:mstep-A} considering only the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$. We obtain:
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=2}^N \text{Tr}\left({\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right) \nonumber\\
 		&\hspace{2.1cm} + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} \expectation{\z_n\z_{n-1}^T}\right)\\
 		&= \frac{1}{2}\text{Tr}\left({\bf A} \sum_{n=2}^N \expectation{\z_{n-1}\z_n^T} \boldsymbol\Gamma^{-1}\right) + \frac{1}{2}\text{Tr}\left({\bf A}^T\boldsymbol\Gamma^{-1} \sum_{n=1}^N\expectation{\z_n\z_{n-1}}\right) \nonumber\\
-		&\hspace{2.1cm} - \frac{1}{2}\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} {\bf A}\sum_{n=1}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)\label{eq:part-A-terms1}
+		&\hspace{2.1cm} - \frac{1}{2}\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} {\bf A}\sum_{n=1}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)\label{eq:part-A-terms1}.
 	\end{align}
 	
 	Taking the derivate of equation \eqref{eq:part-A-terms1} and setting the value to zero, we obtain equation \eqref{eq:mstep-A}:
@@ -859,15 +858,15 @@ In this section we present some useful proposition of graphical models.
 \begin{proposition} \label{prop:graphical-models-separation}
 	Let ${\bf Z} = \{\z_n\}_n$ be a set of latent random variables, and ${\bf X} = \{\x_n\}_n$ a set of observed variables with complete-data likelihood $({\bf Z}, {\bf X})$ given by the LDS model. Then, the following factorisations hold true
 	\begin{align}
-		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}) \label{eq:gm-1}\\
-		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n)\\
-		p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1})\\
-		p(\x_{n+1}, \ldots, \x_N \vert \z_n, \z_{n+1}) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
-		p(\x_{n+2}, \ldots, \x_N\vert \x_{n+1}, \z_{n+1}) &= p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1})\\
+		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}), \label{eq:gm-1}\\
+		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n),\\
+		p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}),\\
+		p(\x_{n+1}, \ldots, \x_N \vert \z_n, \z_{n+1}) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n),\\
+		p(\x_{n+2}, \ldots, \x_N\vert \x_{n+1}, \z_{n+1}) &= p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}),\\
 		p({\bf X}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}) \nonumber\\
-			&\hspace{1cm}p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
-		p(\x_{N+1} \vert {\bf X}, \z_{N+1}) &= p(\x_{N+1} \vert \z_{N+1})\\
-		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N})\\
+			&\hspace{1cm}p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n),\\
+		p(\x_{N+1} \vert {\bf X}, \z_{N+1}) &= p(\x_{N+1} \vert \z_{N+1}),\\
+		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N}).\\
 	\end{align}
 \end{proposition}
 
@@ -879,15 +878,15 @@ In this section we present some useful proposition of graphical models.
 \begin{proposition} \label{prop:multivariate-normal-combination}
 	Let $\x$ and ${\bf y}$ two multivariate normals of the form
 	\begin{align}
-		p(\x) &= \N\left(\x \vert \boldsymbol\mu, \boldsymbol\Lambda^{-1}\right)\\
-		p({\bf y} \vert \x ) &= \N\left({\bf y} \vert {\bf A}\x + {\bf b}, {\bf L}^{-1}\right)
+		p(\x) &= \N\left(\x \vert \boldsymbol\mu, \boldsymbol\Lambda^{-1}\right),\\
+		p({\bf y} \vert \x ) &= \N\left({\bf y} \vert {\bf A}\x + {\bf b}, {\bf L}^{-1}\right).
 	\end{align}
 	Then, the conditional distribution of $\x$ given ${\bf y}$ and the marginal of ${\bf y}$ are given by
 	\begin{align}
-		p({\bf y}) &= \N\left(\x\vert {\bf A}\boldsymbol\mu + {\bf b}, {\bf L}^{-1} + {\bf A}\boldsymbol\Lambda^{-1}{\bf A}^T\right) \label{eq:normal-marginal}\\
-		p(\x \vert {\bf y}) &= \N\left(\boldsymbol\Sigma\left\{{\bf A}^T {\bf L}({\bf y} - {\bf b})  + \boldsymbol\Lambda\boldsymbol\mu \right\}, \boldsymbol\Sigma\right) \label{eq:normal-conditional}
+		p({\bf y}) &= \N\left(\x\vert {\bf A}\boldsymbol\mu + {\bf b}, {\bf L}^{-1} + {\bf A}\boldsymbol\Lambda^{-1}{\bf A}^T\right), \label{eq:normal-marginal}\\
+		p(\x \vert {\bf y}) &= \N\left(\boldsymbol\Sigma\left\{{\bf A}^T {\bf L}({\bf y} - {\bf b})  + \boldsymbol\Lambda\boldsymbol\mu \right\} \boldsymbol\Sigma\right) \label{eq:normal-conditional}.
 	\end{align}
-	where $\boldsymbol{\Sigma} = (\boldsymbol\Lambda + {\bf A}^T {\bf L} {\bf A})^{-1}$.
+	Where $\boldsymbol{\Sigma} = (\boldsymbol\Lambda + {\bf A}^T {\bf L} {\bf A})^{-1}$.
 \end{proposition}
 
 \begin{proof}
@@ -899,7 +898,7 @@ In this section we present some useful proposition of graphical models.
 \begin{proposition} \label{prop:matrix-rewrite1}
 	Let ${\bf A}, {\bf B}, {\bf C}, {\bf D}$. Then
 	\begin{equation}
-		\left({\bf A} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}{\bf B}^T {\bf C}^{-1} = {\bf A}{\bf B}^T\left({\bf B}{\bf A}{\bf B}^T + {\bf C}\right)^{-1}
+		\left({\bf A} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}{\bf B}^T {\bf C}^{-1} = {\bf A}{\bf B}^T\left({\bf B}{\bf A}{\bf B}^T + {\bf C}\right)^{-1}.
 	\end{equation}
 \end{proposition}
 
@@ -910,7 +909,7 @@ In this section we present some useful proposition of graphical models.
 \begin{proposition} \label{prop:woodbury-identity}
 	Let ${\bf A}, {\bf B}, {\bf C}, {\bf D}$ matrices. Then,
 	\begin{equation}
-		\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right)^{-1} = {\bf A}^{-1} - {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}
+		\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right)^{-1} = {\bf A}^{-1} - {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}.
 	\end{equation}
 	\begin{proof}
 		\texttt{to-do: write proof}
