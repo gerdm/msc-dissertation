@@ -115,6 +115,9 @@ We can also represent this system as a graphical model as specified in Figure \r
 Our goal is to find the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$ that best represent the data. From a frequentist perspective, this is done by maximising the likelihood of the data with respect to the parameters $\boldsymbol{\theta}$. Maximising the likelihood of this model, however, is not straightforward. This is because the only observed data we have is given by the dataset $\bf X$. % Explain more this step
 
 
+\subsection{The EM algorithm}
+
+% Reference to the EM algorithm?
 One approach of finding such parameters is to make use of the EM algorithm: an iterative approach to maximise the likelihood of the complete-data log-likelihood as follows
 
 \begin{align}
@@ -122,7 +125,51 @@ One approach of finding such parameters is to make use of the EM algorithm: an i
 	&= \argmax{\boldsymbol{\theta}} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
 \end{align}
 
-Where we have defined $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) := \mathbb{E}_{\z\vert \x, \boldsymbol{\theta}^\text{old}}[\log p(\x, \z\vert \boldsymbol\theta)]$. The computation of the posterior probability of latent variables $p(\z\vert \x, \boldsymbol\theta)$ is called the E-step. The maximisation of the complete-data log-likelihood with respect to the posterior latent variables is called the M-step.
+Where we have defined $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) := \mathbb{E}_{\z\vert \x, \boldsymbol{\theta}^\text{old}}[\log p(\x, \z\vert \boldsymbol\theta)]$. The computation of the posterior probability of latent variables $p(\z\vert \x, \boldsymbol\theta^\text{old})$ is called the E-step. The maximisation of the expected complete-data log-likelihood with respect to the posterior latent variables $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ is called the M-step.
+
+We derive the EM algorithm considering the following three propositions.
+
+\begin{proposition}
+	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
+	\begin{equation}
+		\log p({\bf X} \vert \boldsymbol{\theta}) = \mathcal{L}(q, \boldsymbol{\theta}) + \text{KL}(q \vert\vert p).
+	\end{equation}
+	Where
+	\begin{align}
+		\mathcal{L}(q, \boldsymbol{\theta}) &= \int q({\bf Z})\log\left(\frac{p({\bf X}, {\bf Z} \vert \boldsymbol\theta)}{q({\bf Z})}\right) d{\bf Z},\\
+		\text{KL}(q \vert\vert p) &= \int q({\bf Z}) \log\left(\frac{q({\bf Z})}{p({\bf Z}\vert {\bf X}, \boldsymbol\theta)}\right) d{\bf Z}.
+	\end{align}
+\end{proposition}
+
+\begin{proof}
+	\texttt{to-do: write proof}
+\end{proof}
+
+% to-do: it can be shown that the KL term is nonnegative (what are the conditions?). Set elements-information-theory as reference.
+
+
+%to-do: define a set \mathcal Q of "valid" distributions.
+\begin{proposition} (\textbf{E-step})
+	The function $q$ that maximises the lower bound $\mathcal L(q, \boldsymbol{\theta}$) is given by
+	\begin{equation}
+		q = \max_{\hat q} \mathcal{L}(\hat q, \boldsymbol\theta) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta).
+	\end{equation}
+\end{proposition}
+
+\begin{proof}
+	\texttt{to-do: write proof.}
+\end{proof}
+
+\begin{proposition}
+	(\textbf{M-step}) Maximising $\mathcal{L}(q, \boldsymbol{\theta})$ over $\boldsymbol{\theta}$ at fixed $q({\bf Z}) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta^\text{old})$ is equivalent to maximising the function
+	\begin{equation}
+		Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old}) = \mathbb{E}_{{\bf Z}\vert {\bf X}, \boldsymbol{\theta}^\text{old}}[\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta)]
+	\end{equation}
+\end{proposition}
+
+\begin{proof}
+	\texttt{to-do: write proof.}
+\end{proof}
 
 
 \subsection{The E-step}
