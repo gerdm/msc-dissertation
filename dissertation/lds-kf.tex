@@ -81,7 +81,18 @@ We begin this section by modifying our previous system to take into account the 
 	\x_{n+1} &= {\bf C} \z_{n+1} + \boldsymbol\varphi_n.
 \end{align*}
 
-The noise terms $\boldsymbol{\varepsilon}_n$, and $\boldsymbol{\varphi}_n$ are assumed to be normally distributed with mean zero and covariance matrices $\boldsymbol{\Gamma}$, and $\boldsymbol{\Sigma}$. Given the structure of the dynamical system, the likelihood of the model is given by
+The noise terms $\boldsymbol{\varepsilon}_n$, and $\boldsymbol{\varphi}_n$ are assumed to be normally distributed with mean zero and covariance matrices $\boldsymbol{\Gamma}$, and $\boldsymbol{\Sigma}$. An illustration of this modified system is presented in presented in figure \ref{fig:hidden-noisy-dynamical-system}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{../figures/hidden-stochastic-dynamical-system}
+	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in figure \ref{fig:hidden-dynamical-system}. However, we consider }
+	\label{fig:hidden-noisy-dynamical-system}
+\end{figure}
+
+
+
+Given the structure of the dynamical system, the likelihood of the model is given by
 
 \begin{equation}
 	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
