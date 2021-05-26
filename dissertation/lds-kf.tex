@@ -435,7 +435,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 	\begin{equation}
 		c_1 = \N(\x_1\vert {\bf C}\boldsymbol\mu_0, \boldsymbol\Sigma + {\bf C} {\bf V}_0 {\bf C}),
 	\end{equation}
-	with ${\bf K}_1 = {\bf V}_0{\bf C}({\bf C} {\bf V}_0 {\bf C} + \boldsymbol\Sigma)^{-1}$.
+	with ${\bf K}_1 = {\bf V}_0{\bf C}^T({\bf C} {\bf V}_0 {\bf C}^T + \boldsymbol\Sigma)^{-1}$.
 \end{theorem}
 
 \begin{proof}
@@ -788,9 +788,9 @@ In this section, we derive the updating equations of the parameters of the syste
 To achieve this step, it is required to the take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. For that, we will be using the results found in \cite{matrix-cookbook}. We divide the task of finding the updating equations in the following two propositions:
 
 \begin{proposition}
-	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}$, ${\bf V}_0$ are given by
+	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}_0$, ${\bf V}_0$ are given by
 	\begin{align}
-		\boldsymbol{\mu} &= \mathbb{E}[{\z_1}], \\
+		\boldsymbol{\mu}_0 &= \mathbb{E}[{\z_1}], \\
 		{\bf V}_0 &= \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T.
 	\end{align}
 \end{proposition}
