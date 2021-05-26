@@ -26,6 +26,10 @@
 \newtheorem{proposition}{Proposition}[section]
 \newtheorem{theorem}{Theorem}[section]
 
+% In this dissertation/project we formalise the derivation of the Kalman Filters' equations
+% under the perspective of a state space model. We show how the Kalman Filters equations arise 
+% as the E-step of the EM-algorithm using a Linear Dynamical System with added noise.
+
 \title{Kalman Filters: an introduction}
 \author{Gerardo Durán Martín}
 \begin{document}
@@ -116,6 +120,7 @@ We can also represent this system as a graphical model as specified in Figure \r
 % to-do: rewrite this paragraph. Motivate the EM algorithm by rewriting the log-likelihood and show that the resulting
 % rewrite of equations lead to the E and the M steps. Furthermore, add that criterion for converge of the algorithm can be
 % found on a paper (find paper)	
+% Who is \mu_0?
 Our goal is to find the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$ that best represent the data. From a frequentist perspective, this is done by maximising the likelihood of the data with respect to the parameters $\boldsymbol{\theta}$. Maximising the likelihood of this model, however, is not straightforward. This is because the only observed data we have is given by the observed dataset $\bf X$. % Explain more this step
 
 
@@ -248,6 +253,8 @@ Where we have defined $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint
 
 % Hence, to make sense of gamma and xi we only need to find values of alpha and beta
 Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} show that both $\gamma$ and $\xi$ are completely determined by the values of $\alpha$, and $\beta$. Hence, we only need to compute the set of values $\{\alpha(\z_n)\}_n$ and $\{\beta(\z_n)\}_n$ once per E-iteration to find the values of $\gamma$ and $\xi$. Our next step is to derive an algorithm to efficiently compute $\alpha(\z_n)$, and $\beta(\z_n)$ for every $n$.
+
+%to-do: comment on the initial value z_1
 
 % 	* We show that alpha can be represented as a recursive formula
 \begin{proposition} \label{prop:alpha-recursive}
