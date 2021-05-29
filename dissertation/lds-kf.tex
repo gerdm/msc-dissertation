@@ -187,7 +187,7 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 	To find the function $q$ that maximises \eqref{eq:part-L-rewrite}, we notice that the first term does not depend on $q$. Furthermore, we observe that the second term is the negative Kullback-Leibler divergence between $q$ and $p$. We note that the KL diverge is nonnegative with equality to zero if and only if $q=p$   (for a proof, see \cite{murphy2012}). Therefore, the function $q(\Z)$ that maximises the lower bound is given by $p(\Z \vert \X, \boldsymbol\theta)$.
 \end{proof}
 
-\begin{proposition}
+\begin{proposition}\label{prop:m-step}
 	(\textbf{M-step}) Maximising $\mathcal{L}(q, \boldsymbol{\theta})$ over $\boldsymbol{\theta}$ at fixed $q({\bf Z}) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta^\text{old})$ is equivalent to maximising the function
 	\begin{equation}
 		Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old}) = \mathbb{E}_{{\bf Z}\vert {\bf X}, \boldsymbol{\theta}^\text{old}}[\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta)]
@@ -195,7 +195,13 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 \end{proposition}
 
 \begin{proof}
-	\texttt{to-do: write proof.}
+	We show proposition \ref{prop:m-step} by rewriting the maximisation of the lower bound with fixed $q$. We obtain
+	\begin{align}
+		\boldsymbol{\theta}^\text{new} &= \argmax{\boldsymbol\theta} \mathcal{L}(q, \boldsymbol\theta)\\
+		&= \argmax{\boldsymbol{\theta}} \int p(\Z \vert \X, \boldsymbol{\theta}^\text{old}) \log\left(\frac{p(\X, \Z \vert \boldsymbol\theta)}{p(\Z \vert \X, \boldsymbol\theta^\text{old})}\right) d\Z\\
+		&= \argmax{\boldsymbol{\theta}} \int p(\Z \vert \X, \boldsymbol{\theta} ^\text{old}) \log p(\X, \Z \vert \boldsymbol\theta) d\Z - \int p(\Z \vert \X, \boldsymbol{\theta}^\text{old}) \log p(\Z \vert \X, \boldsymbol{\theta}^\text{old})\\
+		&= \argmax{\boldsymbol{\theta}} \mathbb{E}_{{\bf Z}\vert {\bf X}, \boldsymbol{\theta}^\text{old}}[\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta)].
+	\end{align}
 \end{proof}
 
 
