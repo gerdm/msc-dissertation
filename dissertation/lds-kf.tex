@@ -151,7 +151,13 @@ We derive the EM algorithm considering the following three propositions.
 \end{proposition}
 
 \begin{proof}
-	\texttt{to-do: write proof}
+	The proof follows directly from the sum of the terms $\mathcal{L}(q, \boldsymbol{\theta})$, and  $\text{KL}(q \vert\vert p)$:
+	\begin{align}
+		\mathcal{L}(q, \boldsymbol{\theta}) + \text{KL}(q \vert\vert p) &= \int q({\bf Z})\log\left(\frac{p({\bf X}, {\bf Z} \vert \boldsymbol\theta)}{q({\bf Z})}\right) d{\bf Z} + \int q({\bf Z}) \log\left(\frac{q({\bf Z})}{p({\bf Z}\vert {\bf X}, \boldsymbol\theta)}\right) d{\bf Z}\\
+		&= \int q({\bf Z})\left(\log p({\bf X, {\bf Z} \vert \boldsymbol{\theta}}) - \log q({\bf Z}) + \log q({\bf Z}) - \log p({\bf Z} \vert {\bf X}, \boldsymbol\theta)\right) d{\bf Z}\\
+		&= \int q({\bf Z})\left(\log p({\bf X} \vert \boldsymbol{\theta}) + \log p({\bf Z} \vert {\bf X}, \boldsymbol{\theta}) - \log p({\bf Z} \vert {\bf X}, \boldsymbol\theta)\right) d{\bf Z}\\
+		&= \log p({\bf X}\vert \boldsymbol\theta).
+	\end{align}
 \end{proof}
 
 % to-do: it can be shown that the KL term is nonnegative (what are the conditions?). Set elements-information-theory as reference.
