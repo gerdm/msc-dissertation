@@ -171,12 +171,20 @@ We derive the EM algorithm considering the following three propositions.
 \begin{proposition} (\textbf{E-step})
 	The function $q({\bf Z})$ that maximises the lower bound $\mathcal L(q, \boldsymbol{\theta}$) is given by
 	\begin{equation}
-		q = \max_{\hat q} \mathcal{L}(\hat q, \boldsymbol\theta) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta).
+		q(\Z) = \max_{\hat q} \mathcal{L}(\hat q, \boldsymbol\theta) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta).
 	\end{equation}
 \end{proposition}
 
 \begin{proof}
-	\texttt{to-do: write proof.}
+	We begin by rewriting the lower bound term. We obtain that
+	\begin{align}
+		\mathcal{L}(q, \boldsymbol\theta) &= \int q(\Z)\log\left(\frac{p(\X, \Z \vert \boldsymbol\theta)}{q(\Z)}\right) d{\bf Z}\\
+		&= \int q(\Z) \left(\log p(\X\vert\boldsymbol\theta) + \log\left( \frac{p(\Z \vert \X, \boldsymbol\theta)}{q(\Z)} \right) \right) d\Z\\
+		&= \log p(\X \vert \boldsymbol{\theta}) - \int q(\Z) \log\left(\frac{q(\Z)}{p(\Z \vert \X, \boldsymbol\theta)}\right)\\
+		&= \log p(\X \vert \boldsymbol\theta) - \KL{q}{p}. \label{eq:part-L-rewrite}
+	\end{align}
+	
+	To find the function $q$ that maximises \eqref{eq:part-L-rewrite}, we notice that the first term does not depend on $q$. Furthermore, we observe that the second term is the negative Kullback-Leibler divergence between $q$ and $p$. We note that the KL diverge is nonnegative with equality to zero if and only if $q=p$   (for a proof, see \cite{murphy2012}). Therefore, the function $q(\Z)$ that maximises the lower bound is given by $p(\Z \vert \X, \boldsymbol\theta)$.
 \end{proof}
 
 \begin{proposition}
