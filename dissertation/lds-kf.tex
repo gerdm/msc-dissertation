@@ -144,7 +144,7 @@ We derive the EM algorithm considering the following three propositions.
 \begin{proposition}
 	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
 	\begin{equation}
-		\log p({\bf X} \vert \boldsymbol{\theta}) = \mathcal{L}(q, \boldsymbol{\theta}) + \text{KL}(q \vert\vert p).
+		\log p({\bf X} \vert \boldsymbol{\theta}) = \mathcal{L}(q, \boldsymbol{\theta}) +\KL{q}{p}.
 	\end{equation}
 	Where
 	\begin{align}
@@ -156,7 +156,7 @@ We derive the EM algorithm considering the following three propositions.
 \begin{proof}
 	The proof follows directly from the sum of the terms $\mathcal{L}(q, \boldsymbol{\theta})$, and  $\text{KL}(q \vert\vert p)$:
 	\begin{align}
-		\mathcal{L}(q, \boldsymbol{\theta}) + \text{KL}(q \vert\vert p) &= \int q({\bf Z})\log\left(\frac{p({\bf X}, {\bf Z} \vert \boldsymbol\theta)}{q({\bf Z})}\right) d{\bf Z} + \int q({\bf Z}) \log\left(\frac{q({\bf Z})}{p({\bf Z}\vert {\bf X}, \boldsymbol\theta)}\right) d{\bf Z}\\
+		\mathcal{L}(q, \boldsymbol{\theta}) + \KL{q}{p} &= \int q({\bf Z})\log\left(\frac{p({\bf X}, {\bf Z} \vert \boldsymbol\theta)}{q({\bf Z})}\right) d{\bf Z} + \int q({\bf Z}) \log\left(\frac{q({\bf Z})}{p({\bf Z}\vert {\bf X}, \boldsymbol\theta)}\right) d{\bf Z}\\
 		&= \int q({\bf Z})\left(\log p({\bf X, {\bf Z} \vert \boldsymbol{\theta}}) - \log q({\bf Z}) + \log q({\bf Z}) - \log p({\bf Z} \vert {\bf X}, \boldsymbol\theta)\right) d{\bf Z}\\
 		&= \int q({\bf Z})\left(\log p({\bf X} \vert \boldsymbol{\theta}) + \log p({\bf Z} \vert {\bf X}, \boldsymbol{\theta}) - \log p({\bf Z} \vert {\bf X}, \boldsymbol\theta)\right) d{\bf Z}\\
 		&= \log p({\bf X}\vert \boldsymbol\theta).
@@ -167,8 +167,9 @@ We derive the EM algorithm considering the following three propositions.
 
 
 %to-do: define a set \mathcal Q of "valid" distributions.
+%to-do: why is it relevant to only maximise the lower bound L?
 \begin{proposition} (\textbf{E-step})
-	The function $q$ that maximises the lower bound $\mathcal L(q, \boldsymbol{\theta}$) is given by
+	The function $q({\bf Z})$ that maximises the lower bound $\mathcal L(q, \boldsymbol{\theta}$) is given by
 	\begin{equation}
 		q = \max_{\hat q} \mathcal{L}(\hat q, \boldsymbol\theta) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta).
 	\end{equation}
