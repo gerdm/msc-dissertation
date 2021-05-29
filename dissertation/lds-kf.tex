@@ -141,7 +141,7 @@ Where we have defined $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) := \ma
 
 We derive the EM algorithm considering the following three propositions.
 
-\begin{proposition}
+\begin{proposition} \label{prop:log-likelihood-partition}
 	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
 	\begin{equation}
 		\log p({\bf X} \vert \boldsymbol{\theta}) = \mathcal{L}(q, \boldsymbol{\theta}) +\KL{q}{p}.
@@ -163,7 +163,7 @@ We derive the EM algorithm considering the following three propositions.
 	\end{align}
 \end{proof}
 
-% to-do: it can be shown that the KL term is nonnegative (what are the conditions?). Set elements-information-theory as reference.
+The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likelihood-partition} is called the lower bound, and the term $\KL{q}{p}$ is known as the Kullback-Leibler divergence of the distributions $p$ and $q$. 
 
 
 %to-do: define a set \mathcal Q of "valid" distributions.
