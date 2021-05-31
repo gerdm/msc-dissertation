@@ -811,8 +811,8 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 
 	Next, for $n=1, \ldots, N$, compute the update equations
 	\begin{align}
-		{\bf P}_{n-1} &:= \boldsymbol{\Gamma} + {\bf A}{\bf V}_{n-1}{\bf A}^T,\\
-		{\bf K}_n &:= {\bf P}_{n-1}{\bf C}^T({\bf C} {\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1},\\
+		{\bf P}_{n-1} &= \boldsymbol{\Gamma} + {\bf A}{\bf V}_{n-1}{\bf A}^T,\\
+		{\bf K}_n &= {\bf P}_{n-1}{\bf C}^T({\bf C} {\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1},\\
 		\boldsymbol{\mu}_n &= {\bf A}\boldsymbol{\mu}_{n-1} + {\bf K}_n(\x_n -{\bf C}{\bf A}\boldsymbol\mu_{n-1}),\\
 		{\bf V}_n &=  ({\bf I} - {\bf K}_n{\bf C}){\bf P}_{n-1}.
 	\end{align}
