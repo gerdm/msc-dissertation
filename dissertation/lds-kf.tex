@@ -621,7 +621,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 	
 	With
 	\begin{align}
-		\hat{\boldsymbol{\mu}}_n &= \boldsymbol{\mu}_n + {\bf J}_n\left(\hat{\boldsymbol \mu}_{n-1} - {\bf A}\boldsymbol\mu_n\right)\\
+		\hat{\boldsymbol{\mu}}_n &= \boldsymbol{\mu}_n + {\bf J}_n\left(\hat{\boldsymbol \mu}_{n+1} - {\bf A}\boldsymbol\mu_n\right)\\
 		\hat{\bf V}_n &= {\bf V}_n + {\bf J}_n\left(\hat{\bf V}_{n+1} - {\bf P}_n\right){\bf J}_n^T\\
 		{\bf J}_n &= {\bf V}_n{\bf A}^T{\bf P}_n^{-1}.
 	\end{align}
@@ -719,7 +719,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 		\hat{\boldsymbol{\mu}}_n 
 		&= {\bf M}_n {\bf A}^T \boldsymbol\Gamma ^{-1} \hat{\boldsymbol{\mu}} + {\bf M}_n {\bf V}_n^{-1} \boldsymbol\mu_n\\
 		&= {\bf J}_n \hat{\boldsymbol{\mu}}_{n+1} + ({\bf I} - {\bf J}_n {\bf A}){\bf V}_n{\bf V}_n^{-1}\boldsymbol{\mu}_n\\
-		&= \boldsymbol{\mu} + {\bf J}_n(\hat{\boldsymbol{\mu}}_n - {\bf A}\boldsymbol\mu_n).
+		&= \boldsymbol{\mu}_n + {\bf J}_n(\hat{\boldsymbol{\mu}}_{n+1} - {\bf A}\boldsymbol\mu_n).
 	\end{align}
 	
 	Finally, observe that 
@@ -809,7 +809,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 		{\bf V}_1 &=  ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0.
 	\end{align}
 
-	Next, for $n=1, \ldots, N$, compute the update equations
+	Next, for $n=2, \ldots, N$, compute the update equations
 	\begin{align}
 		{\bf P}_{n-1} &= \boldsymbol{\Gamma} + {\bf A}{\bf V}_{n-1}{\bf A}^T,\\
 		{\bf K}_n &= {\bf P}_{n-1}{\bf C}^T({\bf C} {\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1},\\
