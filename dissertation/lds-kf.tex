@@ -33,8 +33,8 @@
 % under the perspective of a state space model. We show how the Kalman Filters equations arise 
 % as the E-step of the EM-algorithm using a Linear Dynamical System with added noise.
 
-\title{Kalman Filters: an introduction}
-\author{Gerardo Durán Martín}
+\title{Linear Dynamical Systems and Kalman Filters}
+\author{Gerardo Durán-Martín}
 \begin{document}
 % Add everything to bibliography, even if it is not cited.
 \nocite{*}
@@ -43,10 +43,10 @@
 
 \section{Introduction}
 
-Dynamical systems are models that capture the time evolution of a system \cite{strogatz}. A discrete-time linear dynamical system is a dynamical system in which an $M$-dimensional vector $\x_n$ evolves according to a real-valued matrix $\bf A$ in the form.
+Dynamical systems are models that capture the time evolution of a system \cite{strogatz}. A discrete-time linear dynamical system is a dynamical system in which a $K$-dimensional vector $\z_n$ evolves according to a real-valued matrix ${\bf A}\in\R^{K\times K}$ in the form
 
 \begin{equation}
-	\x_{n+1} = {\bf A x}_n.
+	\z_{n+1} = {\bf A}\z_n.
 \end{equation}
 
 % An example of a linear dynamical system is...
@@ -59,7 +59,7 @@ Dynamical systems are models that capture the time evolution of a system \cite{s
 
 
 
-In this work, we are interested in dynamical systems that depend on unobserved signals, usually called latent variables, and a set of observed values that are directly derived from the signal source. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We also denote $\mathcal{D} = ({\bf X}, {\bf Z})$ as the complete-dataset.
+In this work, we are interested in dynamical systems that depend on unobserved values, usually called latent variables, and a set of observed values that are directly derived from the signal source. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We also denote $\mathcal{D} = ({\bf X}, {\bf Z})$ as the complete-dataset.
 
 One way to represent such system is to assume the existence of an unobserved signal $\z_n \in \mathbb{R}^K$ that evolves linearly over time according to a matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n+1}$ is obtained, the observed value $\x_{n+1} \in \mathbb{R}^M$ is the result of a linear transformation over $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such system can be written as follows:
 
@@ -78,7 +78,7 @@ An example of such system is presented in Figure \ref{fig:hidden-dynamical-syste
 	\label{fig:hidden-dynamical-system}
 \end{figure}
 
-In some settings, however, we assume that the underlying signal $\z_n$ and the observed value $\x_n$ do not behave deterministically. Suppose, for example, that we are interested in modelling the price of a stock. We would like to determine whether the price of the stock is likely to go up or down. To determine its trajectory, we assume that the stock has an underlying price that consists of natural fluctuations. Furthermore, market forces push the observed price of the stock to higher or lower levels than its true, underlying price, which in turn, increases the noise of the observed price as market volatility. Under this scenario, our goal is to recover the underlying mean price of the stock disregarding the market volatility and its natural fluctuation.
+In some settings, however, we assume that the underlying signal $\z_n$ and the observed value $\x_n$ do not behave deterministically. Suppose, for example, that we are interested in modelling the price of a stock. We would like to determine whether the price of the stock is likely to go up or down. To determine its trajectory, we assume that the stock has an underlying price that consists of natural fluctuations. Furthermore, market forces push the observed price of the stock to higher or lower levels than its true, underlying price, which in turn, increases the noise of the observed price observed as market volatility. Our goal is to recover the underlying mean price of the stock disregarding the market volatility and its natural fluctuation.
 
 
 
