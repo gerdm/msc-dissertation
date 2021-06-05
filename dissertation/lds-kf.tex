@@ -380,12 +380,12 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 	\end{equation}
 	results in an equation of the form
 	\begin{equation}
-		\hat\beta(\z_n) = \frac{1}{c_{n+1}}\int p(\x_{n+1}\vert\z_{n+1})p(\z_{n+1}\vert\z_n) d\z_{n+1}.
+		\hat\beta(\z_n) = \frac{1}{c_{n+1}}\int \hat\beta(\z_{n+1})p(\x_{n+1}\vert\z_{n+1})p(\z_{n+1}\vert\z_n) d\z_{n+1}.
 	\end{equation}
 \end{proposition}
 
 \begin{proof}
-	We begin the proof rewriting $\beta(\z_n)$ in terms of $\hat\beta(\z_n)$, and $c_n$. We see that
+	We begin the proof rewriting $\beta(\z_n)$ in terms of $\hat\beta(\z_n)$, and $c_n$. We observe that
 	\begin{align}
 		\beta(\z_n) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
 		&= p(\x_{n+1}, \ldots, \x_N \vert \z_n) \frac{p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n)}{p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots \x_n)} \\
@@ -395,12 +395,12 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 		&= \hat\beta(\z_n) \prod_{j=n+1}^N c_j \label{eq:beta-rewrite}.
 	\end{align}
 	
-	Using proposition \ref{prop:beta-recursive} and equation \eqref{eq:beta-rewrite}, we see that
+	Using proposition \ref{prop:beta-recursive} and equation \eqref{eq:beta-rewrite}, we obtain
 	
 	\begin{align}
 		&\beta(\z_n) = \int_{\z_{n+1}} \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
-		\iff& \hat\beta(\z_n) \prod_{j=n+1}^N c_j = \int_{\z_{n+1}}\hat\beta(\z_n) \prod_{j=n+2}^N c_jp(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
-		\iff& c_{n+1} \hat\beta(\z_n) = \int_{\z_{n+1}} \hat\beta(\z_n) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
+		\iff& \hat\beta(\z_n) \prod_{j=n+1}^N c_j = \int_{\z_{n+1}}\hat\beta(\z_{n+1}) \prod_{j=n+2}^N c_jp(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
+		\iff& c_{n+1} \hat\beta(\z_n) = \int_{\z_{n+1}} \hat\beta(\z_{n+1}) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
 	\end{align}
 \end{proof}
 
@@ -454,13 +454,13 @@ In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1},
 \end{proof}
 
 
-As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented as the probability density function of a normal distribution whose mean and covariance that depends on previous means and covariance values. We formalise this in the following two propositions
+As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented as the probability density function of a normal distribution whose mean and covariance that depends on previous means and covariance values. We formalise this in the following two theorems
 
 % to-do: write it more clearly
 % Show that alpha hat is a normal distribution
 %	* Derive the Kalman Filter Equations
 \begin{theorem} (\textbf{Kalman Filter: initial condition}) \label{theorem:alpha-forward-equations-1}
-	The factor $\hat\alpha(\z_1)$ can be written as normal probability density function with mean and covariance matrix given by
+	The factor $\hat\alpha(\z_1)$ can be written as a normal probability density function with mean and covariance matrix given by
 	\begin{align}
 		\boldsymbol{\mu}_1 &= \boldsymbol{\mu}_0 + {\bf K}_1(\x_1 -{\bf C}\boldsymbol\mu_0),\\
 		{\bf V}_1 &=  ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0.
@@ -479,13 +479,13 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 		\iff& c_1 \N(\z_1\vert \boldsymbol\mu, {\bf V}_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma).
 	\end{align}
 	
-	Where $c_1$ is the normalisation coefficient. To find $\boldsymbol{\mu}_1$ and ${\bf V}_1$, we make use of equation \eqref{eq:normal-conditional}. We  obtain
+	Where $c_1$ is the normalisation coefficient. To find $\boldsymbol{\mu}_1$ and ${\bf V}_1$, we make use of equation \eqref{eq:normal-conditional} to obtain
 	\begin{align}
 		\boldsymbol{\mu}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1} \left\{{\bf C}\boldsymbol\Sigma^{-1}\x_1 + {\bf V}_0^{-1}\boldsymbol\mu_0\right\},\\
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}.
 	\end{align}
 	
-	Next, we rewrite the covariance matrix using proposition \ref{prop:woodbury-identity}. We see that 
+	Next, we rewrite the covariance matrix using proposition \ref{prop:woodbury-identity}. We notice that 
 	\begin{align}
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}\\
 		&= {\bf V}_0 - {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}{\bf C}{\bf V}_0 \\
@@ -493,7 +493,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 		&= ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0. \label{eq:part-v1-rewrite}
 	\end{align}
 	
-	Where we have defined ${\bf K}_1 := {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}$. Note that using the result derived in proposition \ref{prop:matrix-rewrite1} we rewrite ${\bf K}_1$ as follows
+	Where we have defined ${\bf K}_1 := {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}$. Note the result derived in proposition \ref{prop:matrix-rewrite1} allow us to rewrite ${\bf K}_1$ as follows
 	
 	\begin{align}
 		{\bf K}_1 &= {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}\\
