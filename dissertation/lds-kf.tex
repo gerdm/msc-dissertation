@@ -59,16 +59,16 @@ Dynamical systems are models that capture the time evolution of a system \cite{s
 
 
 
-In this work, we are interested in dynamical systems that depend on unobserved signals, usually called latent variables, and a set of observed values that are directly derived from the source signal. We define the set of observed variables ${\bf X} = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables ${\bf Z} = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We also denote $\mathcal{D} = ({\bf X}, {\bf Z})$ as the complete-dataset.
+In this work, we are interested in dynamical systems that depend on unobserved signals, usually called latent variables, and a set of observed values that are directly derived from the signal source. We define the set of observed variables ${\bf X} = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables ${\bf Z} = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We also denote $\mathcal{D} = ({\bf X}, {\bf Z})$ as the complete-dataset.
 
-One way to represent such system is to assume the existence of an unobserved signal $\z_n$ that evolves linearly over time according to a matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n+1}$ is obtained, the observed value $\x_{n+1}$ is the result of a linear transformation over $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such system can be written as follows:
+One way to represent such system is to assume the existence of an unobserved signal $\z_n \in \mathbb{R}^K$ that evolves linearly over time according to a matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n+1}$ is obtained, the observed value $\x_{n+1} \in \mathbb{R}^M$ is the result of a linear transformation over $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such system can be written as follows:
 
 \begin{align*}
 	\z_{n+1} &= {\bf A} \z_{n},\\
 	\x_{n+1} &= {\bf C} \z_{n+1}.
 \end{align*}
 
-An example of such system is presented in Figure \ref{fig:hidden-dynamical-system}, in which the dynamics of the vector $\x_n$ is completely determined by the vector $\z_n$. Hence, the evolution of the system is completely determined by the initial condition $\z_0$. Assuming that $\z_0$ is known and we observed a fixed number of $N$ observations, the problem reduces to find matrices ${\bf A}$ and ${\bf C}$ that generated the observed values.
+An example of such system is presented in Figure \ref{fig:hidden-dynamical-system}, in which the dynamics of the vector $\x_n$ are completely determined by the vector $\z_n$. Hence, the evolution of the system is specified by the initial condition $\z_0$. Assuming that $\z_0$ is known and we observed a fixed number $N$ of observations, the problem reduces to find matrices ${\bf A}$ and ${\bf C}$ that generated the observed values.
 
 % An example of a linear dynamical system is...
 \begin{figure}[h!]
@@ -88,7 +88,7 @@ More generally, let $\X$ is be a dataset of sampled random values that were gene
 In this work, we show that if the proposed model is a linear model with Gaussian noise, we can make use of the so-called Expectation Maximisation (EM) algorithm to both determine the model parameters, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
 \subsection{Linear dynamical systems with added noise}
-We begin this section by modifying our previous system by adding uncertainty into the system. We follow from the ideas presented in \cite{prml}. As previously mentioned, we assume that that both the underlying signal and the observed signal are corrupted by some noise. That is
+We begin this section by modifying our previous system by adding uncertainty into the system. We follow from the ideas presented in \cite{prml}. As previously mentioned, we assume that that both the underlying signal and the observed data are corrupted by some noise. That is
 
 \begin{align*}
 	\z_{n+1} &= {\bf A} \z_{n} + \boldsymbol\varepsilon_n,\\
