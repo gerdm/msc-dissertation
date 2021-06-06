@@ -111,6 +111,32 @@ As we can see from the model specification, the overall dynamics of the system a
 \end{figure}
 
 
+\subsection{Probabilistic Graphical Models}
+One useful tool to analyse the structure of a probabilistic model are probabilistic graphical models. In this section, we present the main results of probabilistic graphical models, define conditional independence and provide 
+
+
+In this section, we present the main results of graphical models and provide proofs to propositions that directly impact our study of an LDS. For a complete review of probabilistic graphical models, see \cite{koller2009}.
+
+Our analysis of the LDS is 
+
+\begin{proposition} \label{prop:graphical-models-separation}
+	Let ${\bf Z} = \{\z_n\}_n$ be a set of latent random variables, and ${\bf X} = \{\x_n\}_n$ a set of observed variables with complete-data likelihood $({\bf Z}, {\bf X})$ given by the LDS model. Then, the following factorisations hold true
+	\begin{align}
+		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}), \label{eq:gm-1}\\
+		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n),\\
+		p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}),\\
+		p(\x_{n+1}, \ldots, \x_N \vert \z_n, \z_{n+1}) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n),\\
+		p(\x_{n+2}, \ldots, \x_N\vert \x_{n+1}, \z_{n+1}) &= p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}),\\
+		p({\bf X}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}) \nonumber\\
+			&\hspace{1cm}p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n),\\
+		p(\x_{N+1} \vert {\bf X}, \z_{N+1}) &= p(\x_{N+1} \vert \z_{N+1}),\\
+		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N}).\\
+	\end{align}
+\end{proposition}
+
+\begin{proof}
+	All propositions above can be explicitly shown by expanding its components and using the probability rules of sum and product. In this work, we take a more visual approach and show that the factorisations hold true using d-separation.
+\end{proof}
 
 Given the structure of the dynamical system, the likelihood of the model is given by
 
@@ -958,27 +984,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	We conclude this proof by noting that setting equation \eqref{eq:part-Sigma-terms2} to zero and solving for $\boldsymbol{\Sigma}$ yields equation \eqref{eq:mstep-Sigma}.
 \end{proof}
 
-\section{Graphical Models}
-In this section we present some useful proposition of graphical models.
-
-\begin{proposition} \label{prop:graphical-models-separation}
-	Let ${\bf Z} = \{\z_n\}_n$ be a set of latent random variables, and ${\bf X} = \{\x_n\}_n$ a set of observed variables with complete-data likelihood $({\bf Z}, {\bf X})$ given by the LDS model. Then, the following factorisations hold true
-	\begin{align}
-		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}), \label{eq:gm-1}\\
-		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n),\\
-		p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}),\\
-		p(\x_{n+1}, \ldots, \x_N \vert \z_n, \z_{n+1}) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n),\\
-		p(\x_{n+2}, \ldots, \x_N\vert \x_{n+1}, \z_{n+1}) &= p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}),\\
-		p({\bf X}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}) \nonumber\\
-			&\hspace{1cm}p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n),\\
-		p(\x_{N+1} \vert {\bf X}, \z_{N+1}) &= p(\x_{N+1} \vert \z_{N+1}),\\
-		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N}).\\
-	\end{align}
-\end{proposition}
-
-\begin{proof}
-	\texttt{to-do: show by D-separation or explicitly?}
-\end{proof}
+\section{Numerical Results}
 
 \section{Normal Distribution}
 \begin{proposition} \label{prop:multivariate-normal-combination}
