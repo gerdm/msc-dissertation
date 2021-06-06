@@ -119,8 +119,22 @@ Suppose $a$, $b$, and $c$ are random variables with marginal probability density
 % Talk about the constraints over random variables, e.g., two variables cannot depend on one another
 
 Another way to represent this ideas is using a Bayesian network, in which ach node represents a random variable, and links between nodes represent causal relationships. The resulting graph is the completely determined by our choice of hypotheses. For example, 
+% to-do: provide two or three examples of factorisation using bayesian networks 
 
-Our analysis of the LDS is 
+% then, define the joint distribution over graphical models
+
+% Then, talk about the use of latent variables and the representation in a bayesian network
+% * Use the pLDS as an example to write the complete-data likelihood, and
+% * Write it as a probabilistic graphical model
+
+% Then, write about conditional independence and why it is useful: to simplify the structure of a model and reduce the amount of computations required to perform learning and inference
+
+% Next, write about d-separation: determine conditional independence properties directly from the bayes' net
+% * Write the d-separation as a theorem (and a reference to a proof)
+
+% Finally, 
+% * Motivate the following proposition: It helps us decompose the conditional dependencies of the graph and simplify the computations of the E-step
+% * Show the following proposition using d-separation
 
 \begin{proposition} \label{prop:graphical-models-separation}
 	Let $\Z$ be a latent dataset, and $\X$ and observed dataset with complete-data likelihood $({\bf Z}, {\bf X})$ given by the LDS model. Then, the following factorisations hold true
