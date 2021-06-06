@@ -87,20 +87,26 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
-\subsection{Linear dynamical systems with added noise}
-We begin this section by modifying our previous system by adding uncertainty into the system. We follow from the ideas presented in \cite{prml}. As previously mentioned, we assume that that both the underlying signal and the observed data are corrupted by some noise. That is
+\section{Linear dynamical systems with added noise}
+We begin this section by formalising our model of interest. Let $\X$ be an observed dataset and $\Z$ a latent dataset. Let $g(\z_{n-1}) = {\bf A} \z_{n-1}$ with ${\bf A}\in\R^{K\times K}$, and $f(\z_n) = {\bf C} \z_{n}$ with ${\bf C} \in \R^{M \times K}$. Assuming that a latent state $\z_n$, for $n \geq 1$, and any state $\x_n$ are each corrupted by zero-mean gaussian noise with covariance matrices $\boldsymbol{\Sigma} \in \mathbb{R}^{K \times K}$, and $\boldsymbol{\Gamma} \in \mathbb{R}^{M \times M}$ respectively, we define a  probabilistic Linear Dynamical System (pLDS) as follows:
+\begin{align}
+	p(\z_{n+1} \vert \z_n) &= \N(\z_{n+1} \vert {\bf A}\z_n, \boldsymbol\Gamma),\\
+	p(\x_{n+1} \vert \z_{n+1}) &= \N(\x_{n+1} \vert {\bf C}\x_n, \boldsymbol\Sigma).
+\end{align}
 
-\begin{align*}
-	\z_{n+1} &= {\bf A} \z_{n} + \boldsymbol\varepsilon_n,\\
-	\x_{n+1} &= {\bf C} \z_{n+1} + \boldsymbol\varphi_n.
-\end{align*}
+In addition, we assume that the initial state of the system $\z_1$ is normally distributed with mean $\boldsymbol{\mu}_0$ and covariance matrix ${\bf V}_0$, i.e,
+\begin{align}
+	p(\z_1) &= \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0).\\
+\end{align}
+A simulation of the evolution of such system is presented in figure \ref{fig:hidden-noisy-dynamical-system}.
 
-The noise terms $\boldsymbol{\varepsilon}_n$, and $\boldsymbol{\varphi}_n$ are assumed to be normally distributed with mean zero and covariance matrices $\boldsymbol{\Gamma}$, and $\boldsymbol{\Sigma}$. An illustration of this modified system is presented in presented in figure \ref{fig:hidden-noisy-dynamical-system}.
+As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate a plausible latent dataset $\Z$.
+
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{../figures/hidden-stochastic-dynamical-system}
-	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in figure \ref{fig:hidden-dynamical-system}. However, we consider }
+	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in figure \ref{fig:hidden-dynamical-system}, however, each state has added gaussian noise with diagonal covariance matrix.}
 	\label{fig:hidden-noisy-dynamical-system}
 \end{figure}
 
@@ -122,12 +128,6 @@ We can also represent this system as a graphical model as specified in Figure \r
 	\label{fig:lds-gm}
 \end{figure}
 
-
-% to-do: rewrite this paragraph. Motivate the EM algorithm by rewriting the log-likelihood and show that the resulting
-% rewrite of equations lead to the E and the M steps. Furthermore, add that criterion for converge of the algorithm can be
-% found on a paper (find paper)	
-% Who is \mu_0?
-Our goal is to find the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$ that best represent the data. From a frequentist perspective, this is done by maximising the likelihood of the data with respect to the parameters $\boldsymbol{\theta}$. Maximising the likelihood of this model, however, is not straightforward. This is because the only observed data we have is given by the observed dataset $\bf X$. % Explain more this step
 
 
 \subsection{The EM algorithm}
