@@ -30,9 +30,10 @@
 \newtheorem{proposition}{Proposition}[section]
 \newtheorem{theorem}{Theorem}[section]
 
-% In this dissertation/project we formalise the derivation of the Kalman Filters' equations
-% under the perspective of a state space model. We show how the Kalman Filters equations arise 
-% as the E-step of the EM-algorithm using a Linear Dynamical System with added noise.
+% In this dissertation/project we formalise the derivation of the Kalman Filters' equations from the perspective of a state-space model
+% We show that the Kalman Filters equations arise 
+% as the E-step of the EM-algorithm applied to a Linear Dynamical System with added noise.
+% Furthermore, we test the limitation of the Kalman Filter algorithm to recover 
 
 \title{Linear Dynamical Systems and Kalman Filters}
 \author{Gerardo Durán-Martín}
@@ -71,7 +72,6 @@ One way to represent such system is to assume the existence of an unobserved sig
 
 An example of such system is presented in Figure \ref{fig:hidden-dynamical-system}, in which the dynamics of the vector $\x_n$ are completely determined by the vector $\z_n$. Hence, the evolution of the system is specified by the initial condition $\z_0$. Assuming that $\z_0$ is known and we observed a fixed number $N$ of observations, the problem reduces to find matrices ${\bf A}$ and ${\bf C}$ that generated the observed values.
 
-% An example of a linear dynamical system is...
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{../figures/hidden-dynamical-system}
@@ -138,19 +138,17 @@ Our analysis of the LDS is
 	All propositions above can be explicitly shown by expanding its components and using the probability rules of sum and product. In this work, we take a more visual approach and show that the factorisations hold true using d-separation.
 \end{proof}
 
-Given the structure of the dynamical system, the likelihood of the model is given by
+
+Given the time structure of the dynamical system, as presented in figure \ref{fig:lds-gm}, the joint probability over the complete dataset can be factorized as follows:
 
 \begin{equation}
 	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
 \end{equation}
 
-% to-do: Add equations for the initial condition z0
-We can also represent this system as a graphical model as specified in Figure \ref{fig:lds-gm}.
-
 \begin{figure}
 	\centering
 	\input{../figures/lds.tikz}
-	\caption{Graphical representation of a linear dynamical system with latent variables. The filled circles represent observed datapoints, whereas the empty circles represent latent variables.}
+	\caption{Graphical representation of a linear dynamical system with latent variables. The filled nodes represent observed datapoints, whereas the empty nodes represent latent variables. A node $A$ pointing to a node $B$ represent conditional dependence $p(B\vert A)$.}
 	\label{fig:lds-gm}
 \end{figure}
 
@@ -233,6 +231,11 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 	\end{align}
 \end{proof}
 
+% to-do: the EM algorithm converges under some conditions which our LDS model
+% has. Write
+
+\section{Learning the model parameters}
+In this section, we derive the E-step and the M-steps for the linear dynamical system presented in the previous section.
 
 \subsection{The E-step}
 To make use of the E-step, it is helpful to distinguish which elements depend on $\z_n$. Consider
@@ -538,7 +541,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 	
 	Where we have used equations \eqref{eq:part-k1-rewrite} and \eqref{eq:part-v1-rewrite} to derive equation \eqref{eq:part-m1-rewrite}.
 	
-	Finally, we derive $c_1$ by rewriting the term as the following integral
+	Finally, we derive the value of $c_1$ by rewriting the term as the following integral
 	\begin{align}
 		c_1 &= \int p(\z_1) p (\x_1 \vert \z_1) d\z_1\\
 			&= \int \N(\z_1\vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1 \vert {\bf C}\z_1, \boldsymbol\Sigma) d\z_1.
