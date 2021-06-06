@@ -100,7 +100,7 @@ In addition, we assume that the initial state of the system $\z_1$ is normally d
 \end{align}
 A simulation of the evolution of such system is presented in figure \ref{fig:hidden-noisy-dynamical-system}.
 
-As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate a plausible latent dataset $\Z$.
+As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate a plausible latent dataset $\Z$. In the following two subsections, we will develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$.
 
 
 \begin{figure}[h!]
@@ -112,15 +112,18 @@ As we can see from the model specification, the overall dynamics of the system a
 
 
 \subsection{Probabilistic Graphical Models}
-One useful tool to analyse the structure of a probabilistic model are probabilistic graphical models. In this section, we present the main results of probabilistic graphical models, define conditional independence and provide 
+A useful way to analyse the structure of a joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this section, we present the main results of probabilistic graphical models, define conditional independence, motivate the use of $d$-separation, and provide a set of factorisation equations that helps us analyse a pLDS. For a complete review of probabilistic graphical models, see \cite{koller2009}.
 
+% The main subject in this subsection is to motivate the use of graphs for representing the joint distribution over random variables. 
+Suppose $a$, $b$, and $c$ are random variables with marginal probability density functions given by $p(a)$, $p(b)$, and $p(c)$. We are interested in modelling the joint distribution $p(a,b,c)$. Depending on the relationship between each pair of random variables, the joint distribution could be written differently. For example, if we assume that every node is independent of each other node, we write $p(a,b,c) = p(a) p(b) p(c)$. On the other hand, if $a$ is independent of $b$ and $c$, $b$ is dependent of $a$, and $c$ is dependent on $a$ and $b$, the joint distribution can be written as $p(a,b,c) = p(a) p(b \vert a) p(c \vert a, b)$. 
+% Talk about the constraints over random variables, e.g., two variables cannot depend on one another
 
-In this section, we present the main results of graphical models and provide proofs to propositions that directly impact our study of an LDS. For a complete review of probabilistic graphical models, see \cite{koller2009}.
+Another way to represent this ideas is using a Bayesian network, in which ach node represents a random variable, and links between nodes represent causal relationships. The resulting graph is the completely determined by our choice of hypotheses. For example, 
 
 Our analysis of the LDS is 
 
 \begin{proposition} \label{prop:graphical-models-separation}
-	Let ${\bf Z} = \{\z_n\}_n$ be a set of latent random variables, and ${\bf X} = \{\x_n\}_n$ a set of observed variables with complete-data likelihood $({\bf Z}, {\bf X})$ given by the LDS model. Then, the following factorisations hold true
+	Let $\Z$ be a latent dataset, and $\X$ and observed dataset with complete-data likelihood $({\bf Z}, {\bf X})$ given by the LDS model. Then, the following factorisations hold true
 	\begin{align}
 		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}), \label{eq:gm-1}\\
 		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n),\\
@@ -139,7 +142,7 @@ Our analysis of the LDS is
 \end{proof}
 
 
-Given the time structure of the dynamical system, as presented in figure \ref{fig:lds-gm}, the joint probability over the complete dataset can be factorized as follows:
+Given the time structure of the dynamical system, as presented in figure \ref{fig:lds-gm}, the joint probability over the complete dataset can be factorised as follows:
 
 \begin{equation}
 	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
