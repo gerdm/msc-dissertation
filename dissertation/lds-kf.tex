@@ -102,7 +102,7 @@ In addition, we assume that the initial state of the system $\z_1$ is normally d
 \end{align}
 A simulation of the evolution of such system is presented in figure \ref{fig:hidden-noisy-dynamical-system}.
 
-As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate a plausible latent dataset $\Z$. In the following two subsections, we will develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$.
+As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate a plausible latent dataset $\Z$. In the following two subsections, we will develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
 
 
 \begin{figure}[h!]
@@ -246,17 +246,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 
 \subsection{The EM algorithm}
 
-% Reference to the EM algorithm?
-One approach of finding such parameters is to make use of the EM algorithm: an iterative approach to maximise the likelihood of the complete-data log-likelihood as follows
-
-\begin{align}
-	\boldsymbol{\theta}^\text{new} &= \argmax{\boldsymbol{\theta}} \mathbb{E}_{\z\vert \x, \boldsymbol{\theta}^\text{old}}[\log p(\x, \z\vert \boldsymbol\theta)]\\
-	&= \argmax{\boldsymbol{\theta}} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
-\end{align}
-
-Where we have defined $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) := \mathbb{E}_{\z\vert \x, \boldsymbol{\theta}^\text{old}}[\log p(\x, \z\vert \boldsymbol\theta)]$. The computation of the posterior probability of latent variables $p(\z\vert \x, \boldsymbol\theta^\text{old})$ is called the E-step. The maximisation of the expected complete-data log-likelihood with respect to the posterior latent variables $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ is called the M-step.
-
-We derive the EM algorithm considering the following three propositions.
+As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete-dataset, we require to maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided into two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\texttt{add reference}). We formally derive the EM algorithm in the following three propositions.
 
 \begin{proposition} \label{prop:log-likelihood-partition}
 	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
@@ -324,7 +314,7 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 % to-do: the EM algorithm converges under some conditions which our LDS model
 % has. Write
 
-\section{Learning the model parameters}
+\section{Deriving a model for a pLDS}
 In this section, we derive the E-step and the M-steps for the linear dynamical system presented in the previous section.
 
 \subsection{The E-step}
