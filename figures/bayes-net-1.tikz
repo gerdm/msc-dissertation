@@ -1,0 +1,14 @@
+\begin{tikzpicture}[
+latentnode/.style={circle, draw=red!80, minimum size=6mm, very thick},
+observednode/.style={circle, draw=red!80, fill=cyan!60, minimum size=6mm, very thick},
+]
+
+% Defining the nodes
+\node[latentnode, label=above right:{$a$}] (a) {};
+\node[latentnode, label=above right:{$b$}] (b) [below right=of a] {};
+\node[latentnode, label=above left:{$c$}] (c) [below left=of a] {};
+
+
+% Relationships between latent variables
+
+\end{tikzpicture}
