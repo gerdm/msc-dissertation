@@ -12,5 +12,6 @@ observednode/.style={circle, draw=red!80, fill=cyan!60, minimum size=6mm, very t
 % Relationships between latent variables
 \draw[->, color=red, very thick] (a) -- (b);
 \draw[->, color=red, very thick] (a) -- (c);
+\draw[->, color=red, very thick] (b) -- (c);
 
 \end{tikzpicture}

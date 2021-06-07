@@ -10,6 +10,7 @@
 \usepackage{natbib}
 \usepackage{bibentry}
 \usepackage[nottoc]{tocbibind}
+\usepackage{mathrsfs}
 
 \usepackage{mathtools}
 \mathtoolsset{showonlyrefs}
@@ -113,28 +114,32 @@ As we can see from the model specification, the overall dynamics of the system a
 
 
 \subsection{Probabilistic Graphical Models}
-A useful way to analyse the structure of a joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this section, we present the main results of probabilistic graphical models, define conditional independence, motivate the use of $d$-separation, and provide a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or chapter 8 of \cite{prml}.
+A useful way to analyse the structure of a joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, define conditional independence, provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or chapter 8 of \cite{prml}.
 
 % The main subject in this subsection is to motivate the use of graphs for representing the joint distribution over random variables. 
-Suppose $a$, $b$, and $c$ are random variables with marginal probability density functions given by $p(a)$, $p(b)$, and $p(c)$. We are interested in modelling the joint distribution $p(a,b,c)$. Depending on the relationship between each pair of random variables, the joint distribution could be written differently. For example, if we assume that every node is independent of each other node, we write $p(a,b,c) = p(a) p(b) p(c)$. On the other hand, if $a$ is independent of $b$ and $c$; $b$ is dependent of $a$; and $c$ is dependent on $a$ and $b$, the joint probability can be written as $p(a,b,c) = p(a) p(b \vert a) p(c \vert a, b)$.
+Suppose $a$, $b$, and $c$ are random variables with marginal probability density function each given by $p(a)$, $p(b)$, and $p(c)$. Depending on the relationship between each pair of random variables, the joint distribution $p(a,b,c)$ could be written differently. For example, if we assume that every node is independent of each other node, $p(a,b,c) = p(a) p(b) p(c)$. On the other hand, if $a$ is independent of $b$ and $c$; $b$ is dependent of $a$; and $c$ is dependent on $a$ and $b$, the joint probability can be written as $p(a,b,c) = p(a) p(b \vert a) p(c \vert a, b)$. A Bayesian network, is a graphical representation of the joint distribution of a set of random variables that expresses conditional relationships.
+
+\begin{definition}
+	A \textbf{Bayesian network} is a directed graph $\mathcal G = \{\mathscr{N}, \mathscr{E}\}$ with nodes $\mathscr{N}$ corresponding to a set of random variables, and edges $\mathscr{E}$ of directed links (ordered tuples) between two nodes. Edges in a Bayesian network represent causal relationships between the nodes.
+\end{definition}
 
 % provide two or three examples of factorisation using bayesian networks
-Dependency between random variables can also be expressed using Bayesian networks: directed graphs in which nodes represents random variables, and directed links between nodes represent causal relationships. For example, suppose $p(a,b,c) = p(a)p(b)p(c)$. Then the Bayesian network that induces this factorisation is the following
+To understand the use of Bayesian networks, consider $\mathcal G = \{\{a, b, c\}, \{\}\}$. Then, the joint probability over the random variables $a$, $b$, and $c$ induced by $\mathcal G$ is given by $p(a,b,c) = p(a) p(b) p(c)$. The graphical representation of $\mathcal G$ is shown in figure \ref{fig:bayes-net-1}.
 
 \begin{figure}[h!]
 	\centering
 	\input{../figures/bayes-net-1.tikz}
-	\caption{Graphical representation of a set of disjoint random variables.}
-	\label{fig:lds-gm}
+	\caption{Graphical representation of the factorisation $p(a,b,c) = p(a) p(b) p(c)$.}
+	\label{fig:bayes-net-1}
 \end{figure}
 
-On the contrary, if $p(a,b,c) = p(a)p(b \vert a)p(c \vert a)$, the Bayesian graph that induces the factorisation is the following:
+On the contrary, if $\mathcal G = \{\{a,b,c\}, \{\{a, b\}, \{a, c\}, \{b, c\}\}\}$, the joint probability induced by $\mathcal G$ is given by  $p(a,b,c) = p(a)p(b \vert a)p(c \vert a, b)$. The graphical representation of $\mathcal G$ is shown in figure \ref{fig:bayes-net-2}.
 
 \begin{figure}[h!]
 	\centering
 	\input{../figures/bayes-net-2.tikz}
-	\caption{Graphical representation of the factorisation $p(a,b,c) = p(a) p(b \vert a) p(c \vert a)$.}
-	\label{fig:lds-gm}
+	\caption{Graphical representation of the factorisation $p(a,b,c) = p(a) p(b \vert a) p(c \vert a, b)$.}
+	\label{fig:bayes-net-2}
 \end{figure}
 
 
@@ -145,9 +150,10 @@ More formally, we have the following definition
 	\begin{equation}
 		p({\bf x}) = \prod_{k=1}^K p(x_k \vert \text{Pa}_k).
 	\end{equation}
+	Where $\text{Pa}_k$ is the set of nodes that directly influence $x_k$.
 \end{definition}
 
-It is important to remark that the Bayesian networks considered in this work cannot be strongly connected, i.e., it cannot exist a closed loop in the graph.
+It is important to remark that the Bayesian networks considered in this work cannot be strongly connected, i.e., it cannot exist a closed loop in the graph. In that sense, any Bayesian network can be represented as a Directed Acyclic Graph (DAG).
 
 % Then, talk about the use of latent variables and the representation in a bayesian network
 % * Use the pLDS as an example to write the complete-data likelihood, and
@@ -163,19 +169,19 @@ Given any Bayesian network, it is of interest to ask how does the factorisation 
 	\end{align}
 \end{definition}
 
-Given a Bayesian network, we will denote observed random variables as nodes filled in blue. 
+Given a Bayesian network, we will graphically denote observed random variables as nodes filled in blue. 
 
 \begin{figure}[h!]
 	\centering
 	\input{../figures/bayes-net-3.tikz}
-	\caption{Graphical representation of the probabilty $p(a, b\vert c) = p(a \vert c) p(b \vert c)$.}
-	\label{fig:lds-gm}
+	\caption{Graphical representation of the conditional probabilty $p(a, b\vert c) = p(a \vert c) p(b \vert c)$.}
+	\label{fig:bayes-net-3}
 \end{figure}
 
 
 % Next, write about d-separation: determine conditional independence properties directly from the bayes' net
 % * Write the d-separation as a theorem (and a reference to a proof)
-The distinction between observed and unobserved nodes in a network allows us to specify more complex probabilistic models that have \textit{observed} and \textit{latent} variables. For example, using a Bayesian network, we can write the relationship between variables in a pLDS as presented in \ref{fig:lds-gm}.
+The distinction between observed and unobserved nodes in a network allows us to specify more complex probabilistic models that have \textit{observed} and \textit{latent} variables. For example, using a Bayesian network, we can write the relationship between variables in a pLDS as presented in figure \ref{fig:lds-gm}.
 
 \begin{figure}[h!]
 	\centering
@@ -192,10 +198,10 @@ The graphical representation of the Bayesian network induces the following joint
 The graphical representation of a model not only presents an illustration of the relationship between random variables, but it's also used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we will define what a descendant is, and the types of connections of three nodes in a Bayesian network.
 
 \begin{definition}
-	$y$ is a descendant of node $x$ if there is a path from $x$ to $y$ in which each step follows the direction of the arrows.
+	$\mathcal G = \{\mathscr{N}, \mathscr{E}\}$ be a Bayesian network, and let $a \in \mathscr{N}$, $b \in \mathscr{N}$. We define a node $b$ as a \textbf{descendant} of node $a$ if there exists a path from $a$ to $b$.
 \end{definition}
 
-Let $a$, $b$, and $c$ be three nodes of a bayesian network $G$. We say that
+Let $a$, $b$, and $c$ be three nodes of a bayesian network $\mathcal G$. We say that
 \begin{itemize}
 	\item $a$ and $b$ meet head-to-head at $c$ if $a \rightarrow c \leftarrow b $;
 	\item $a$ and $b$ meet tail-to-head at $c$ if $a \leftarrow c \rightarrow b $;
@@ -203,7 +209,7 @@ Let $a$, $b$, and $c$ be three nodes of a bayesian network $G$. We say that
 \end{itemize}
 
 \begin{proposition}
-	(\textbf{d-separation}) Let $G = \{\{A, B, C\}, \mathcal L\}$ be a Bayesian network with with $A$, $B$, and $C$ arbitrary nonintersecting set of nodes. To assert whether $A \perp B \vert C$ is induced by the network, we consider all possible paths from any node in $A$ to any node in $B$. Any such path is said to be \textbf{blocked} if it includes a node such that either
+	(\textbf{d-separation}) Let $\mathcal G = \{\{A, B, C\}, \mathscr{E}\}$ be a Bayesian network with with $A$, $B$, and $C$ arbitrary nonintersecting set of nodes. To assert whether $A \perp B \vert C$ is induced by the network, we consider all possible paths from any node in $A$ to any node in $B$. Any such path is said to be \textbf{blocked} if it includes a node such that either
 	\begin{enumerate}
 		\item The arrows on the path meet either head-to-tail or tail-to-tail at a node in the set $C$, or
 		\item the arrows meet head-to-head at a node not in the set $C$, or any of its descendants.
@@ -218,7 +224,7 @@ Let $a$, $b$, and $c$ be three nodes of a bayesian network $G$. We say that
 To exemplify the use of $d$-separation, we present the following proposition which will simplify later computations when developing the pLDS model.
 
 \begin{proposition} \label{prop:graphical-models-separation}
-	Let $\Z$ be a latent dataset, and $\X$ and observed dataset with complete-data likelihood $({\bf Z}, {\bf X})$ given by the pLDS model. Then, the following factorisations holds true
+	Let $({\bf Z}, {\bf X})$ be the complete-dataset of pLDS model. Then, the following factorisations holds true
 	\begin{align}
 		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}), \label{eq:gm-1}\\
 		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n),\\
@@ -233,7 +239,8 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 \end{proposition}
 
 \begin{proof}
-	All propositions above can be explicitly shown by expanding its components and using the probability rules of sum and product. In this work, we take a more visual approach and show that the factorisations hold true using $d$-separation.
+	All equations in proposition above can be explicitly shown by expanding its components and using the probability rules of sum and product. In this work, we take a more visual approach and show that the factorisations hold true using $d$-separation.
+	\texttt{to-do: finish proof by d-separation}
 \end{proof}
 
 
