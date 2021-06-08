@@ -46,7 +46,8 @@ observednode/.style={circle, draw=red!80, fill=cyan!60, minimum size=6mm, very t
 \draw[->, color=red, very thick] (z_Nm1) -- (x_Nm1);
 \draw[->, color=red, very thick] (zN) -- (xN);
 
-\node[draw, thick, inner sep=3mm,label=below:A,fit=(x1) (x_nm1)] {};
-\node[draw, thick, inner sep=3mm,label=below:B,fit=(x_np1) (xN)] {};
+\node[draw, thick, inner sep=0.5mm,label=below:A,fit=(x1) (x_nm1)] {};
+\node[draw, thick, inner sep=0.5mm,label=below:B,fit=(x_np1) (xN)] {};
+\node[draw, thick, inner sep=0.5mm,label=above:C,fit=(zn)] {};
 
 \end{tikzpicture}
