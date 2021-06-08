@@ -166,9 +166,13 @@ Given any Bayesian network, it is of interest to ask how does the factorisation 
 % Then, write about conditional independence and why it is useful: to simplify the structure of a model and reduce the amount of computations required to perform learning and inference
 \begin{definition}
 	\textbf{Conditional independence}: Two random variables $a$ and $b$ are said to be conditionally independent over a third random variable $c$, denoted as $a \perp b \vert c$, if the following holds true
-	\begin{align}
+	\begin{equation}
 		a \perp b \vert c \iff p(a, b \vert c) = p(a \vert c) p(b \vert c).
-	\end{align}
+	\end{equation}
+	Equivalently,
+	\begin{equation}
+		a \perp b \vert c \iff p(a \vert b, c) = p(a \vert c) \text{, } p(b \vert c) = 1.
+	\end{equation}
 \end{definition}
 
 Given a Bayesian network, we will graphically denote observed random variables as nodes filled in blue. 
