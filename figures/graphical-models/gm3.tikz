@@ -7,7 +7,7 @@ observednode/.style={circle, draw=red!80, fill=cyan!60, minimum size=6mm, very t
 \node[latentnode, label=above right:{${\bf z}_1$}] (z1) {};
 \node[latentnode, label=above right:{${\bf z}_2$}] (z2) [right=of z1] {};
 \node (transition) [right=of z2] {$\ldots$};
-\node[latentnode, label=above right:{${\bf z}_{n-1}$}] (z_nm1) [right=of transition] {};
+\node[observednode, label=above right:{${\bf z}_{n-1}$}] (z_nm1) [right=of transition] {};
 \node[observednode, label=above right:{${\bf z}_{n}$}] (zn) [right=of z_nm1] {};
 \node[latentnode, label=above right:{${\bf z}_{n+1}$}] (z_np1) [right=of zn] {};
 \node (transition2) [right=of z_np1] {$\ldots$};
@@ -19,7 +19,7 @@ observednode/.style={circle, draw=red!80, fill=cyan!60, minimum size=6mm, very t
 \node[latentnode, label=above right:{${\bf x}_1$}] (x1) [below=of z1]{};
 \node[latentnode, label=above right:{${\bf x}_2$}] (x2) [below=of z2]{};
 \node[latentnode, label=above right:{${\bf x}_{n-1}$}] (x_nm1) [below=of z_nm1]{};
-\node[observednode, label=above right:{${\bf x}_{n}$}] (xn) [below=of zn]{};
+\node[latentnode, label=above right:{${\bf x}_{n}$}] (xn) [below=of zn]{};
 \node[latentnode, label=above right:{${\bf x}_{n+1}$}] (x_np1) [below=of z_np1]{};
 \node[latentnode, label=above right:{${\bf x}_{N-1}$}] (x_Nm1) [below=of z_Nm1]{};
 \node[latentnode, label=above right:{${\bf x}_{N}$}] (xN) [below=of zN]{};
@@ -47,7 +47,7 @@ observednode/.style={circle, draw=red!80, fill=cyan!60, minimum size=6mm, very t
 \draw[->, color=red, very thick] (zN) -- (xN);
 
 \node[draw, thick, inner sep=0.5mm,label=below:A,fit=(x1) (x_nm1)] {};
-\node[draw, thick, inner sep=0.5mm,label=below:B,fit=(xn)] {};
-\node[draw, thick, inner sep=0.5mm,label=above:C,fit=(zn)] {};
+\node[draw, thick, inner sep=0.5mm,label=above:B,fit=(zn)] {};
+\node[draw, thick, inner sep=0.5mm,label=above:C,fit=(z_nm1)] {};
 
 \end{tikzpicture}
