@@ -91,6 +91,8 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
+Throughout this work we will be working with random variables that can take any real number. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work will assume a definite integral over the real numbers with dimension specified by the differential term.
+
 \section{Linear dynamical systems with added noise}
 We begin this section by formalising our model of interest. Let $\X$ be an observed dataset and $\Z$ a latent dataset. Let $g(\z_{n-1}) = {\bf A} \z_{n-1}$ with ${\bf A}\in\R^{K\times K}$, and $f(\z_n) = {\bf C} \z_{n}$ with ${\bf C} \in \R^{M \times K}$. Assuming that a latent state $\z_n$, for $n \geq 1$, and any state $\x_n$ are each corrupted by zero-mean gaussian noise with covariance matrices $\boldsymbol{\Sigma} \in \mathbb{R}^{K \times K}$, and $\boldsymbol{\Gamma} \in \mathbb{R}^{M \times M}$ respectively, we define a  probabilistic Linear Dynamical System (pLDS) as follows:
 \begin{align}
@@ -461,7 +463,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \begin{proposition} \label{prop:alpha-recursive}
 	$\alpha(\z_n)$ can be written recursively as
 	\begin{equation}
-		\alpha(\z_n) = p(\x_n\vert \z_n) \int_{\z_{n-1}} \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}.
+		\alpha(\z_n) = p(\x_n\vert \z_n) \int \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}.
 	\end{equation}
 \end{proposition}
 
@@ -473,11 +475,11 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 		&= p(\z_n) p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_n) \\
 		&= p(\z_n) p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1} \vert \z_n) \label{eq:alpha-part-1}\\
 		&= p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1}, \z_n) \\
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}}p(\x_1, \ldots, \x_{n-1}, \z_{n-1}, \z_n) d\z_{n-1}\\
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}, \z_n) d\z_{n-1}\\
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}) d\z_{n-1} \label{eq:alpha-part-2}\\ 
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1}, \z_{n-1}) d\z_{n-1}\\
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})\alpha(\z_{n-1}) d\z_{n-1}.\\
+		&= p(\x_n \vert \z_n) \int p(\x_1, \ldots, \x_{n-1}, \z_{n-1}, \z_n) d\z_{n-1}\\
+		&= p(\x_n \vert \z_n) \int p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}, \z_n) d\z_{n-1}\\
+		&= p(\x_n \vert \z_n) \int p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}) d\z_{n-1} \label{eq:alpha-part-2}\\ 
+		&= p(\x_n \vert \z_n) \int p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1}, \z_{n-1}) d\z_{n-1}\\
+		&= p(\x_n \vert \z_n) \int p(\z_n \vert \z_{n-1})\alpha(\z_{n-1}) d\z_{n-1}.\\
 	\end{align}
 	
 	Where equation \eqref{eq:alpha-part-1} follows from equation \eqref{eq:gm-2}, and equation \eqref{eq:alpha-part-2} follows from \eqref{eq:gm-3}.
@@ -487,7 +489,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \begin{proposition} \label{prop:beta-recursive}
 	$\beta(\z_n)$ can be written recursively as
 	\begin{equation}
-		\beta(\z_n) = \int_{\z_{n+1}} \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
+		\beta(\z_n) = \int  \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
 	\end{equation} 
 \end{proposition}
 
@@ -495,12 +497,12 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 	Similarly to proposition \ref{prop:alpha-recursive}, we show this proposition using the definition of $\beta(\z_n)$ and proposition \ref{prop:graphical-models-separation}:
 	\begin{align}
 		\beta(\z_n) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
-		&= \int_{\z_{n+1}} p(\x_{n+1}, \ldots, \x_N, \z_{n+1} \vert \z_n) d\z_{n+1} \\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}, \z_n) d\z_{n+1} \\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \label{eq:beta-part-1} \\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \x_{n+1}, \z_{n+1}) d\z_{n+1} \\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \label{eq:beta-part-2}\\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) \beta(\z_{n+1}) d\z_{n+1}.
+		&= \int p(\x_{n+1}, \ldots, \x_N, \z_{n+1} \vert \z_n) d\z_{n+1} \\
+		&= \int p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}, \z_n) d\z_{n+1} \\
+		&= \int p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \label{eq:beta-part-1} \\
+		&= \int p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \x_{n+1}, \z_{n+1}) d\z_{n+1} \\
+		&= \int p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \label{eq:beta-part-2}\\
+		&= \int p(\z_n \vert \z_{n+1}) \beta(\z_{n+1}) d\z_{n+1}.
 	\end{align}
 	
 	Where we have arrived at equations \eqref{eq:beta-part-1} and \eqref{eq:beta-part-2} using equations \eqref{eq:gm-4} and \eqref{eq:gm-5} respectively.
@@ -544,9 +546,9 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 	
 	Using proposition \ref{prop:alpha-recursive} and equation \eqref{eq:alpha-rewrite} we observe
 	\begin{align}
-		&\alpha(\z_n) = p(\x_n\vert \z_n) \int_{\z_{n-1}} \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
-		\iff & \hat\alpha(\z_n) \prod_{j=1}^{n} c_n = p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1}) \prod_{j=1}^{n-1} c_j \cdot  p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
-		\iff & \hat\alpha(\z_n) c_n =   p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})   p(\z_n\vert\z_{n-1}) d\z_{n-1}.
+		&\alpha(\z_n) = p(\x_n\vert \z_n) \int  \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
+		\iff & \hat\alpha(\z_n) \prod_{j=1}^{n} c_n = p(\x_n \vert \z_n) \int  \hat\alpha(\z_{n-1}) \prod_{j=1}^{n-1} c_j \cdot  p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
+		\iff & \hat\alpha(\z_n) c_n =   p(\x_n \vert \z_n) \int  \hat\alpha(\z_{n-1})   p(\z_n\vert\z_{n-1}) d\z_{n-1}.
 	\end{align}
 	
 	
@@ -577,9 +579,9 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 	Using proposition \ref{prop:beta-recursive} and equation \eqref{eq:beta-rewrite}, we obtain
 	
 	\begin{align}
-		&\beta(\z_n) = \int_{\z_{n+1}} \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
-		\iff& \hat\beta(\z_n) \prod_{j=n+1}^N c_j = \int_{\z_{n+1}}\hat\beta(\z_{n+1}) \prod_{j=n+2}^N c_jp(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
-		\iff& c_{n+1} \hat\beta(\z_n) = \int_{\z_{n+1}} \hat\beta(\z_{n+1}) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
+		&\beta(\z_n) = \int  \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
+		\iff& \hat\beta(\z_n) \prod_{j=n+1}^N c_j = \int \hat\beta(\z_{n+1}) \prod_{j=n+2}^N c_jp(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
+		\iff& c_{n+1} \hat\beta(\z_n) = \int  \hat\beta(\z_{n+1}) p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}.
 	\end{align}
 \end{proof}
 
@@ -587,7 +589,7 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 %\begin{proposition}
 %	The term $c_n$ can be written as a recursive term of the form
 %	\begin{equation}
-%		c_n = \int_{\z_n} p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_n\z_{n-1}.
+%		c_n = \int_{\z_n} p(\x_n \vert \z_n) \int  \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_n\z_{n-1}.
 %	\end{equation}
 %\end{proposition}
 %
