@@ -1015,7 +1015,9 @@ In this section, we derive the updating equations of the parameters of the syste
 	\boldsymbol{\theta}^\text{new} = \argmax{\boldsymbol\theta} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
 \end{equation}
 
-To achieve this step, it is required to the take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. For that, we will be using the results found in \cite{matrix-cookbook}. We divide the task of finding the updating equations in the following two propositions:
+To achieve this step, it is required to the take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. We will be using the results found in \cite{matrix-cookbook} to derive some of the results.
+
+We divide the task of finding the updating equations in the following two propositions:
 
 \begin{proposition}
 	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}_0$, ${\bf V}_0$ are given by
