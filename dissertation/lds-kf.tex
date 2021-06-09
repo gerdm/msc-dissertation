@@ -419,16 +419,16 @@ To compute the expected values of the latent variables, we first find the poster
 \end{proposition}
 
 \begin{proof}
-Consider  $\gamma(\z_n)$ and equation \eqref{eq:gm-1} from proposition \ref{prop:graphical-models-separation}. We have
+Denote $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of the observed data up to $n$, and $\beta(\z_n) := p(\x_{n+1}, \ldots, \x_N\vert \z_n)$ as the probability of all data that follows the $n$-th observation, conditional on the $n$-th latent variable $\z_n$. Next, Consider  $\gamma(\z_n)$ and equation \eqref{eq:gm-1} from proposition \ref{prop:graphical-models-separation}. We have
 \begin{align}
 	\gamma(\z_n) &= p(\z_n \vert {\bf X})\\
 					  &= \frac{1}{p(\x)}p(\z_n)p({\bf X} \vert \z_n)\\
-					  &= \frac{1}{p(\x)} p(\z_n) p(\x_1, \ldots, \x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N\vert \z_n)\\
+					  &= \frac{1}{p(\x)} p(\z_n) p(\x_1, \ldots, \x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N\vert \z_n) \label{eq:gamma-part-1}\\
 					  &= \frac{1}{p(\x)}p(\x_1, \ldots, \x_n, \z_n) p(\x_{n+1}, \ldots, \x_N\vert \z_n)\\
 					  &= \frac{1}{p(\x)}\alpha(\z_n)\beta(\z_n).
 \end{align}
 
-Where we have defined $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of the observed data up to $n$, and $\beta(\z_n) := p(\x_{n+1}, \ldots, \x_N\vert \z_n)$ as the probability of all data that follows the $n$-th observation, conditional on the $n$-th latent variable $\z_n$.
+Note that we have used equation \eqref{eq:gm-1} in proposition \ref{prop:graphical-models-separation} to arrive at equation \eqref{eq:gamma-part-1}.
 \end{proof}
 
 
@@ -439,14 +439,16 @@ Where we have defined $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint
 
 \begin{proof}
 	\begin{align}
-		\xi(\z_{n-1}, \z_{n}) &= p(\z_{n-1}, \z_{n} \vert \x)\\
-		&= \frac{1}{p(\x)}p(\z_{n-1}, \z_{n}) p(\x \vert \z_{n-1}, \z_{n})\\
+		\xi(\z_{n-1}, \z_{n}) &= p(\z_{n-1}, \z_{n} \vert \X)\\
+		&= \frac{1}{p(\x)}p(\z_{n-1}, \z_{n}) p(\X \vert \z_{n-1}, \z_{n})\\
 		&= \frac{1}{p(\x)} p(\z_{n-1}) p(\z_{n} \vert \z_{n-1}) p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}) \nonumber \\
-			&\hspace{1cm} p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
+			&\hspace{1cm} p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n) \label{eq:xi-part-1}\\
 		&= \frac{1}{p(\x)} p(\z_{n} \vert \z_{n-1}) p(\x_1, \ldots, \x_{n-1}, \z_{n-1}) \nonumber \\
 			&\hspace{1cm} p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
 		&= \frac{1}{p(\x)} \alpha(\z_{n-1}) p(\z_{n} \vert \z_{n-1}) p(\x_n \vert \z_n) \beta(\z_n).
 	\end{align}
+	
+	Note that we have used equation \eqref{eq:gm-5} to arrive at equation \eqref{eq:xi-part-1}.
 \end{proof}
 
 
@@ -469,14 +471,16 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 		\alpha(\z_n) &= p(\x_1, \ldots, \x_n, \z_n) \\
 		&= p(\z_n) p(\x_1, \ldots, \x_n \vert \z_n) \\
 		&= p(\z_n) p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_n) \\
-		&= p(\z_n) p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1} \vert \z_n) \\
+		&= p(\z_n) p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1} \vert \z_n) \label{eq:alpha-part-1}\\
 		&= p(\x_n \vert \z_n) p(\x_1, \ldots, \x_{n-1}, \z_n) \\
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}}p(\x_1, \ldots, \x_{n-1}, \z_{n-1}, \z_n) d\z_{n-1}\\
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}, \z_n) d\z_{n-1}\\
-		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}) d\z_{n-1}\\
+		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_{n-1})p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1}) d\z_{n-1} \label{eq:alpha-part-2}\\ 
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})p(\x_1, \ldots, \x_{n-1}, \z_{n-1}) d\z_{n-1}\\
 		&= p(\x_n \vert \z_n) \int_{\z_{n-1}} p(\z_n \vert \z_{n-1})\alpha(\z_{n-1}) d\z_{n-1}.\\
 	\end{align}
+	
+	Where equation \eqref{eq:alpha-part-1} follows from equation \eqref{eq:gm-2}, and equation \eqref{eq:alpha-part-2} follows from \eqref{eq:gm-3}.
 \end{proof}
 
 %  	* We show that beta can be represented as a recursive formula
@@ -488,15 +492,18 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \end{proposition}
 
 \begin{proof}
+	Similarly to proposition \ref{prop:alpha-recursive}, we show this proposition using the definition of $\beta(\z_n)$ and proposition \ref{prop:graphical-models-separation}:
 	\begin{align}
 		\beta(\z_n) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
 		&= \int_{\z_{n+1}} p(\x_{n+1}, \ldots, \x_N, \z_{n+1} \vert \z_n) d\z_{n+1} \\
 		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}, \z_n) d\z_{n+1} \\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \\
+		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \label{eq:beta-part-1} \\
 		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \x_{n+1}, \z_{n+1}) d\z_{n+1} \\
-		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1}\\
+		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) p(\x_{n+1} \vert \z_{n+1}) p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}) d\z_{n+1} \label{eq:beta-part-2}\\
 		&= \int_{\z_{n+1}} p(\z_n \vert \z_{n+1}) \beta(\z_{n+1}) d\z_{n+1}.
 	\end{align}
+	
+	Where we have arrived at equations \eqref{eq:beta-part-1} and \eqref{eq:beta-part-2} using equations \eqref{eq:gm-4} and \eqref{eq:gm-5} respectively.
 \end{proof}
 
 % We argue that alpha and beta values can become small very quick, so we require another way to compute its values
@@ -576,16 +583,17 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 	\end{align}
 \end{proof}
 
-\begin{proposition}
-	The term $c_n$ can be written as a recursive function of the form
-	\begin{equation}
-		c_n = \int_{\z_n} p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_n\z_{n-1}.
-	\end{equation}
-\end{proposition}
-
-\begin{proof}
-	\texttt{to-do: write proof}
-\end{proof}
+%% Proposition is never used (?) Check
+%\begin{proposition}
+%	The term $c_n$ can be written as a recursive term of the form
+%	\begin{equation}
+%		c_n = \int_{\z_n} p(\x_n \vert \z_n) \int_{\z_{n-1}} \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_n\z_{n-1}.
+%	\end{equation}
+%\end{proposition}
+%
+%\begin{proof}
+%	\texttt{to-do: write proof}
+%\end{proof}
 
 The term $\hat\alpha(\z_n)$ is called the $\alpha$-forward message passing for a linear dynamical system or \textbf{Kalman filter equation}.  The term $\hat\beta(\z_n)$ is called the $\beta$-backward message passing of a linear dynamical system or \textbf{Kalman smoother equation}. Intuitively, $\hat\alpha(\z_n)$ represents the information that the history of the data has on the $n$-th observation, whereas $\hat\beta(\z_n)$ represents how a latent variable with with known value at time $n$ affects the future behaviour of the system.
 
@@ -684,9 +692,10 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 	
 	Where we have used equations \eqref{eq:part-k1-rewrite} and \eqref{eq:part-v1-rewrite} to derive equation \eqref{eq:part-m1-rewrite}.
 	
-	Finally, we derive the value of $c_1$ by rewriting the term as the following integral
+	Finally, we derive the value of $c_1$ by rewriting the term as follows
 	\begin{align}
-		c_1 &= \int p(\z_1) p (\x_1 \vert \z_1) d\z_1\\
+		c_1 &= p(\x_1)\\
+			&= \int p(\z_1) p (\x_1 \vert \z_1) d\z_1\\
 			&= \int \N(\z_1\vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1 \vert {\bf C}\z_1, \boldsymbol\Sigma) d\z_1.
 	\end{align}
 	
@@ -768,13 +777,16 @@ More generally, we have the following proposition
 	\end{align}
 	Note that we have used equations \eqref{eq:part-kn-rewrite} and \eqref{eq:part-v1-rewrite} to derive equation \eqref{eq:part-mn-rewrite}.
 	
-	Finally, we derive $c_n$ by rewriting the term as the following integral
+	Finally, consider $c_n$. Notice that
 	\begin{align}
-		c_n &= \int p(\z_n) p (\x_n \vert \z_n) d\z_n\\
-			&= \int \N(\z_n\vert {\bf A} \boldsymbol\mu_{n-1}, {\bf P}_{n-1}) \N(\x_n \vert {\bf C}\z_n, \boldsymbol\Sigma) d\z_n.
+		c_n &= p(\x_n \vert \x_{n-1}, \ldots, \x_1)\\
+			&= \int p(\z_n, \x_n \vert \x_{n-1}, \ldots, \x_1) d\z_n\\
+			&= \int p(\z_n \vert \x_1, \ldots, \x_{n-1}) p (\x_n \vert \z_n, \x_1, \ldots, \x_{n-1}) d\z_n \\
+			&= \int p(\z_n) p (\x_n \vert \z_n) d\z_n \label{eq:part-cn-rewrite-1} \\
+			&= \int \N(\z_n\vert {\bf A} \boldsymbol\mu_{n-1}, {\bf P}_{n-1}) \N(\x_n \vert {\bf C}\z_n, \boldsymbol\Sigma) d\z_n. \label{eq:part-cn-rewrite-2}
 	\end{align}
 	
-	Which can be written as follows using equation \eqref{eq:normal-marginal}:
+	Where we have used the fact that no past observation $\x_n$ affects a latent state $\z_{n+1}$, and equation \eqref{eq:gm-5} of proposition \ref{prop:graphical-models-separation} to arrive at \eqref{eq:part-cn-rewrite-1}. Furthermore, using using equation \eqref{eq:normal-marginal}, we can  simplify equation \eqref{eq:part-cn-rewrite-2} as follows:
 	\begin{equation}
 		c_n = \N\left(\x_n \vert {\bf C}{\bf A}\boldsymbol\mu_{n-1}, \boldsymbol\Sigma + {\bf C}{\bf P}_{n-1}{\bf C}^T\right).
 	\end{equation}	
