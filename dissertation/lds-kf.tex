@@ -297,7 +297,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 		\label{fig:gm-5}
 	\end{figure}
 	
-	To show equation \eqref{eq:gm-6}, note that
+	To show equation \eqref{eq:gm-6}, consider
 	\begin{align}
 		p(\X \vert \z_{n-1}, \z_n) &= p(\x_1, \ldots, \x_N \vert \z_{n-1},\z_n)\\
 		 &= p(\x_n \vert \z_{n-1}, \z_n) p(\x_1, \ldots, \x_{n-1}, \x_{n+1}, \ldots, \x_N \vert \x_n, \z_{n-1}, \z_n)\\
@@ -305,7 +305,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 			&\hspace{1cm} p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n). \label{eq:part-gm-6}
 	\end{align}
 	
-	Using equation \eqref{eq:gm-2}, we note that $p(\x_n \vert \z_{n-1}, \z_n) = p(\x_n \vert \z_n)$. Furthermore, using equations \eqref{eq:gm-2} and \eqref{eq:gm-3}, $p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_{n-1}, \z_n) = p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1})$. Finally, from equations \eqref{eq:gm-4}, and \eqref{eq:gm-5} we obtain  $p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n) = p(\x_{n+1}, \ldots, \x_N \vert  \z_{n})$. Using these results and plugging the values in \eqref{eq:part-gm-6} yields equation \eqref{eq:gm-6}.
+	Using equation \eqref{eq:gm-2} we have $p(\x_n \vert \z_{n-1}, \z_n) = p(\x_n \vert \z_n)$. Furthermore, using equations \eqref{eq:gm-2} and \eqref{eq:gm-3}, $p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_{n-1}, \z_n) = p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1})$. Finally, from equations \eqref{eq:gm-4}, and \eqref{eq:gm-5} we obtain  $p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n) = p(\x_{n+1}, \ldots, \x_N \vert  \z_{n})$. Using these results and plugging the values in \eqref{eq:part-gm-6} yields equation \eqref{eq:gm-6}.
 \end{proof}
 
 
@@ -352,11 +352,11 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 	\begin{align}
 		\mathcal{L}(q, \boldsymbol\theta) &= \int q(\Z)\log\left(\frac{p(\X, \Z \vert \boldsymbol\theta)}{q(\Z)}\right) d{\bf Z}\\
 		&= \int q(\Z) \left(\log p(\X\vert\boldsymbol\theta) + \log\left( \frac{p(\Z \vert \X, \boldsymbol\theta)}{q(\Z)} \right) \right) d\Z\\
-		&= \log p(\X \vert \boldsymbol{\theta}) - \int q(\Z) \log\left(\frac{q(\Z)}{p(\Z \vert \X, \boldsymbol\theta)}\right)\\
+		&= \log p(\X \vert \boldsymbol{\theta}) - \int q(\Z) \log\left(\frac{q(\Z)}{p(\Z \vert \X, \boldsymbol\theta)}\right) d\Z\\
 		&= \log p(\X \vert \boldsymbol\theta) - \KL{q}{p}. \label{eq:part-L-rewrite}
 	\end{align}
 	
-	To find the function $q$ that maximises \eqref{eq:part-L-rewrite}, we notice that the first term does not depend on $q$. Furthermore, we observe that the second term is the negative Kullback-Leibler divergence between $q$ and $p$. We note that the KL diverge is nonnegative with equality to zero if and only if $q=p$   (for a proof, see \cite{murphy2012}). Therefore, the function $q(\Z)$ that maximises the lower bound is given by $p(\Z \vert \X, \boldsymbol\theta)$.
+	To find the function $q$ that maximises \eqref{eq:part-L-rewrite}, we notice that the first term does not depend on $q$. Furthermore, we observe that the second term is the negative Kullback-Leibler divergence between $q$ and $p$. The KL diverge is nonnegative with equality to zero if and only if $q=p$   (for a proof, see \cite{murphy2012}). Therefore, the function $q(\Z)$ that maximises the lower bound is given by $p(\Z \vert \X, \boldsymbol\theta)$.
 \end{proof}
 
 \begin{proposition}\label{prop:m-step}
@@ -399,7 +399,7 @@ To make use of the E-step, it is helpful to distinguish which elements depend on
 	  &\hspace{1cm} + \text{Tr}(\z_n\z_n^T{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C})\big] + \text{const.} \label{eq:complete-log-likelihood}
 \end{align}
 
-Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From equation \eqref{eq:complete-log-likelihood}, we note that the expectation with respect to the posterior distribution comes only in the form of the expectations $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$. That is,
+Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From equation \eqref{eq:complete-log-likelihood}, we observe that the expectation with respect to the posterior distribution is completely determined by the expectations $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$. That is,
 
 \begin{align}
 	Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) &= \frac{1}{2}\log \vert
@@ -430,7 +430,7 @@ Denote $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of
 					  &= \frac{1}{p(\x)}\alpha(\z_n)\beta(\z_n).
 \end{align}
 
-Note that we have used equation \eqref{eq:gm-1} in proposition \ref{prop:graphical-models-separation} to arrive at equation \eqref{eq:gamma-part-1}.
+Where we have used equation \eqref{eq:gm-1} in proposition \ref{prop:graphical-models-separation} to arrive at equation \eqref{eq:gamma-part-1}.
 \end{proof}
 
 
@@ -450,7 +450,7 @@ Note that we have used equation \eqref{eq:gm-1} in proposition \ref{prop:graphic
 		&= \frac{1}{p(\x)} \alpha(\z_{n-1}) p(\z_{n} \vert \z_{n-1}) p(\x_n \vert \z_n) \beta(\z_n).
 	\end{align}
 	
-	Note that we have used equation \eqref{eq:gm-5} to arrive at equation \eqref{eq:xi-part-1}.
+Where we have used equation \eqref{eq:gm-5} to arrive at equation \eqref{eq:xi-part-1}.
 \end{proof}
 
 
@@ -655,7 +655,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 \end{theorem}
 
 \begin{proof}
-	From proposition \ref{prop:alpha-hat}, we note that $\hat\alpha(\z_1) = p(\z_1\vert\x_1)$. Then, $\hat\alpha(\z_1) \propto p(\z_1)p(\x_1\vert\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)$. Thus, $\hat\alpha(\z_1)$ is a Normal distribution with mean $\boldsymbol{\mu}_1$ and covariance matrix ${\bf V}_1$. We write
+	From proposition \ref{prop:alpha-hat} we have $\hat\alpha(\z_1) = p(\z_1\vert\x_1)$. Then, $\hat\alpha(\z_1) \propto p(\z_1)p(\x_1\vert\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)$. Thus, $\hat\alpha(\z_1)$ is a Normal distribution with mean $\boldsymbol{\mu}_1$ and covariance matrix ${\bf V}_1$. We write
 	\begin{align}
 		&c_1 \hat\alpha(\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)\\
 		\iff& c_1 \N(\z_1\vert \boldsymbol\mu, {\bf V}_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma).
@@ -962,7 +962,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 		&= \int \z_n \left({\bf A}^T\boldsymbol\Gamma^{-1}\z_{n} + {\bf V}_{n-1}^{-1}\boldsymbol\mu_{n-1}\right)^T {\bf M}_{n-1}^T \gamma(\z_n) d\z_n \label{eq:part-covzn-1}.
 	\end{align}
 	
-	To simplify equation \eqref{eq:part-covzn-1}, note that
+	To simplify equation \eqref{eq:part-covzn-1} we write
 	\begin{align}
 		&\z_n \left({\bf A}^T\boldsymbol\Gamma^{-1}\z_{n} + {\bf V}_{n-1}^{-1}\boldsymbol\mu_{n-1}\right)^T {\bf M}_{n-1}^T \\
 		=& \z_n \z_n^T \boldsymbol{\Gamma}^{-1}{\bf A} {\bf M}_{n-1}^T + \z_n \boldsymbol{\mu}_{n-1}^T {\bf V}_{n-1}^{-1}{\bf M}_{n-1}^T\\
