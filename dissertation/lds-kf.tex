@@ -240,7 +240,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 		p({\bf X}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}) \nonumber\\
 			&\hspace{1cm}p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n), \label{eq:gm-6}\\
 		p(\x_{N+1} \vert {\bf X}, \z_{N+1}) &= p(\x_{N+1} \vert \z_{N+1}), \label{eq:gm-7}\\
-		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N}). \label{eq:gm-8	}\\
+		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N}). \label{eq:gm-8}\\
 	\end{align}
 \end{proposition}
 
@@ -265,14 +265,45 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 		\label{fig:gm-1}
 	\end{figure}
 	
-	Next, we show equation \eqref{eq:gm-2}.
+	Next, we show equation \eqref{eq:gm-2}. Taking $A = \{\x_1, \ldots, \x_{n-1}\}$, $B = \{\x_n\}$, and $C = \{\z_n\}$, we observe that any node in $A$ to $\x_n$ meet head-to-tail at $\z_n$. Hence $A \perp \x_n \vert \z_n$.
 	\begin{figure}[h!]
 		\centering
 		\resizebox{\columnwidth}{!}{\input{../figures/graphical-models/gm2.tikz}}
-		\caption{gm1.}
+		\caption{gm2.}
 		\label{fig:gm-2}
-	\end{figure}	
+	\end{figure}
+
+	Following the same logic, we can show that equations \eqref{eq:gm-3}, \eqref{eq:gm-4}, \eqref{eq:gm-5}, \eqref{eq:gm-7}, and \eqref{eq:gm-8}  meet either head-to-tail or tail-to-tail at a node in the set $C$. We present the graphical representations of equations \eqref{eq:gm-3}, \eqref{eq:gm-4}, and \eqref{eq:gm-5} in figures \ref{fig:gm-3}, \ref{fig:gm-4}, and \ref{fig:gm-5}.
+	\begin{figure}[h!]
+		\centering
+		\resizebox{\columnwidth}{!}{\input{../figures/graphical-models/gm3.tikz}}
+		\caption{gm3.}
+		\label{fig:gm-3}
+	\end{figure}
 	
+	\begin{figure}[h!]
+		\centering
+		\resizebox{\columnwidth}{!}{\input{../figures/graphical-models/gm4.tikz}}
+		\caption{gm4.}
+		\label{fig:gm-4}
+	\end{figure}
+	
+	\begin{figure}[h!]
+		\centering
+		\resizebox{\columnwidth}{!}{\input{../figures/graphical-models/gm5.tikz}}
+		\caption{gm5.}
+		\label{fig:gm-5}
+	\end{figure}
+	
+	To show equation \eqref{eq:gm-6}, note that
+	\begin{align}
+		p(\X \vert \z_{n-1}, \z_n) &= p(\x_1, \ldots, \x_N \vert \z_{n-1},\z_n)\\
+		 &= p(\x_n \vert \z_{n-1}, \z_n) p(\x_1, \ldots, \x_{n-1}, \x_{n+1}, \ldots, \x_N \vert \x_n, \z_{n-1}, \z_n)\\
+		&= p(\x_n \vert \z_{n-1}, \z_n) p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_{n-1}, \z_n) \nonumber\\
+			&\hspace{1cm} p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n). \label{eq:part-gm-6}
+	\end{align}
+	
+	Using equation \eqref{eq:gm-2}, we note that $p(\x_n \vert \z_{n-1}, \z_n) = p(\x_n \vert \z_n)$. Furthermore, using equations \eqref{eq:gm-2} and \eqref{eq:gm-3}, $p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_{n-1}, \z_n) = p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1})$. Finally, from equations \eqref{eq:gm-4}, and \eqref{eq:gm-5} we obtain  $p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n) = p(\x_{n+1}, \ldots, \x_N \vert  \z_{n})$. Using these results and plugging the values in \eqref{eq:part-gm-6} yields equation \eqref{eq:gm-6}.
 \end{proof}
 
 
