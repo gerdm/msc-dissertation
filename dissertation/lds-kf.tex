@@ -1166,6 +1166,20 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	Setting equation \eqref{eq:part-Sigma-terms2} to zero and solving for $\boldsymbol{\Sigma}$ yields equation \eqref{eq:mstep-Sigma}.
 \end{proof}
 
+
+\begin{tcolorbox}
+\textbf{M-step equations.}
+	Run the E-step to obtain the set of values $\big\{\expectation{\z_n}\big\}_{n=1}^N$, and $\big\{\expectation{\z_n\z_m^T}\big\}_{m=1, n\leq m}^N$ . Obtain
+	\begin{align}
+		{\bf A}^{\text{\normalfont new}} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A-final},\\
+		\boldsymbol{\Gamma}^{\text{\normalfont new}} &= \frac{1}{N-1}\sum_{n=2}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \nonumber\\
+		&\hspace{1cm} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1}\z_n^T} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1} \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \bigg), \label{eq:mstep-Gamma-final}\\
+		{\bf C}^{\text{\normalfont new}} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1}, \label{eq:mstep-C-final}\\
+		\boldsymbol{\Sigma}^{\text{\normalfont new}} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T ({\bf C}^{\text{\normalfont new}})^T \nonumber\\
+		&\hspace{1cm} - {\bf C}^{\text{\normalfont new}}\expectation{\z_n}\x_n^T + {\bf C}^{\text{\normalfont new}} \expectation{\z_n \z_n^T}({\bf C}^{\text{\normalfont new}})^T \bigg). \label{eq:mstep-Sigma-final}
+	\end{align}
+\end{tcolorbox}
+
 \section{Numerical Results}
 
 \section{Normal Distribution}
