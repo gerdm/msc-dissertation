@@ -1035,7 +1035,7 @@ In this section, we derive the updating equations of the parameters of the syste
 
 To achieve this step, it is required to the take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. We use the results found in \cite{matrix-cookbook} to take derivatives with respect to matrices.
 
-We divide the task of finding the updating equations in the following two propositions:
+We divide the task of finding the updating equations in the following propositions:
 
 \begin{proposition}
 	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}_0$, ${\bf V}_0$ are given by
@@ -1082,21 +1082,17 @@ Setting the last equation to zero and solving for ${\bf V}_0$, we find that
 
 Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, $\boldsymbol{\Sigma}$.
 
+% ------- A-term -------
 \begin{proposition}
-	The updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, $\boldsymbol{\Sigma}$ in the M-step are given by
+	The updating equation of $\bf A$ in the M-step is given by
 	
 	\begin{align}
-		{\bf A}^{\text{\normalfont new}} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A},\\
-		\boldsymbol{\Gamma}^{\text{\normalfont new}} &= \frac{1}{N-1}\sum_{n=2}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \nonumber\\
-		&\hspace{1cm} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1}\z_n^T} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1} \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \bigg), \label{eq:mstep-Gamma}\\
-		{\bf C}^{\text{\normalfont new}} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1}, \label{eq:mstep-C}\\
-		\boldsymbol{\Sigma}^{\text{\normalfont new}} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T ({\bf C}^{\text{\normalfont new}})^T \nonumber\\
-		&\hspace{1cm} - {\bf C}^{\text{\normalfont new}}\expectation{\z_n}\x_n^T + {\bf C}^{\text{\normalfont new}} \expectation{\z_n \z_n^T}({\bf C}^{\text{\normalfont new}})^T \bigg). \label{eq:mstep-Sigma}
+		{\bf A}^{\text{\normalfont new}} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A}.
 	\end{align}
 \end{proposition}
 
 \begin{proof}
-	We begin by proving \eqref{eq:mstep-A}. Consider the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$. We obtain:
+	Consider the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$. We obtain:
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=2}^N \text{Tr}\left({\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right) \nonumber\\
 		&\hspace{2.1cm} + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} \expectation{\z_n\z_{n-1}^T}\right)\\
@@ -1110,6 +1106,17 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 		\iff& {\bf A}^{\text{new}} = \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1}.
 	\end{align}
 \end{proof}
+
+
+% ------- Γ-term -------
+\begin{proposition}
+	The updating equation for the parameter $\boldsymbol{\Gamma}$ in the M-step is given by
+	
+	\begin{align}
+		\boldsymbol{\Gamma}^{\text{\normalfont new}} &= \frac{1}{N-1}\sum_{n=2}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \nonumber\\
+		&\hspace{1cm} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1}\z_n^T} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1} \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \bigg). \label{eq:mstep-Gamma}\\
+	\end{align}
+\end{proposition}
 
 \begin{proof}
 	Next, we proof the result in equation \eqref{eq:mstep-Gamma}. As before, we make use of equation \eqref{eq:Q-LDS} and consider the terms that depend on $\boldsymbol{\Gamma}$, namely
@@ -1134,22 +1141,41 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	Setting equation \eqref{eq:part-Gamma-terms2} to zero and solving for $\boldsymbol{\Gamma}$ gives back equation \eqref{eq:mstep-Gamma}.
 \end{proof}
 
+% ------- C-term -------
+\begin{proposition}
+	The updating equation for the parameter ${\bf C}$ in the M-step is given by
+	\begin{align}
+		{\bf C}^{\text{\normalfont new}} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1}, \label{eq:mstep-C}\\
+	\end{align}
+\end{proposition}
+
 \begin{proof}
-	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms in$Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that depend on $\bf C$. We obtain
+	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms in $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that depend on $\bf C$. We obtain
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=1}^N \left[ -\expectation{\z_n^T} {\bf C}^T \boldsymbol{\Sigma}^{-1}\x_n - \x_n^T \boldsymbol{\Sigma}^{-1} {\bf C} \expectation{\z_n} + \text{Tr}\left(\expectation{\z_n\z_n^T}{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C}\right)\right]\\
 		=& -\frac{1}{2}\sum_{n=1}^N \left[ -\Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}\x_n \expectation{\z_n^T}} - \Tr{{\bf C}\expectation{\z_n}\x_n^T\boldsymbol{\Sigma}^{-1}} +  \Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T}} \right].
 	\end{align}
 	
-	% to-do: add references to equations (100), (103), and (117)
 	Next, taking the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text{old}})$ with respect to $\bf C$ yields:
 	\begin{align}
 		\frac{\partial}{\partial {\bf C}} Q(\boldsymbol{\theta}', \boldsymbol{\theta}) &= -\frac{1}{2}\sum_{n=1}^N \left[ \boldsymbol{\Sigma}^{-1} \x_n \expectation{\z_n^T} + \boldsymbol{\Sigma}^{-1}\x_n\expectation{\z_n^T} - 2 \boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T} \right] \\
 		&= \boldsymbol{\Sigma}^{-1} \left( {\bf C} \sum_{n=1}^N \expectation{\z_n\z_n^T} - \sum_{n=1}^N\x_n\expectation{\z_n^T} \right). \label{eq:part-C-terms1}
 	\end{align}
-	
 	Setting equation \eqref{eq:part-C-terms1} to zero and solving for $\bf C$ we arrive at equation \eqref{eq:mstep-C}.
 \end{proof}
+
+
+% ------- Σ-term -------
+\begin{proposition}
+	The updating equations for the parameter $\boldsymbol{\Sigma}$ in the M-step is given by
+	
+	\begin{align}
+		\boldsymbol{\Sigma}^{\text{\normalfont new}} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T ({\bf C}^{\text{\normalfont new}})^T \nonumber\\
+		&\hspace{1cm} - {\bf C}^{\text{\normalfont new}}\expectation{\z_n}\x_n^T + {\bf C}^{\text{\normalfont new}} \expectation{\z_n \z_n^T}({\bf C}^{\text{\normalfont new}})^T \bigg). \label{eq:mstep-Sigma}
+	\end{align}
+\end{proposition}
+
+
 
 \begin{proof}
 	Finally, to prove equation \eqref{eq:mstep-Sigma}, we consider the terms on \eqref{eq:Q-LDS} that depend on $\boldsymbol{\Sigma}$. We obtain
