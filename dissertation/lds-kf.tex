@@ -1027,13 +1027,13 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 
 
 \subsection{The M-step}
-In this section, we derive the updating equations of the parameters of the system. We denote by $\boldsymbol{\theta}^\text{old}$ the set of parameters found in the E-step. Our next step is to find new parameters $\boldsymbol{\theta}^\text{new}$ that maximise $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$, that is
+In this section, we derive the updating equations of the parameters of the system. We denote by $\boldsymbol{\theta}^\text{old}$ the set of parameters used to compute the E-step terms, namely, $\expectation{\z_{n-1}\z_{n}}$, and $\expectation{\z_{n}}$. Our next step is to find new parameters $\boldsymbol{\theta}^\text{new}$ that maximise $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$, that is
 
 \begin{equation}
 	\boldsymbol{\theta}^\text{new} = \argmax{\boldsymbol\theta} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
 \end{equation}
 
-To achieve this step, it is required to the take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. We will be using the results found in \cite{matrix-cookbook} to derive some of the results.
+To achieve this step, it is required to the take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. We use the results found in \cite{matrix-cookbook} to take derivatives with respect to matrices.
 
 We divide the task of finding the updating equations in the following two propositions:
 
@@ -1058,17 +1058,17 @@ Taking the derivative with respect to the vector $\boldsymbol{\mu}_0$ we find th
 	\boldsymbol{\mu}_0^\text{new} = \mathbb{E}[{\z_1}].
 \end{equation}
 
-Next, for ${\bf V}_0$, we consider the terms in $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that only depend on ${\bf V}_0$. Namely,
+Next, we consider the terms in $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that depend only on ${\bf V}_0$. Namely,
 
 \begin{equation}
 	\frac{1}{2}\log \vert
 	  {\bf V}_0^{-1}\vert -\frac{1}{2}\Big[\text{Tr}\left(\mathbb{E}\left[\z_1 \z_1^T\right] {\bf V}_0^{-1}\right) -2 \mathbb{E}\left[\z_1\right]^T{\bf V}_0^{-1}\boldsymbol\mu_0 + \boldsymbol\mu_0^T {\bf V}_0^{-1}\boldsymbol\mu_0\Big].
 \end{equation}
 
-Taking the derivative with respect to ${\bf V}_0^{-1}$, we observe
+Considering the update value $\boldsymbol{\mu}^\text{new}$ and taking the derivative of $Q$ with respect to ${\bf V}_0^{-1}$, we observe
 
 \begin{align}
-	\frac{\partial}{\partial {\bf V}_0^{-1}} Q &= \frac{1}{2}\left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - 2\expectation{\z_1}\boldsymbol{\mu}_0^T + \boldsymbol{\mu}_0 \boldsymbol{\mu}_0^T \right] \nonumber \\
+	\frac{\partial}{\partial {\bf V}_0^{-1}} Q &= \frac{1}{2}\left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - 2\expectation{\z_1} (\boldsymbol{\mu}_0^\text{new})^T + \boldsymbol{\mu}_0^\text{new} (\boldsymbol{\mu}_0^\text{new})^T \right] \nonumber \\
 	&= \frac{1}{2} \left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - 2\expectation{\z_1}\expectation{\z_1}^T + \expectation{\z_1}\expectation{\z_1}^T \right] \nonumber \\
 	&= \frac{1}{2}\left[{\bf V}_0 - \expectation{\z_1 \z_1^T} - \expectation{\z_1}\expectation{\z_1}^T\right].
 \end{align}
@@ -1076,7 +1076,7 @@ Taking the derivative with respect to ${\bf V}_0^{-1}$, we observe
 Setting the last equation to zero and solving for ${\bf V}_0$, we find that
 
 \begin{equation}
-	{\bf V}_0 = \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T.
+	{\bf V}_0^\text{new} = \expectation{\z_1 \z_1^T} + \expectation{\z_1}\expectation{\z_1}^T.
 \end{equation}
 \end{proof}
 
@@ -1086,17 +1086,17 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	The updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, $\boldsymbol{\Sigma}$ in the M-step are given by
 	
 	\begin{align}
-		{\bf A} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A},\\
-		\boldsymbol{\Gamma} &= \frac{1}{N-1}\sum_{n=2}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}{\bf A}^T \nonumber\\
-		&\hspace{1cm} - {\bf A}\expectation{\z_{n-1}\z_n^T} - {\bf A}\expectation{\z_{n-1} \z_{n-1}^T}{\bf A}^T \bigg), \label{eq:mstep-Gamma}\\
-		{\bf C} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1}, \label{eq:mstep-C}\\
-		\boldsymbol{\Sigma} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T {\bf C}^T \nonumber\\
-		&\hspace{1cm} - {\bf C}\expectation{\z_n}\x_n^T + {\bf C} \expectation{\z_n \z_n^T}{\bf C}^T \bigg). \label{eq:mstep-Sigma}
+		{\bf A}^{\text{\normalfont new}} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A},\\
+		\boldsymbol{\Gamma}^{\text{\normalfont new}} &= \frac{1}{N-1}\sum_{n=2}^N\bigg( \expectation{\z_n \z_n^T} - \expectation{\z_n \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \nonumber\\
+		&\hspace{1cm} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1}\z_n^T} - {\bf A}^{\text{\normalfont new}}\expectation{\z_{n-1} \z_{n-1}^T}({\bf A}^{\text{\normalfont new}})^T \bigg), \label{eq:mstep-Gamma}\\
+		{\bf C}^{\text{\normalfont new}} &= \left(\sum_{n=1}^N \x_n \expectation{\z_n}^T \right)\left(\sum_{n=1}^N \expectation{\z_n \z_n^T} \right)^{-1}, \label{eq:mstep-C}\\
+		\boldsymbol{\Sigma}^{\text{\normalfont new}} &= \frac{1}{N}\sum_{n=1}^N\bigg(\x_n\x_n^T - \x_n \expectation{\z_n}^T ({\bf C}^{\text{\normalfont new}})^T \nonumber\\
+		&\hspace{1cm} - {\bf C}^{\text{\normalfont new}}\expectation{\z_n}\x_n^T + {\bf C}^{\text{\normalfont new}} \expectation{\z_n \z_n^T}({\bf C}^{\text{\normalfont new}})^T \bigg). \label{eq:mstep-Sigma}
 	\end{align}
 \end{proposition}
 
 \begin{proof}
-	We begin by proving \eqref{eq:mstep-A} considering only the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$. We obtain:
+	We begin by proving \eqref{eq:mstep-A}. Consider the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$. We obtain:
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=2}^N \text{Tr}\left({\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right) \nonumber\\
 		&\hspace{2.1cm} + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} \expectation{\z_n\z_{n-1}^T}\right)\\
@@ -1107,7 +1107,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	Taking the derivate of equation \eqref{eq:part-A-terms1} and setting the value to zero, we obtain equation \eqref{eq:mstep-A}:
 	\begin{align}
 		&\boldsymbol{\Gamma}^{-1} \sum_{n=2}^N \expectation{\z_n\z_{n-1}^T} - \boldsymbol{\Gamma}^{-1} {\bf A} \sum_{n=2}^N\expectation{\z_{n-1}\z_{n-1}^T} = 0\\
-		\iff& {\bf A} = \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1}.
+		\iff& {\bf A}^{\text{new}} = \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1}.
 	\end{align}
 \end{proof}
 
@@ -1122,26 +1122,27 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 		&\hspace{1cm} -\expectation{\z_n\z_{n-1}^T}{\bf A}^T + {\bf A}\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}^T \Big]\Big) \label{eq:part-Gamma-terms1}.
 	\end{align}
 	
-	To maximise equation \eqref{eq:part-Gamma-terms1} with respect to $\boldsymbol{\Gamma}$, it's useful to take the derivative of $Q(\boldsymbol\theta', \boldsymbol\theta)$ with respect to $\boldsymbol{\Gamma}^{-1}$. We obtain
+	To maximise equation \eqref{eq:part-Gamma-terms1} with respect to $\boldsymbol{\Gamma}$, we take the derivative of $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ with respect to $\boldsymbol{\Gamma}^{-1}$ and considering fixed ${\bf A}^{\text{new}}$. We obtain
 	\begin{align}
-		&\frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}Q(\boldsymbol\theta', \boldsymbol\theta) \\
-		&= \frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}\Bigg(\frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert -\frac{1}{2}\sum_{n=2}^N\text{Tr}\Big(\boldsymbol{\Gamma}^{-1}\Big[\expectation{\z_n\z_n^T} - {\bf A}\expectation{\z_{n-1}\z_n^T} \nonumber \\
-		&\hspace{1cm} -\expectation{\z_n\z_{n-1}^T} + {\bf A}\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}^T \Big]\Big)\Bigg) \\
-		&= \frac{N-1}{2}\boldsymbol\Gamma -\frac{1}{2}\sum_{n=2}^N\Big(\expectation{\z_n\z_n^T} - \expectation{\z_n\z_{n-1}^T}{\bf A}^T  - {\bf A}\expectation{\z_n\z_{n-1}^T} + {\bf A}\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}^T\Big). \label{eq:part-Gamma-terms2}
+		&\frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}Q(\boldsymbol\theta, \boldsymbol\theta^{\text{old}}) \\
+		&= \frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}\Bigg(\frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert -\frac{1}{2}\sum_{n=2}^N\text{Tr}\Big(\boldsymbol{\Gamma}^{-1}\Big[\expectation{\z_n\z_n^T} - {\bf A}^{\text{new}}\expectation{\z_{n-1}\z_n^T} \nonumber \\
+		&\hspace{1cm} -\expectation{\z_n\z_{n-1}^T} + {\bf A}^{\text{new}}\expectation{\z_{n-1}\z_{n-1}^T}({\bf A}^{\text{new}})^T \Big]\Big)\Bigg) \\
+		&= \frac{N-1}{2}\boldsymbol\Gamma -\frac{1}{2}\sum_{n=2}^N\Big(\expectation{\z_n\z_n^T} - \expectation{\z_n\z_{n-1}^T}({\bf A}^{\text{new}})^T  \nonumber \\
+		& \hspace{1cm} - {\bf A}^{\text{new}}\expectation{\z_n\z_{n-1}^T} + {\bf A}^{\text{new}}\expectation{\z_{n-1}\z_{n-1}^T}({\bf A}^{\text{new}})^T\Big). \label{eq:part-Gamma-terms2}
 	\end{align}
 	
 	Setting equation \eqref{eq:part-Gamma-terms2} to zero and solving for $\boldsymbol{\Gamma}$ gives back equation \eqref{eq:mstep-Gamma}.
 \end{proof}
 
 \begin{proof}
-	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms on $Q(\boldsymbol\theta', \boldsymbol\theta)$ that depend on $\bf C$. These are
+	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms in$Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that depend on $\bf C$. We obtain
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=1}^N \left[ -\expectation{\z_n^T} {\bf C}^T \boldsymbol{\Sigma}^{-1}\x_n - \x_n^T \boldsymbol{\Sigma}^{-1} {\bf C} \expectation{\z_n} + \text{Tr}\left(\expectation{\z_n\z_n^T}{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C}\right)\right]\\
 		=& -\frac{1}{2}\sum_{n=1}^N \left[ -\Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}\x_n \expectation{\z_n^T}} - \Tr{{\bf C}\expectation{\z_n}\x_n^T\boldsymbol{\Sigma}^{-1}} +  \Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T}} \right].
 	\end{align}
 	
 	% to-do: add references to equations (100), (103), and (117)
-	Next, taking the derivative of $Q(\boldsymbol{\theta}', \boldsymbol{\theta})$ with respect to $\bf C$ yields:
+	Next, taking the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^{\text{old}})$ with respect to $\bf C$ yields:
 	\begin{align}
 		\frac{\partial}{\partial {\bf C}} Q(\boldsymbol{\theta}', \boldsymbol{\theta}) &= -\frac{1}{2}\sum_{n=1}^N \left[ \boldsymbol{\Sigma}^{-1} \x_n \expectation{\z_n^T} + \boldsymbol{\Sigma}^{-1}\x_n\expectation{\z_n^T} - 2 \boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T} \right] \\
 		&= \boldsymbol{\Sigma}^{-1} \left( {\bf C} \sum_{n=1}^N \expectation{\z_n\z_n^T} - \sum_{n=1}^N\x_n\expectation{\z_n^T} \right). \label{eq:part-C-terms1}
@@ -1157,11 +1158,12 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 		=& \frac{N}{2}\log\vert\boldsymbol\Sigma^{-1}\vert -\frac{1}{2}\sum_{n=1}^N\Tr{\boldsymbol\Sigma^{-1} \left( \x_n\x_n^T - \x_n\expectation{\z_n}{\bf C}^T - {\bf C}\expectation{\z_n}\x_n^T + {\bf C}\expectation{\z_n\z_n^T}{\bf C}^T \right)}. \label{eq:part-Sigma-terms1}
 	\end{align}
 	
-	Taking the derivative of \eqref{eq:part-Sigma-terms1} with respect to $\boldsymbol{\Sigma}^{-1}$ we obtain
+	Taking the derivative of \eqref{eq:part-Sigma-terms1} with respect to $\boldsymbol{\Sigma}^{-1}$ and fixing ${\bf C}^{\text{new}}$ we obtain
 	\begin{align}
-		\frac{\partial}{\partial \boldsymbol{\Sigma}^{-1}} Q(\boldsymbol\theta', \boldsymbol\theta) = \frac{N}{2}\boldsymbol{\Sigma} - \frac{1}{2}\sum_{n=1}^N\left( \boldsymbol\Sigma^{-1} \left( \x_n\x_n^T - \x_n\expectation{\z_n}{\bf C}^T - {\bf C}\expectation{\z_n}\x_n^T + {\bf C}\expectation{\z_n\z_n^T}{\bf C}^T \right) \right) \label{eq:part-Sigma-terms2}.
+		&\frac{\partial}{\partial \boldsymbol{\Sigma}^{-1}} Q(\boldsymbol\theta', \boldsymbol\theta) = \frac{N}{2}\boldsymbol{\Sigma} - \frac{1}{2}\boldsymbol\Sigma^{-1}\sum_{n=1}^N\Big( \x_n\x_n^T - \x_n\expectation{\z_n}({\bf C}^{\text{new}})^T \nonumber\\
+			&\hspace{1cm}- {\bf C}^{\text{new}}\expectation{\z_n}\x_n^T + {\bf C}^{\text{new}}\expectation{\z_n\z_n^T}({\bf C}^{\text{new}})^T \Big) \label{eq:part-Sigma-terms2}.
 	\end{align}
-	We conclude this proof by noting that setting equation \eqref{eq:part-Sigma-terms2} to zero and solving for $\boldsymbol{\Sigma}$ yields equation \eqref{eq:mstep-Sigma}.
+	Setting equation \eqref{eq:part-Sigma-terms2} to zero and solving for $\boldsymbol{\Sigma}$ yields equation \eqref{eq:mstep-Sigma}.
 \end{proof}
 
 \section{Numerical Results}
