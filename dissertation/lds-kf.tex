@@ -338,8 +338,8 @@ As we have previously mentioned, in order to find the parameters $\boldsymbol{\t
 The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likelihood-partition} is called the lower bound, and the term $\KL{q}{p}$ is known as the Kullback-Leibler divergence of the distributions $p$ and $q$. 
 
 
-%to-do: define a set \mathcal Q of "valid" distributions.
-%to-do: why is it relevant to only maximise the lower bound L?
+%TODO: define a set \mathcal Q of "valid" distributions.
+%TODO: why is it relevant to only maximise the lower bound L?
 \begin{proposition} (\textbf{E-step})
 	The function $q({\bf Z})$ that maximises the lower bound $\mathcal L(q, \boldsymbol{\theta}$) is given by
 	\begin{equation}
@@ -376,10 +376,10 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 	\end{align}
 \end{proof}
 
-% to-do: the EM algorithm converges under some conditions which our LDS model
+% TODO: the EM algorithm converges under some conditions which our LDS model
 % has. Write
 
-\section{Deriving a model for a pLDS}
+\section{Deriving a model for the pLDS}
 In this section, we derive the E-step and the M-steps for the linear dynamical system presented in the previous section.
 
 \subsection{The E-step}
@@ -457,7 +457,7 @@ Where we have used equation \eqref{eq:gm-5} to arrive at equation \eqref{eq:xi-p
 % Hence, to make sense of gamma and xi we only need to find values of alpha and beta
 Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} show that both $\gamma$ and $\xi$ are completely determined by the values of $\alpha$, and $\beta$. Hence, we only need to compute the set of values $\{\alpha(\z_n)\}_n$ and $\{\beta(\z_n)\}_n$ once per E-iteration to find the values of $\gamma$ and $\xi$. Our next step is to derive an algorithm to efficiently compute $\alpha(\z_n)$, and $\beta(\z_n)$ for every $n$.
 
-%to-do: comment on the initial value z_1
+%TODO: comment on the initial value z_1
 
 % 	* We show that alpha can be represented as a recursive formula
 \begin{proposition} \label{prop:alpha-recursive}
@@ -594,7 +594,7 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 %\end{proposition}
 %
 %\begin{proof}
-%	\texttt{to-do: write proof}
+%	\texttt{TODO: write proof}
 %\end{proof}
 
 The term $\hat\alpha(\z_n)$ is called the $\alpha$-forward message passing for a linear dynamical system or \textbf{Kalman filter equation}.  The term $\hat\beta(\z_n)$ is called the $\beta$-backward message passing of a linear dynamical system or \textbf{Kalman smoother equation}. Intuitively, $\hat\alpha(\z_n)$ represents the information that the history of the data has on the $n$-th observation, whereas $\hat\beta(\z_n)$ represents how a latent variable with with known value at time $n$ affects the future behaviour of the system.
@@ -638,7 +638,7 @@ In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1},
 
 As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented as the probability density function of a normal distribution whose mean and covariance that depends on previous means and covariance values. We formalise this in the following two theorems
 
-% to-do: write it more clearly
+% TODO: write it more clearly
 % Show that alpha hat is a normal distribution
 %	* Derive the Kalman Filter Equations
 \begin{theorem} (\textbf{Kalman Filter: initial condition}) \label{theorem:alpha-forward-equations-1}
@@ -794,8 +794,8 @@ More generally, we have the following proposition
 	\end{equation}	
 \end{proof}
 
-% To-do: write about the implications of iterating these equations in terms of the Kalman Filters
-% To-do: write about the relationship between the alpha terms and the Kalman equations
+% TODO: write about the implications of iterating these equations in terms of the Kalman Filters
+% TODO: write about the relationship between the alpha terms and the Kalman equations
 
 \begin{tcolorbox}
 \textbf{Kalman-Filter equations}
@@ -817,7 +817,7 @@ More generally, we have the following proposition
 \end{tcolorbox}
 
 % Show that gamma is also a normal distribution
-% to-do: label propositions correctly
+% TODO: label propositions correctly
 This last two propositions can be used to show that $\gamma(\z_n)$ is a normal probability density function. Hence, the expectations required to compute the E-step can be derived from the mean of a normal distribution and the computation of the covariance between two normal distributions. This is formally shown in the following theorems.
 
 
@@ -867,7 +867,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 		&= \N(\z_n \vert\boldsymbol\mu_n, {\bf V}_n) \N(\z_{n+1} \vert {\bf A}\z_n, \boldsymbol\Gamma).
 	\end{align}
 	
-	% to-do: write proposition
+	% TODO: write proposition
 	Making use of equation \eqref{eq:normal-conditional}, we observe that $p(\z_n \vert \z_{n+1})$ is a multivariate Normal distribution with mean and covariance matrix given by
 	
 	\begin{align}
@@ -979,7 +979,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 		&= \N(\z_{n-1} \vert {\bf m}_n, {\bf M}_n) \N(\z_n \vert \hat{\boldsymbol\mu}_n, \hat{\bf V}_n) \label{eq:part-xi-rewrite}.
 	\end{align}
 	
-	% TO-DO: 
+	% TODO: 
 	% 	* we used equation \eqref{eq:part-cnzn-rewrite} to derive the fact that
 	% 		cn \alpha_n = p(x_n | z_n) p(z_n) 
 	%	* We used equations 1.132 and 1.133 (page 17) to derive p(z_{n-1} | z_n) is
@@ -1224,7 +1224,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 \end{proposition}
 
 \begin{proof}
-	\texttt{to-do: write proof}
+	\texttt{TODO: write proof}
 \end{proof}
 
 \section{Linear Algebra}
@@ -1237,7 +1237,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 \end{proposition}
 
 \begin{proof}
-	\texttt{to-do: write proof}
+	\texttt{TODO: write proof}
 \end{proof}
 
 \begin{proposition} \label{prop:woodbury-identity}
@@ -1246,7 +1246,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 		\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right)^{-1} = {\bf A}^{-1} - {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}.
 	\end{equation}
 	\begin{proof}
-		\texttt{to-do: write proof}
+		\texttt{TODO: write proof}
 	\end{proof}
 \end{proposition}
 
