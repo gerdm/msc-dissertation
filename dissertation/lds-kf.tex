@@ -641,7 +641,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 % TODO: write it more clearly
 % Show that alpha hat is a normal distribution
 %	* Derive the Kalman Filter Equations
-\begin{theorem} (\textbf{Kalman Filter: initial condition}) \label{theorem:alpha-forward-equations-1}
+\begin{theorem} (\textbf{Kalman Filter: initial condition}) \label{theorem:kalman-filter}
 	The factor $\hat\alpha(\z_1)$ can be written as a normal probability density function with mean and covariance matrix given by
 	\begin{align}
 		\boldsymbol{\mu}_1 &= \boldsymbol{\mu}_0 + {\bf K}_1(\x_1 -{\bf C}\boldsymbol\mu_0),\\
@@ -731,7 +731,7 @@ More generally, we have the following proposition
 \end{theorem}
 
 \begin{proof}
-	The derivation of the equations is analogous to those found in theorem \ref{theorem:alpha-forward-equations-1}. We begin by making use of the result found in proposition \ref{prop:alpha-hat}. 
+	The derivation of the equations is analogous to those found in theorem \ref{theorem:kalman-filter}. We begin by making use of the result found in proposition \ref{prop:alpha-hat}. 
 	\begin{align}
 		&c_n \hat\alpha(\z_n) = p(\x_n\vert\z_n) \int \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_{n-1}\\
 		\iff& c_n \N(\z_n \vert \boldsymbol\mu_n, \boldsymbol\Sigma_n) = \N(\x_n \vert {\bf C}\z_n) \nonumber \\
@@ -821,7 +821,7 @@ More generally, we have the following proposition
 This last two propositions can be used to show that $\gamma(\z_n)$ is a normal probability density function. Hence, the expectations required to compute the E-step can be derived from the mean of a normal distribution and the computation of the covariance between two normal distributions. This is formally shown in the following theorems.
 
 
-\begin{theorem} (\textbf{Backward-equations}) \label{theorem:beta-backward-equations}
+\begin{theorem} (\textbf{Kalman smoother equations}) \label{theorem:kalman-smoother}
 	The term $\gamma(\z_n)$ can be written as a normal distribution of the form
 	\begin{equation}
 		\gamma(\z_n) = \N(\z_n\vert \hat{\boldsymbol\mu}_n, \hat{\bf V}_n).
@@ -1007,7 +1007,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 	
 	% Note that the expectation completely depends on z_n.
 	% For the second to third step we make use of theorem \ref{theorem:beta-backward-equations}
-	Making use of theorem \ref{theorem:beta-backward-equations} and equation \ref{eq:part-Mn-rewrite}, we obtain
+	Making use of theorem \ref{theorem:kalman-smoother} and equation \ref{eq:part-Mn-rewrite}, we obtain
 	\begin{align}
 		\expectation{\z_{n-1}\z_n^T} &= \expectation{\z_n\z_n^T} {\bf J}_n^T + \expectation{\z_n}\boldsymbol{\mu}_{n-1}^T {\bf V}_{n-1}^{-1}{\bf M}_{n-1}^T\\
 		&= \left(\hat{\boldsymbol{\mu}}_n\hat{\boldsymbol{\mu}}_n^T + \hat{\bf V}_n \right){\bf J}_{n-1}^T + \hat{\boldsymbol{\mu}}_n \boldsymbol{\mu}_{n-1}^T {\bf V}_{n-1}^{-1} {\bf V}_{n-1}({\bf I} - {\bf A}^T{\bf J}_{n-1}^T)\\
