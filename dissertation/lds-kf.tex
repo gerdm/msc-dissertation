@@ -311,7 +311,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 
 \subsection{The EM algorithm}
 
-As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete-dataset, we require to maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided into two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{murphy2012}). We formally derive the EM algorithm in the following three propositions.
+As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete-dataset, we require to maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided into two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{pml1Book}). We formally derive the EM algorithm in the following three propositions.
 
 \begin{proposition} \label{prop:log-likelihood-partition}
 	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
@@ -356,7 +356,7 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 		&= \log p(\X \vert \boldsymbol\theta) - \KL{q}{p}. \label{eq:part-L-rewrite}
 	\end{align}
 	
-	To find the function $q$ that maximises \eqref{eq:part-L-rewrite}, we notice that the first term does not depend on $q$. Furthermore, we observe that the second term is the negative Kullback-Leibler divergence between $q$ and $p$. The KL diverge is nonnegative with equality to zero if and only if $q=p$   (for a proof, see \cite{murphy2012}). Therefore, the function $q(\Z)$ that maximises the lower bound is given by $p(\Z \vert \X, \boldsymbol\theta)$.
+	To find the function $q$ that maximises \eqref{eq:part-L-rewrite}, we notice that the first term does not depend on $q$. Furthermore, we observe that the second term is the negative Kullback-Leibler divergence between $q$ and $p$. The KL diverge is nonnegative with equality to zero if and only if $q=p$   (for a proof, see \cite{pml1Book}). Therefore, the function $q(\Z)$ that maximises the lower bound is given by $p(\Z \vert \X, \boldsymbol\theta)$.
 \end{proof}
 
 \begin{proposition}\label{prop:m-step}
