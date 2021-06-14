@@ -67,7 +67,7 @@ Dynamical systems are models that capture the time evolution of a system \cite{s
 
 
 
-In this work, we are interested in dynamical systems that depend on unobserved values, usually called latent variables, and a set of observed values that are directly derived from the signal source. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We also denote $\mathcal{D} = ({\bf X}, {\bf Z})$ as the complete-dataset.
+In this work, we are interested in dynamical systems that depend on unobserved values, usually called latent variables, and a set of observed values that are directly derived from the source signal. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We also denote $\mathcal{D} = ({\bf X}, {\bf Z})$ as the complete-dataset.
 
 One way to represent such system is to assume the existence of an unobserved signal $\z_n \in \mathbb{R}^K$ that evolves linearly over time according to a matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n+1}$ is obtained, the observed value $\x_{n+1} \in \mathbb{R}^M$ is the result of a linear transformation over $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such system can be written as follows:
 
@@ -93,7 +93,7 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
-Throughout this work we will be working with random variables that can take any real number. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work will assume a definite integral over the real numbers with dimension specified by the differential term.
+Throughout this work we be working with random variables that can take any real number. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work will assume a definite integral over the real numbers with dimension specified by the differential term.
 
 \section{Linear dynamical systems with added noise}
 We begin this section by formalising our model of interest. Let $\X$ be an observed dataset and $\Z$ a latent dataset. Let $g(\z_{n-1}) = {\bf A} \z_{n-1}$ with ${\bf A}\in\R^{K\times K}$, and $f(\z_n) = {\bf C} \z_{n}$ with ${\bf C} \in \R^{M \times K}$. Assuming that a latent state $\z_n$, for $n \geq 1$, and any state $\x_n$ are each corrupted by zero-mean gaussian noise with covariance matrices $\boldsymbol{\Sigma} \in \mathbb{R}^{K \times K}$, and $\boldsymbol{\Gamma} \in \mathbb{R}^{M \times M}$ respectively, we define a  probabilistic Linear Dynamical System (pLDS) as follows:
@@ -106,21 +106,21 @@ In addition, we assume that the initial state of the system $\z_1$ is normally d
 \begin{align}
 	p(\z_1) &= \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0).\\
 \end{align}
-A simulation of the evolution of such system is presented in figure \ref{fig:hidden-noisy-dynamical-system}.
+A simulation of the evolution of such system is presented in Figure \ref{fig:hidden-noisy-dynamical-system}.
 
-As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate a plausible latent dataset $\Z$. In the following two subsections, we will develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
+\sloppy As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate the latent dataset $\Z$. In the following two subsections, we will develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{../figures/hidden-stochastic-dynamical-system}
-	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in figure \ref{fig:hidden-dynamical-system}, however, each state has added gaussian noise with diagonal covariance matrix.}
+	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in Figure \ref{fig:hidden-dynamical-system}, however, each state has added gaussian noise with diagonal covariance matrix.}
 	\label{fig:hidden-noisy-dynamical-system}
 \end{figure}
 
 
 \subsection{Probabilistic Graphical Models}
-A useful way to analyse the structure of a joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, define conditional independence, provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or chapter 8 of \cite{prml}.
+A useful way to analyse the structure of joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, define conditional independence, provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or Chapter 8 of \cite{prml}.
 
 % The main subject in this subsection is to motivate the use of graphs for representing the joint distribution over random variables. 
 Suppose $a$, $b$, and $c$ are random variables with marginal probability density function each given by $p(a)$, $p(b)$, and $p(c)$. Depending on the relationship between each pair of random variables, the joint distribution $p(a,b,c)$ could be written differently. For example, if we assume that every node is independent of each other node, $p(a,b,c) = p(a) p(b) p(c)$. On the other hand, if $a$ is independent of $b$ and $c$; $b$ is dependent of $a$; and $c$ is dependent on $a$ and $b$, the joint probability can be written as $p(a,b,c) = p(a) p(b \vert a) p(c \vert a, b)$. A Bayesian network, is a graphical representation of the joint distribution of a set of random variables that expresses conditional relationships.
@@ -130,7 +130,7 @@ Suppose $a$, $b$, and $c$ are random variables with marginal probability density
 \end{definition}
 
 % provide two or three examples of factorisation using bayesian networks
-To understand the use of Bayesian networks, consider $\mathcal G = \{\{a, b, c\}, \{\}\}$. Then, the joint probability over the random variables $a$, $b$, and $c$ induced by $\mathcal G$ is given by $p(a,b,c) = p(a) p(b) p(c)$. The graphical representation of $\mathcal G$ is shown in figure \ref{fig:bayes-net-1}.
+To understand the use of Bayesian networks, consider $\mathcal G = \{\{a, b, c\}, \{\}\}$. Then, the joint probability over the random variables $a$, $b$, and $c$ induced by $\mathcal G$ is given by $p(a,b,c) = p(a) p(b) p(c)$. The graphical representation of $\mathcal G$ is shown in Figure \ref{fig:bayes-net-1}.
 
 \begin{figure}[h!]
 	\centering
@@ -139,7 +139,7 @@ To understand the use of Bayesian networks, consider $\mathcal G = \{\{a, b, c\}
 	\label{fig:bayes-net-1}
 \end{figure}
 
-On the contrary, if $\mathcal G = \{\{a,b,c\}, \{\{a, b\}, \{a, c\}, \{b, c\}\}\}$, the joint probability induced by $\mathcal G$ is given by  $p(a,b,c) = p(a)p(b \vert a)p(c \vert a, b)$. The graphical representation of $\mathcal G$ is shown in figure \ref{fig:bayes-net-2}.
+On the contrary, if $\mathcal G = \{\{a,b,c\}, \{\{a, b\}, \{a, c\}, \{b, c\}\}\}$, the joint probability induced by $\mathcal G$ is given by  $p(a,b,c) = p(a)p(b \vert a)p(c \vert a, b)$. The graphical representation of $\mathcal G$ is shown in Figure \ref{fig:bayes-net-2}.
 
 \begin{figure}[h!]
 	\centering
@@ -191,7 +191,7 @@ Given a Bayesian network, we will graphically denote observed random variables a
 
 % Next, write about d-separation: determine conditional independence properties directly from the bayes' net
 % * Write the d-separation as a theorem (and a reference to a proof)
-The distinction between observed and unobserved nodes in a network allows us to specify more complex probabilistic models that have \textit{observed} and \textit{latent} variables. For example, using a Bayesian network, we can write the relationship between variables in a pLDS as presented in figure \ref{fig:lds-gm}.
+The distinction between observed and unobserved nodes in a network allows us to specify more complex probabilistic models that have \textit{observed} and \textit{latent} variables. For example, using a Bayesian network, we can write the relationship between variables in a pLDS as presented in Figure \ref{fig:lds-gm}.
 
 \begin{figure}[h!]
 	\centering
@@ -205,7 +205,7 @@ The graphical representation of the Bayesian network induces the following joint
 	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
 \end{equation}
 
-The graphical representation of a model not only presents an illustration of the relationship between random variables, but it's also used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we will define what a descendant is, and the types of connections of three nodes in a Bayesian network.
+The graphical representation of a model not only presents an illustration of the relationship between random variables, but it's also used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we define what a descendant is, and the types of connections of three nodes in a Bayesian network.
 
 \begin{definition}
 	$\mathcal G = \{\mathscr{N}, \mathscr{E}\}$ be a Bayesian network, and let $a \in \mathscr{N}$, $b \in \mathscr{N}$. We define a node $b$ as a \textbf{descendant} of node $a$ if there exists a path from $a$ to $b$.
@@ -241,7 +241,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 		p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}), \label{eq:gm-3}\\
 		p(\x_{n+1}, \ldots, \x_N \vert \z_n, \z_{n+1}) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n), \label{eq:gm-4}\\
 		p(\x_{n+2}, \ldots, \x_N\vert \x_{n+1}, \z_{n+1}) &= p(\x_{n+2}, \ldots, \x_N \vert \z_{n+1}),\label{eq:gm-5}\\
-		p({\bf X}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1}) \nonumber\\
+		p({\bf X}\vert \z_{n-1}, \z_{n}) &= p(\x_1, \ldots, \x_{n-1}\vert \z_{n-1})\cdot \nonumber\\
 			&\hspace{1cm}p(\x_n\vert \z_n) p(\x_{n+1}, \ldots, \x_N \vert \z_n), \label{eq:gm-6}\\
 		p(\x_{N+1} \vert {\bf X}, \z_{N+1}) &= p(\x_{N+1} \vert \z_{N+1}), \label{eq:gm-7}\\
 		p(\z_{N+1} \vert {\bf X}, \z_{N}) &= p(\z_{N+1} \vert \z_{N}). \label{eq:gm-8}\\
@@ -249,9 +249,9 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 \end{proposition}
 
 \begin{proof}
-	All equations in proposition above can be explicitly shown by expanding its components and using the probability rules of sum and product. In this work, we take a visual approach and show that the factorisations hold true using $d$-separation.
+	All equations in Proposition \ref{prop:graphical-models-separation} can be explicitly shown by expanding its components and using the probability rules of sum and product. In this work, we take a visual approach and show that the factorisations hold true using $d$-separation.
 	
-	Assuming that none of the data in the complete-dataset is observed, the structure of the pLDS is presented in figure \ref{fig:lds-skeleton}.
+	Assuming that none of the data in the complete-dataset is observed, the structure of the pLDS is presented in Figure \ref{fig:lds-skeleton}.
 	
 	\begin{figure}[h!]
 		\centering
@@ -260,7 +260,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 		\label{fig:lds-skeleton}
 	\end{figure}
 
-	We begin showing equation \eqref{eq:gm-1}. The graph that induces the conditional probability $p(\X \vert \z_n)$ is given by figure \ref{fig:gm-1}. Let $A = \{\x_1, \ldots, \x_{n-1}\}$, $B = \{x_{n+1}, \ldots, \x_N\}$, and $C = \{\z_n\}$. Notice that the connection from any node in $A$ to any node in $B$ meets head-to-tail with $C$. Hence, $A \perp B \vert C$.
+	We begin showing equation \eqref{eq:gm-1}. The graph that induces the conditional probability $p(\X \vert \z_n)$ is given by Figure \ref{fig:gm-1}. Let $A = \{\x_1, \ldots, \x_{n-1}\}$, $B = \{x_{n+1}, \ldots, \x_N\}$, and $C = \{\z_n\}$. Notice that the connection from any node in $A$ to any node in $B$ meets head-to-tail with $C$. Hence, $A \perp B \vert C$.
 	
 	\begin{figure}[h!]
 		\centering
@@ -277,7 +277,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 		\label{fig:gm-2}
 	\end{figure}
 
-	Following the same logic, we can show that equations \eqref{eq:gm-3}, \eqref{eq:gm-4}, \eqref{eq:gm-5}, \eqref{eq:gm-7}, and \eqref{eq:gm-8}  meet either head-to-tail or tail-to-tail at a node in the set $C$. We present the graphical representations of equations \eqref{eq:gm-3}, \eqref{eq:gm-4}, and \eqref{eq:gm-5} in figures \ref{fig:gm-3}, \ref{fig:gm-4}, and \ref{fig:gm-5}.
+	Following the same logic, we can show that equations \eqref{eq:gm-3}, \eqref{eq:gm-4}, \eqref{eq:gm-5}, \eqref{eq:gm-7}, and \eqref{eq:gm-8}  meet either head-to-tail or tail-to-tail at a node in the set $C$. We present the graphical representations of equations \eqref{eq:gm-3}, \eqref{eq:gm-4}, and \eqref{eq:gm-5} in Figures \ref{fig:gm-3}, \ref{fig:gm-4}, and \ref{fig:gm-5}.
 	\begin{figure}[h!]
 		\centering
 		\resizebox{\columnwidth}{!}{\input{../figures/graphical-models/gm3.tikz}}
@@ -307,7 +307,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 			&\hspace{1cm} p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n). \label{eq:part-gm-6}
 	\end{align}
 	
-	Using equation \eqref{eq:gm-2} we have $p(\x_n \vert \z_{n-1}, \z_n) = p(\x_n \vert \z_n)$. Furthermore, using equations \eqref{eq:gm-2} and \eqref{eq:gm-3}, $p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_{n-1}, \z_n) = p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1})$. Finally, from equations \eqref{eq:gm-4}, and \eqref{eq:gm-5} we obtain  $p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n) = p(\x_{n+1}, \ldots, \x_N \vert  \z_{n})$. Using these results and plugging the values in \eqref{eq:part-gm-6} yields equation \eqref{eq:gm-6}.
+	\noindent Using equation \eqref{eq:gm-2} we have $p(\x_n \vert \z_{n-1}, \z_n) = p(\x_n \vert \z_n)$. Furthermore, using equations \eqref{eq:gm-2} and \eqref{eq:gm-3}, $p(\x_1, \ldots, \x_{n-1} \vert \x_n, \z_{n-1}, \z_n) = p(\x_1, \ldots, \x_{n-1} \vert \z_{n-1})$. Finally, from equations \eqref{eq:gm-4}, and \eqref{eq:gm-5} we obtain  $p(\x_{n+1}, \ldots, \x_N \vert \x_1, \ldots, \x_N, \z_{n-1}, \z_n) = p(\x_{n+1}, \ldots, \x_N \vert  \z_{n})$. Using these results and plugging the values in \eqref{eq:part-gm-6} yields equation \eqref{eq:gm-6}.
 \end{proof}
 
 
@@ -337,7 +337,7 @@ As we have previously mentioned, in order to find the parameters $\boldsymbol{\t
 	\end{align}
 \end{proof}
 
-The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likelihood-partition} is called the lower bound, and the term $\KL{q}{p}$ is known as the Kullback-Leibler divergence of the distributions $p$ and $q$. 
+The term $\mathcal{L}(q, \boldsymbol\theta)$ in Proposition \ref{prop:log-likelihood-partition} is called the lower bound, and the term $\KL{q}{p}$ is known as the Kullback-Leibler divergence of the distributions $p$ and $q$. 
 
 
 %TODO: define a set \mathcal Q of "valid" distributions.
@@ -345,7 +345,7 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 \begin{proposition} (\textbf{E-step})
 	The function $q({\bf Z})$ that maximises the lower bound $\mathcal L(q, \boldsymbol{\theta}$) is given by
 	\begin{equation}
-		q(\Z) = \max_{\hat q} \mathcal{L}(\hat q, \boldsymbol\theta) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta).
+		q(\Z) = \argmax{\hat q} \mathcal{L}(\hat q, \boldsymbol\theta) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta).
 	\end{equation}
 \end{proposition}
 
@@ -364,7 +364,7 @@ The term $\mathcal{L}(q, \boldsymbol\theta)$ in proposition \ref{prop:log-likeli
 \begin{proposition}\label{prop:m-step}
 	(\textbf{M-step}) Maximising $\mathcal{L}(q, \boldsymbol{\theta})$ over $\boldsymbol{\theta}$ at fixed $q({\bf Z}) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta^\text{old})$ is equivalent to maximising the function
 	\begin{equation}
-		Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old}) = \mathbb{E}_{{\bf Z}\vert {\bf X}, \boldsymbol{\theta}^\text{old}}[\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta)]
+		Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old}) = \mathbb{E}_{{\bf Z}\vert {\bf X}, \boldsymbol{\theta}^\text{old}}[\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta)].
 	\end{equation}
 \end{proposition}
 
@@ -414,7 +414,7 @@ Where const. are the terms that do not depend on $\boldsymbol{\theta}$. From equ
 \end{align}
 
 
-To compute the expected values of the latent variables, we first find the posterior distribution of the latent variables $\gamma(\z_n) := p(\z_n\vert {\bf X})$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$. As we will see, computing these distributions show that their values are depended on past and future 
+To compute the expected values of the latent variables, we first find the posterior distribution of the latent variables $\gamma(\z_n) := p(\z_n\vert {\bf X})$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$. As we will see, computing these distributions show that their values are depended on the past and the future.
 
 %why is it useful?
 
@@ -423,7 +423,7 @@ To compute the expected values of the latent variables, we first find the poster
 \end{proposition}
 
 \begin{proof}
-Denote $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of the observed data up to $n$, and $\beta(\z_n) := p(\x_{n+1}, \ldots, \x_N\vert \z_n)$ as the probability of all data that follows the $n$-th observation, conditional on the $n$-th latent variable $\z_n$. Next, Consider  $\gamma(\z_n)$ and equation \eqref{eq:gm-1} from proposition \ref{prop:graphical-models-separation}. We have
+Denote $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of the observed data up to $n$, and $\beta(\z_n) := p(\x_{n+1}, \ldots, \x_N\vert \z_n)$ as the probability of all data that follows the $n$-th observation, conditional on the $n$-th latent variable $\z_n$. Next, Consider  $\gamma(\z_n)$ and equation \eqref{eq:gm-1} from Proposition \ref{prop:graphical-models-separation}. We have
 \begin{align}
 	\gamma(\z_n) &= p(\z_n \vert {\bf X})\\
 					  &= \frac{1}{p(\x)}p(\z_n)p({\bf X} \vert \z_n)\\
@@ -432,13 +432,13 @@ Denote $\alpha(\z_n) := p(\x_1, \ldots, \x_n, \z_n)$ as the joint probability of
 					  &= \frac{1}{p(\x)}\alpha(\z_n)\beta(\z_n).
 \end{align}
 
-Where we have used equation \eqref{eq:gm-1} in proposition \ref{prop:graphical-models-separation} to arrive at equation \eqref{eq:gamma-part-1}.
+Where we have used equation \eqref{eq:gm-1} in Proposition \ref{prop:graphical-models-separation} to arrive at equation \eqref{eq:gamma-part-1}.
 \end{proof}
 
 
 % Here we show that the xi can also be written in terms of alpha and beta
 \begin{proposition}\label{prop:xi-factorisation}
-	The term $\xi(\z_{n-1}, \z_n)$ can be written in terms of $\alpha({\cdot})$, and $\beta(\cdot)$
+	The term $\xi(\z_{n-1}, \z_n)$ can be written in terms of $\alpha({\cdot})$, and $\beta(\cdot)$.
 \end{proposition}
 
 \begin{proof}
@@ -470,7 +470,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \end{proposition}
 
 \begin{proof}
-	The proof follows from the definition of $\alpha(\z_n)$ and proposition \ref{prop:graphical-models-separation}:
+	The proof follows from the definition of $\alpha(\z_n)$ and Proposition \ref{prop:graphical-models-separation}:
 	\begin{align}
 		\alpha(\z_n) &= p(\x_1, \ldots, \x_n, \z_n) \\
 		&= p(\z_n) p(\x_1, \ldots, \x_n \vert \z_n) \\
@@ -496,7 +496,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \end{proposition}
 
 \begin{proof}
-	Similarly to proposition \ref{prop:alpha-recursive}, we show this proposition using the definition of $\beta(\z_n)$ and proposition \ref{prop:graphical-models-separation}:
+	Similarly to Proposition \ref{prop:alpha-recursive}, we show this proposition using the definition of $\beta(\z_n)$ and Proposition \ref{prop:graphical-models-separation}:
 	\begin{align}
 		\beta(\z_n) &= p(\x_{n+1}, \ldots, \x_N \vert \z_n)\\
 		&= \int p(\x_{n+1}, \ldots, \x_N, \z_{n+1} \vert \z_n) d\z_{n+1} \\
@@ -546,7 +546,7 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 		\alpha(\z_n) = \hat\alpha(\z_n) p(\x_1, \ldots, \x_n) = \hat\alpha(\z_n) \prod_{j=1}^n c_j.
 	\end{equation}
 	
-	Using proposition \ref{prop:alpha-recursive} and equation \eqref{eq:alpha-rewrite} we observe
+	Using Proposition \ref{prop:alpha-recursive} and equation \eqref{eq:alpha-rewrite} we observe
 	\begin{align}
 		&\alpha(\z_n) = p(\x_n\vert \z_n) \int  \alpha(\z_{n-1})p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
 		\iff & \hat\alpha(\z_n) \prod_{j=1}^{n} c_n = p(\x_n \vert \z_n) \int  \hat\alpha(\z_{n-1}) \prod_{j=1}^{n-1} c_j \cdot  p(\z_n\vert\z_{n-1}) d\z_{n-1}\\
@@ -578,7 +578,7 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 		&= \hat\beta(\z_n) \prod_{j=n+1}^N c_j \label{eq:beta-rewrite}.
 	\end{align}
 	
-	Using proposition \ref{prop:beta-recursive} and equation \eqref{eq:beta-rewrite}, we obtain
+	Using Proposition \ref{prop:beta-recursive} and equation \eqref{eq:beta-rewrite}, we obtain
 	
 	\begin{align}
 		&\beta(\z_n) = \int  \beta(\z_{n+1})p(\x_{n+1}\vert \z_{n+1}) p(\z_{n+1}\vert \z_n) d\z_{n+1}\\
@@ -612,7 +612,7 @@ In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1},
 	\end{equation}
 \end{proposition}
 
-\begin{proof} We begin this proof by writing down the definition for $\gamma(\z_n)$ and considering equations \eqref{eq:alpha-rewrite} and \eqref{eq:beta-rewrite} from propositions \ref{prop:alpha-recursive} and \ref{prop:beta-recursive} respectively.
+\begin{proof} We begin this proof by writing down the definition for $\gamma(\z_n)$ and considering equations \eqref{eq:alpha-rewrite} and \eqref{eq:beta-rewrite} from Propositions \ref{prop:alpha-recursive} and \ref{prop:beta-recursive} respectively.
 	\begin{align}
 		\gamma(\z_n) &= \frac{\alpha(\z_n) \beta(\z_n)}{p({\bf X})} \\
 		&= \frac{1}{p({\bf X})}\left(\hat\alpha(\z_n) \prod_{j=1}^n c_j\right)\left(\hat\beta(\z_n) \prod_{j={n+1}}^N c_j\right) \\
@@ -657,7 +657,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 \end{theorem}
 
 \begin{proof}
-	From proposition \ref{prop:alpha-hat} we have $\hat\alpha(\z_1) = p(\z_1\vert\x_1)$. Then, $\hat\alpha(\z_1) \propto p(\z_1)p(\x_1\vert\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)$. Thus, $\hat\alpha(\z_1)$ is a Normal distribution with mean $\boldsymbol{\mu}_1$ and covariance matrix ${\bf V}_1$. We write
+	From Proposition \ref{prop:alpha-hat} we have $\hat\alpha(\z_1) = p(\z_1\vert\x_1)$. Then, $\hat\alpha(\z_1) \propto p(\z_1)p(\x_1\vert\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)$. Thus, $\hat\alpha(\z_1)$ is a Normal distribution with mean $\boldsymbol{\mu}_1$ and covariance matrix ${\bf V}_1$. We write
 	\begin{align}
 		&c_1 \hat\alpha(\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)\\
 		\iff& c_1 \N(\z_1\vert \boldsymbol\mu, {\bf V}_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma).
@@ -669,7 +669,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}.
 	\end{align}
 	
-	Next, we rewrite the covariance matrix using proposition \ref{prop:woodbury-identity}. We notice that 
+	Next, we rewrite the covariance matrix using Proposition \ref{prop:woodbury-identity}. We notice that 
 	\begin{align}
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}\\
 		&= {\bf V}_0 - {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}{\bf C}{\bf V}_0 \\
@@ -677,7 +677,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 		&= ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0. \label{eq:part-v1-rewrite}
 	\end{align}
 	
-	Where we have defined ${\bf K}_1 := {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}$. Note the result derived in proposition \ref{prop:matrix-rewrite1} allow us to rewrite ${\bf K}_1$ as follows
+	Where we have defined ${\bf K}_1 := {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}$. Note the result derived in Proposition \ref{prop:matrix-rewrite1} allow us to rewrite ${\bf K}_1$ as follows
 	
 	\begin{align}
 		{\bf K}_1 &= {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}\\
@@ -733,7 +733,7 @@ More generally, we have the following proposition
 \end{theorem}
 
 \begin{proof}
-	The derivation of the equations is analogous to those found in theorem \ref{theorem:kalman-filter}. We begin by making use of the result found in proposition \ref{prop:alpha-hat}. 
+	The derivation of the equations is analogous to those found in Theorem \ref{theorem:kalman-filter}. We begin by making use of the result found in Proposition \ref{prop:alpha-hat}. 
 	\begin{align}
 		&c_n \hat\alpha(\z_n) = p(\x_n\vert\z_n) \int \hat\alpha(\z_{n-1})p(\z_n \vert \z_{n-1}) d\z_{n-1}\\
 		\iff& c_n \N(\z_n \vert \boldsymbol\mu_n, \boldsymbol\Sigma_n) = \N(\x_n \vert {\bf C}\z_n) \nonumber \\
@@ -756,14 +756,14 @@ More generally, we have the following proposition
 		{\bf V}_n &= \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1}.
 	\end{align}
 	
-	Next, we rewrite the covariance matrix ${\bf V}_n$ using proposition \ref{prop:woodbury-identity}. We obtain
+	Next, we rewrite the covariance matrix ${\bf V}_n$ using Proposition \ref{prop:woodbury-identity}. We obtain
 	\begin{align}
 		{\bf V}_n &= \left({\bf P}_{n-1}^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1} \\
 				  &= {\bf P}_{n-1} - {\bf P}_{n-1} {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf P}_{n-1}{\bf C}^T\right)^{-1}{\bf C}{\bf P}_{n-1} \\
 				  &= {\bf P}_{n-1} - {\bf K}_n{\bf C}{\bf P}_{n-1} \\
 				  &= ({\bf I}- {\bf K}_n{\bf C}){\bf P}_{n-1}.
 	\end{align}
-	Where we have defined ${\bf K}_n := {\bf P}_{n-1} {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf P}_{n-1}{\bf C}^T\right)^{-1}$. By using the result derived in proposition 4.1 we rewrite ${\bf K}_n$ as
+	Where we have defined ${\bf K}_n := {\bf P}_{n-1} {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf P}_{n-1}{\bf C}^T\right)^{-1}$. By using the result derived in Proposition 4.1 we rewrite ${\bf K}_n$ as
 	
 	\begin{align}
 		{\bf K}_n &= {\bf P}_{n-1} {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf P}_{n-1}{\bf C}^T\right)^{-1} \\
@@ -790,7 +790,7 @@ More generally, we have the following proposition
 			&= \int \N(\z_n\vert {\bf A} \boldsymbol\mu_{n-1}, {\bf P}_{n-1}) \N(\x_n \vert {\bf C}\z_n, \boldsymbol\Sigma) d\z_n. \label{eq:part-cn-rewrite-2}
 	\end{align}
 	
-	Where we have used the fact that no past observation $\x_n$ affects a latent state $\z_{n+1}$, and equation \eqref{eq:gm-5} of proposition \ref{prop:graphical-models-separation} to arrive at \eqref{eq:part-cn-rewrite-1}. Furthermore, using using equation \eqref{eq:normal-marginal}, we can  simplify equation \eqref{eq:part-cn-rewrite-2} as follows:
+	Where we have used the fact that no past observation $\x_n$ affects a latent state $\z_{n+1}$, and equation \eqref{eq:gm-5} of Proposition \ref{prop:graphical-models-separation} to arrive at \eqref{eq:part-cn-rewrite-1}. Furthermore, using using equation \eqref{eq:normal-marginal}, we can  simplify equation \eqref{eq:part-cn-rewrite-2} as follows:
 	\begin{equation}
 		c_n = \N\left(\x_n \vert {\bf C}{\bf A}\boldsymbol\mu_{n-1}, \boldsymbol\Sigma + {\bf C}{\bf P}_{n-1}{\bf C}^T\right).
 	\end{equation}	
@@ -841,7 +841,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 \end{theorem}
 
 \begin{proof}
-	We begin by considering the initial condition $\gamma(\z_N)$. Using proposition \ref{prop:gamma-rewrite-scaled}, and considering the initial value $\hat\beta(\z_N)=1$, we obtain
+	We begin by considering the initial condition $\gamma(\z_N)$. Using Proposition \ref{prop:gamma-rewrite-scaled}, and considering the initial value $\hat\beta(\z_N)=1$, we obtain
 	\begin{align}
 		\gamma(\z_N) &= \hat\alpha(\z_N)\hat\beta(\z_N)\\
 					 &= \hat\alpha(\z_N)\\
@@ -901,7 +901,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 	
 	Therefore, $\gamma(\z_n) = \N(\z_n \vert \hat{\boldsymbol{\mu}_n}, \hat {\bf V}_n)$ as stated. 
 	
-	We conclude this proof by simplifying equations \eqref{eq:part-muhat-1} and \eqref{eq:part-Vhat-1}.  Let us denote ${\bf J}_n = {\bf V}_n{\bf A}^T{\bf P}_n^{-1}$. Using the result of proposition \ref{prop:woodbury-identity}, we obtain
+	We conclude this proof by simplifying equations \eqref{eq:part-muhat-1} and \eqref{eq:part-Vhat-1}.  Let us denote ${\bf J}_n = {\bf V}_n{\bf A}^T{\bf P}_n^{-1}$. Using the result of Proposition \ref{prop:woodbury-identity}, we obtain
 	\begin{align}
 		{\bf M}_n 
 			&= \left({\bf V}_n^{-1} + {\bf A}^T \boldsymbol\Gamma^{-1} {\bf A}\right)^{-1}\\
@@ -1008,7 +1008,7 @@ This last two propositions can be used to show that $\gamma(\z_n)$ is a normal p
 	
 	% Note that the expectation completely depends on z_n.
 	% For the second to third step we make use of theorem \ref{theorem:beta-backward-equations}
-	Making use of theorem \ref{theorem:kalman-smoother} and equation \ref{eq:part-Mn-rewrite}, we obtain
+	Making use of Theorem \ref{theorem:kalman-smoother} and equation \eqref{eq:part-Mn-rewrite}, we obtain
 	\begin{align}
 		\expectation{\z_{n-1}\z_n^T} &= \expectation{\z_n\z_n^T} {\bf J}_n^T + \expectation{\z_n}\boldsymbol{\mu}_{n-1}^T {\bf V}_{n-1}^{-1}{\bf M}_{n-1}^T\\
 		&= \left(\hat{\boldsymbol{\mu}}_n\hat{\boldsymbol{\mu}}_n^T + \hat{\bf V}_n \right){\bf J}_{n-1}^T + \hat{\boldsymbol{\mu}}_n \boldsymbol{\mu}_{n-1}^T {\bf V}_{n-1}^{-1} {\bf V}_{n-1}({\bf I} - {\bf A}^T{\bf J}_{n-1}^T)\\
@@ -1151,7 +1151,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 \end{proposition}
 
 \begin{proof}
-	Following the ideas introduced in the previous two derivations, we prove equation \ref{eq:mstep-C} by first considering the terms in $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that depend on $\bf C$. We obtain
+	Following the ideas introduced in the previous two derivations, we prove equation \eqref{eq:mstep-C} by first considering the terms in $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ that depend on $\bf C$. We obtain
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=1}^N \left[ -\expectation{\z_n^T} {\bf C}^T \boldsymbol{\Sigma}^{-1}\x_n - \x_n^T \boldsymbol{\Sigma}^{-1} {\bf C} \expectation{\z_n} + \text{Tr}\left(\expectation{\z_n\z_n^T}{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C}\right)\right]\\
 		=& -\frac{1}{2}\sum_{n=1}^N \left[ -\Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}\x_n \expectation{\z_n^T}} - \Tr{{\bf C}\expectation{\z_n}\x_n^T\boldsymbol{\Sigma}^{-1}} +  \Tr{{\bf C}^T\boldsymbol{\Sigma}^{-1}{\bf C}\expectation{\z_n\z_n^T}} \right].
@@ -1210,7 +1210,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 \section{Discussion and numerical results}
 In this section, we discuss the results previously obtained and show some numerical applications of the pLDS model.
 
-In Subsection \ref{subsec:e-step} we derived two set of equations that we denoted as the Kalman filter and the Kalman smoothing equations. More specifically, we showed that the terms $\hat\alpha(\z_n) := p(\z_n \vert \x_1, \ldots, \x_n)$, and $\gamma(\z_n) := p(\z_n\vert {\bf X})$ are multivariate normal distributions whose mean and covariance matrices are computed iteratively. If the components in the system are known, theorem \ref{theorem:kalman-filter} provides a method to estimate the latent state of the system given all past observations. 
+In Subsection \ref{subsec:e-step} we derived two set of equations that we denoted as the Kalman filter and the Kalman smoothing equations. More specifically, we showed that the terms $\hat\alpha(\z_n) := p(\z_n \vert \x_1, \ldots, \x_n)$, and $\gamma(\z_n) := p(\z_n\vert {\bf X})$ are multivariate normal distributions whose mean and covariance matrices are computed iteratively. If the components in the system are known, Theorem \ref{theorem:kalman-filter} provides a method to estimate the latent state of the system given all past observations. 
 
 At each time-step, the Kalman filter equations provide the mean and covariance matrix of a multivariate normal that estimates the underlying latent state of the system. To better understand this estimated parameters, consider the estimated value $\boldsymbol{\mu}_n$. At time $n$, the expected latent-space position is obtained by taking the previously estimated mean latent position and evolving it one step forward by computing ${\bf A}\boldsymbol{\mu}_{n-1}$. Furthermore, we compute the discrepancy between the observed value $\x_n$ and the estimated observed-space value ${\bf CA}\boldsymbol{\mu}_n$. The \textit{relevance} in the discrepancy is determined by the \textbf{Kalman gain matrix} ${\bf K}_n$. The bigger the effect of ${\bf K}_n$, the greater the relevance of the current observation to determine the actual latent-space state. Furthermore, the covariance matrix ${\bf V}_n$, which gives a measurement of the uncertainty for the latent varable $\z_n$, is obtained by considering the \textit{natural} noise in the system $\boldsymbol{\Gamma}$ plus the previous covariance ${\bf V}_{n-1}$ spanned over the latent space by $\bf A$. From equation \eqref{eq:Vn-Kalman-filter}, we observe that the smaller the noise of the observed space, the more certainty we have about the mean latent-space value.
 
@@ -1219,7 +1219,7 @@ On the other hand, the Kalman smoother equations, gives us a less noisy estimati
 
 
 \subsection{Example 1: tracking fireworks}
-Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see figure \ref{fig:fireworks-latent-observed}). If we seek to track the path of each firework in real-time, we can make use of the Kalman filter equations to track the expected path of the fireworks
+Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). If we seek to track the path of each firework in real-time, we can make use of the Kalman filter equations to track the expected path of the fireworks
 
 \begin{figure}
 	\centering
