@@ -93,7 +93,7 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
-Throughout this work we be working with random variables that can take any real number. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work will assume a definite integral over the real numbers with dimension specified by the differential term.
+Throughout this work we be working with random variables that can take any real number. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term.
 
 \section{Linear dynamical systems with added noise}
 We begin this section by formalising our model of interest. Let $\X$ be an observed dataset and $\Z$ a latent dataset. Let $g(\z_{n-1}) = {\bf A} \z_{n-1}$ with ${\bf A}\in\R^{K\times K}$, and $f(\z_n) = {\bf C} \z_{n}$ with ${\bf C} \in \R^{M \times K}$. Assuming that a latent state $\z_n$, for $n \geq 1$, and any state $\x_n$ are each corrupted by zero-mean gaussian noise with covariance matrices $\boldsymbol{\Sigma} \in \mathbb{R}^{K \times K}$, and $\boldsymbol{\Gamma} \in \mathbb{R}^{M \times M}$ respectively, we define a  probabilistic Linear Dynamical System (pLDS) as follows:
@@ -108,7 +108,7 @@ In addition, we assume that the initial state of the system $\z_1$ is normally d
 \end{align}
 A simulation of the evolution of such system is presented in Figure \ref{fig:hidden-noisy-dynamical-system}.
 
-\sloppy As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate the latent dataset $\Z$. In the following two subsections, we will develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
+\sloppy As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate the latent dataset $\Z$. In the following two subsections, we develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
 
 
 \begin{figure}[h!]
@@ -179,7 +179,7 @@ Given any Bayesian network, it is of interest to ask how does the factorisation 
 	\end{equation}
 \end{definition}
 
-Given a Bayesian network, we will graphically denote observed random variables as nodes filled in blue. 
+Given a Bayesian network, we graphically denote observed random variables as nodes filled in blue. 
 
 \begin{figure}[h!]
 	\centering
@@ -231,7 +231,7 @@ Let $a$, $b$, and $c$ be three nodes of a bayesian network $\mathcal G$. We say 
 % * Motivate the following proposition: It helps us decompose the conditional dependencies of the graph and simplify the computations of the E-step
 % * Show the following proposition using d-separation
 
-To exemplify the use of $d$-separation, we present the following proposition which will simplify later computations when developing the pLDS model.
+To exemplify the use of $d$-separation, we present the following proposition which simplifies later computations when developing the pLDS model.
 
 \begin{proposition} \label{prop:graphical-models-separation}
 	Let $({\bf Z}, {\bf X})$ be the complete-dataset of pLDS model. Then, the following factorisations holds true
