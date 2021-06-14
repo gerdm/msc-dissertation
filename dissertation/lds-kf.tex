@@ -1206,7 +1206,37 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	\end{align}
 \end{tcolorbox}
 
-\section{Numerical Results}
+\section{Discussion and numerical results}
+In this section, we discuss the results previously obtained and show some numerical applications of the pLDS model.
+
+In Subsection \ref{subsec:e-step} we derived two set of equations that we denoted as the Kalman filter and the Kalman smoothing equations. More specifically, we showed that the terms $\hat\alpha(\z_n) := p(\z_n \vert \x_1, \ldots, \x_n)$, and $\gamma(\z_n) := p(\z_n\vert {\bf X})$ are multivariate normal distributions whose mean and covariance matrices are computed iteratively. If the components in the system are known, theorem \ref{theorem:kalman-filter} provides a method to estimate the latent state of the system given all past observations. 
+
+At each time-step, the Kalman filter equations provide the mean and covariance matrix of a multivariate normal that estimates the underlying latent state of the system. To better understand this estimated parameters, consider the estimated value $\boldsymbol{\mu}_n$. At time $n$, the expected latent-space position is obtained by taking the previously estimated mean latent position and evolving it one step forward by computing ${\bf A}\boldsymbol{\mu}_{n-1}$. Furthermore, we compute the discrepancy between the observed value $\x_n$ and the estimated observed-space value ${\bf CA}\boldsymbol{\mu}_n$. The \textit{relevance} in the discrepancy is determined by the \textbf{Kalman gain matrix} ${\bf K}_n$. The bigger the effect of ${\bf K}_n$, the greater the relevance of the current observation to determine the actual latent-space state. Furthermore, the covariance matrix ${\bf V}_n$, which gives a measurement of the uncertainty for the latent varable $\z_n$, is obtained by considering the \textit{natural} noise in the system $\boldsymbol{\Gamma}$ plus the previous covariance ${\bf V}_{n-1}$ spanned over the latent space by $\bf A$. From equation \eqref{eq:Vn-Kalman-filter}, we observe that the smaller the noise of the observed space, the more certainty we have about the mean latent-space value.
+
+On the other hand, the Kalman smoother equations, gives us a less noisy estimation of the latent space. 
+
+
+
+\subsection{Example 1: tracking fireworks}
+Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see figure \ref{fig:fireworks-latent-observed}). If we seek to track the path of each firework in real-time, we can make use of the Kalman filter equations to track the expected path of the fireworks
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.6]{../figures/missiles_latent}
+	\caption{Fireworks example: each coloured cross represents the observation of a firework. The dashed lines represent the latent space or the true fireworks' path. We seek to recover the path of each the firework.}
+	\label{fig:fireworks-latent-observed}
+\end{figure}
+
+\begin{figure}
+	\hfill
+	\subfigure[Kalman-filtered fireworks]{\includegraphics[width=6cm]{../figures/missiles_filtered}}
+	\hfill
+	\subfigure[Kalman-smoothed fireworks]{\includegraphics[width=6cm]{../figures/missiles_smoothed}}
+	\hfill
+	\caption{Kalman-filtered and Kalman-smoothed paths of the fireworks. We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture within some reasonable error the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent trajectory of each firework.}
+\end{figure}
+
+
 
 \section{Normal Distribution}
 \begin{proposition} \label{prop:multivariate-normal-combination}
