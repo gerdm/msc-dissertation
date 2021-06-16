@@ -1149,9 +1149,9 @@ In this section we discuss the results previously obtained and show some numeric
 
 In Subsection \ref{subsec:e-step} we derived two set of equations that we denoted as the Kalman filter and the Kalman smoothing equations. More specifically, we showed that the terms $\hat\alpha(\z_n) := p(\z_n \vert \x_1, \ldots, \x_n)$, and $\gamma(\z_n) := p(\z_n\vert {\bf X})$ are multivariate normal distributions whose mean and covariance matrices are computed iteratively. If the components in the system are known, Theorem \ref{theorem:kalman-filter} provides a method to estimate the latent state of the system given all past observations. On the other hand, if we wait until we have all observations, Theorem \ref{theorem:kalman-smoother} provides a set of equations that result in a much ``smoother'' estimation of the latent dataset.
 
-To better understand the Kalman filter equations in Theorem \ref{theorem:kalman-filter}, consider the estimated mean value $\boldsymbol{\mu}_n$ of the latent dataset. At time $n$, the expected latent-space position is obtained by taking the previously estimated mean latent position and evolving it one step forward by computing ${\bf A}\boldsymbol{\mu}_{n-1}$. Furthermore, we compute the discrepancy between the observed value $\x_n$ and the estimated observed-space value ${\bf CA}\boldsymbol{\mu}_n$. The \textit{relevance} in the discrepancy is determined by the \textbf{Kalman gain matrix} ${\bf K}_n$. The bigger the effect of ${\bf K}_n$, the greater the relevance of the current observation to determine the actual latent-space state. Furthermore, the covariance matrix ${\bf V}_n$, which provides a measurement of the uncertainty for the latent variable $\z_n$, is obtained by considering the \textit{natural} noise in the system $\boldsymbol{\Gamma}$ plus the previous covariance ${\bf V}_{n-1}$ spanned over the latent space by $\bf A$. From equation \eqref{eq:Vn-Kalman-filter}, we observe that the smaller the noise of the observed space, the more certainty we have about the mean latent-space value.
+To better understand the Kalman filter equations in Theorem \ref{theorem:kalman-filter}, consider the estimated mean value $\boldsymbol{\mu}_n$ of the latent dataset. At time $n$, the expected latent-space position is obtained by taking the previously estimated mean latent position and evolving it one step forward by computing ${\bf A}\boldsymbol{\mu}_{n-1}$. Furthermore, we compute the discrepancy between the observed value $\x_n$ and the estimated observed-space value ${\bf CA}\boldsymbol{\mu}_n$. The \textit{relevance} in the discrepancy is determined by the \textbf{Kalman gain matrix} ${\bf K}_n$. The bigger the effect of ${\bf K}_n$, the greater the relevance of the current observation to determine the actual latent-space state. Furthermore, the covariance matrix ${\bf V}_n$, which provides a measurement of the uncertainty for the latent variable $\z_n$, is obtained by considering the \textit{natural} noise in the system $\boldsymbol{\Gamma}$ plus the previous covariance ${\bf V}_{n-1}$ spanned over the latent space by $\bf A$. From equation \eqref{eq:Vn-Kalman-filter}, we observe that the smaller the noise of the observed space, the more certainty we have about the latent dataset.
 
-Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:kalman-smoother}. Whereas the Kalman filter equations take the previous estimated mean value of the latent space, the Kalman smoother equations consider the current estimated mean $\boldsymbol{\mu}_n$ and covariance matrix ${\bf V}_n$ and make a correction based on the discrepancy between the next estimated value ${\bf A} \boldsymbol{\mu}_n$ and the next ``smoothed'' value. The \textit{relevance} in the discrepancy is determined by the matrix ${\bf J}_n$ that takes the role of the Kalman gain matrix in the context of smoothing.
+Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:kalman-smoother}. Whereas the Kalman filter equations take the previous estimated mean value of the latent space, the Kalman smoother equations consider the current estimated mean $\boldsymbol{\mu}_n$ and covariance matrix ${\bf V}_n$, and make a correction based on the discrepancy between the next estimated value ${\bf A} \boldsymbol{\mu}_n$ and the next ``smoothed'' value $\hat{\boldsymbol{\mu}}_n$. The \textit{relevance} of this discrepancy is determined by the matrix ${\bf J}_n$ that takes the role of the Kalman gain matrix in the context of smoothing.
 
 In the following subsections, we apply the Kalman filter and Kalman smoother equations to some examples to better illustrate the previous paragraphs.
 
@@ -1177,12 +1177,15 @@ Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. 
 
 
 \subsection{Example 2: continuous systems}
-In some scenarios, we may assume that the observed dataset is the result of a continuous system. Hence, we would have discrete observations of a continuous system. We can modify our assumptions in the system as follows
+In some scenarios, we may assume that the observed dataset is the result of a continuous system. In this case, we would have discrete observations resulting from a continuous system. We can write the pLDS that corresponds to this scenario as follows
 \begin{align}
-	\dot{\z} &= {\bf A}\z + \boldsymbol\varepsilon\\
+	\dot{\z} &= {\bf A}\z + \boldsymbol\varepsilon,\\
 	\x &= {\bf C} \dot{\z} + \boldsymbol{\varphi}.
 \end{align} 
-Where $p(\boldsymbol{\varepsilon}) = \N({\bf 0}, \boldsymbol\Sigma)$, and $p(\boldsymbol{\varphi}) = \N({\bf 0}, \boldsymbol{\Gamma})$.
+Where $p(\boldsymbol{\varepsilon}) = \N(\boldsymbol{\varepsilon} \vert {\bf 0}, \boldsymbol\Sigma)$, and $p(\boldsymbol{\varphi}) = \N(\boldsymbol{\varphi} \vert {\bf 0}, \boldsymbol{\Gamma})$. It can be shown (\texttt{TODO: add reference}) that the Kalman filter equations take the form:
+\begin{align}
+	ds
+\end{align}
 
 \section{Normal Distribution}
 \begin{proposition} \label{prop:multivariate-normal-combination}
