@@ -1153,7 +1153,7 @@ To better understand the Kalman filter equations in Theorem \ref{theorem:kalman-
 
 Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:kalman-smoother}. Whereas the Kalman filter equations take the previous estimated mean value of the latent space, the Kalman smoother equations consider the current estimated mean $\boldsymbol{\mu}_n$ and covariance matrix ${\bf V}_n$, and make a correction based on the discrepancy between the next estimated value ${\bf A} \boldsymbol{\mu}_n$ and the next ``smoothed'' value $\hat{\boldsymbol{\mu}}_n$. The \textit{relevance} of this discrepancy is determined by the matrix ${\bf J}_n$ that takes the role of the Kalman gain matrix in the context of smoothing.
 
-In the following subsections, we apply the Kalman filter and Kalman smoother equations to some examples to better illustrate the previous paragraphs.
+In the following subsections, we apply the Kalman filter and Kalman smoother equations to illustrate their application.
 
 \subsection{Example 1: tracking fireworks}
 Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, make use of the Kalman filter equations. Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed}). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture within some reasonable error the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent trajectory of each firework.
@@ -1176,17 +1176,55 @@ Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. 
 \end{figure}
 
 
-\subsection{Example 2: continuous systems}
-In some scenarios, we may assume that the observed dataset is the result of a continuous system. In this case, we would have discrete observations resulting from a continuous system. We can write the pLDS that corresponds to this scenario as follows
+\subsection{Example 2: Hybrid Kalman filter}
+In the following example, we assume that the latent dataset is continuous from time $t=0$ to time $t=T$. Furthermore, we assume that the observed dataset is the result of sampling the latent dataset at discrete intervals. More specifically, we denote the continuous pLDS as
 \begin{align}
-	\dot{\z} &= {\bf A}\z + \boldsymbol\varepsilon,\\
-	\x &= {\bf C} \dot{\z} + \boldsymbol{\varphi}.
+	\dot{\z}(t) &= {\bf A}\z(t) + \boldsymbol{\varepsilon},\\
+	\x(t) &= {\bf C} \dot{\z}(t) + \boldsymbol{\varphi}.
 \end{align} 
-Where $p(\boldsymbol{\varepsilon}) = \N(\boldsymbol{\varepsilon} \vert {\bf 0}, \boldsymbol\Sigma)$, and $p(\boldsymbol{\varphi}) = \N(\boldsymbol{\varphi} \vert {\bf 0}, \boldsymbol{\Gamma})$. It can be shown (\texttt{TODO: add reference}) that the Kalman filter equations take the form:
+Where $p(\boldsymbol{\varepsilon}) = \N(\boldsymbol{\varepsilon} \vert {\bf 0}, \boldsymbol{\Gamma})$, and $p(\boldsymbol{\varphi}) = \N(\boldsymbol{\varphi} \vert {\bf 0}, \boldsymbol{\Sigma})$.
+
+We assume that the latent system $\z(t)$ is let to evolve from $t=0$ to $t=T$. We observe $N$ distinct samples of $\x(t)$ at various intervals which we store in $\X = \{\x_n\}_{n=1}^N$. To recover the continuous latent system from discrete observations in $\X$, we modify the Kalman filter equations found in Theorem \ref{theorem:kalman-filter} by noting that going from the $n-1$-th to the $n$-th observation in our dataset, we have to evolve (or integrate) the system enough times to make the Kalman-filter correction.
+
+More explicitly, having obtained an estimated value $\boldsymbol{\mu}_{n-1}$, we denote by $\dot{\hat{\boldsymbol{\mu}}}_n$ the dynamics of the system between observations $n-1$ and $n$. Hence, we obtain
 \begin{align}
-	ds
+	\dot{\hat{\boldsymbol{\mu}}}_n &= {\bf A}\boldsymbol{\mu}_{n-1},\\
+	\dot{\hat{{\bf P}}}_{n-1} &= {\bf A}{\bf V}_{n-1}{\bf A}^T + \boldsymbol{\Gamma}.
+\end{align}
+After evolving the system enough times to reach the $n$-th observation, we proceed by computing the updated values as before
+\begin{align}
+	\boldsymbol{\mu}_n &= \hat{\boldsymbol{\mu}}_n + {\bf K}_n(\x_n -{\bf C}{\bf A}\boldsymbol\mu_{n-1}),\\
+	{\bf V}_n &=  ({\bf I} - {\bf K}_n{\bf C})\hat{\bf P}_{n-1},
+\end{align}	
+with
+\begin{align}
+	{\bf K}_n &:= \hat{\bf P}_{n-1}{\bf C}^T({\bf C} \hat{\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1}.
 \end{align}
 
+For example, consider the system given by
+\begin{align}
+	{\bf A} = \begin{bmatrix}
+		0 & 1\\
+		-1 & 0
+	\end{bmatrix},
+\end{align}
+
+and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noisless, and the observed space is corrupted by an isotropic covariance matrix of the form $\boldsymbol{\Sigma} = 0.01 {\bf I}_2$. Here ${\bf I}_m$ represents an identity matrix of size $m$. We show the complete dataset of the system in Figure \ref{fig:hybrid-kalman-filter} (a). In this scenario, the latent dataset is assumed to be continuous between $t=0$ and $t=5.5$ with dynamics governed by $\dot{\bf z} = {\bf A z}$. To obtain the observed dataset, we integrate the system using a second-order Runge-Kutta method (\texttt{add-reference}) with $dt=0.01$, and sample $N=70$ equally-spaced observations with added noise. We observe that the hybrid Kalman filter is capable of estimating the latent space given the discrete observations up to an acceptable degree of uncertainty after a couple of steps.
+
+\begin{figure}
+	\hfill
+	\subfigure[Latent and observed datasets]{\includegraphics[width=6cm]{../figures/circle-observed-space}}
+	\hfill
+	\subfigure[Kalman-filtered dynamics for $T=5.5$]{\includegraphics[width=6cm]{../figures/circle-filtered-space}}
+	\hfill
+	\caption{System with limit cycle. (a) The blue line represents the continuous latent space between times $t=0$ and $t=5.5$. The green crosses represent equally-spaced observations sampled from the continuous system. (b) Kalman-filtered path with second-order runge-kutta integration between estimations. We plot an ellipse denoting a credible interval for three standard deviations of the mean.}
+	\label{fig:hybrid-kalman-filter}
+\end{figure}
+
+\section{Conclusion}
+
+
+\appendix
 \section{Normal Distribution}
 \begin{proposition} \label{prop:multivariate-normal-combination}
 	Let $\x$ and ${\bf y}$ two multivariate normals of the form
@@ -1197,13 +1235,13 @@ Where $p(\boldsymbol{\varepsilon}) = \N(\boldsymbol{\varepsilon} \vert {\bf 0}, 
 	Then, the conditional distribution of $\x$ given ${\bf y}$ and the marginal of ${\bf y}$ are given by
 	\begin{align}
 		p({\bf y}) &= \N\left(\x\vert {\bf A}\boldsymbol\mu + {\bf b}, {\bf L}^{-1} + {\bf A}\boldsymbol\Lambda^{-1}{\bf A}^T\right), \label{eq:normal-marginal}\\
-		p(\x \vert {\bf y}) &= \N\left(\boldsymbol\Sigma\left\{{\bf A}^T {\bf L}({\bf y} - {\bf b})  + \boldsymbol\Lambda\boldsymbol\mu \right\} \boldsymbol\Sigma\right) \label{eq:normal-conditional}.
+		p(\x \vert {\bf y}) &= \N\left(\boldsymbol\Sigma\left\{{\bf A}^T {\bf L}({\bf y} - {\bf b})  + \boldsymbol\Lambda\boldsymbol\mu \right\}, \boldsymbol\Sigma\right) \label{eq:normal-conditional}.
 	\end{align}
 	Where $\boldsymbol{\Sigma} = (\boldsymbol\Lambda + {\bf A}^T {\bf L} {\bf A})^{-1}$.
 \end{proposition}
 
 \begin{proof}
-	\texttt{TODO: write proof}
+	See \cite{prml} chapter 2.
 \end{proof}
 
 \section{Linear Algebra}
