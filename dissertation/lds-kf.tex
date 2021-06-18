@@ -1156,7 +1156,7 @@ Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:ka
 In the following subsections, we apply the Kalman filter and Kalman smoother equations to illustrate their application.
 
 \subsection{Example 1: tracking fireworks}
-Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, make use of the Kalman filter equations. Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed}). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture within some reasonable error the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent trajectory of each firework.
+Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, we make use of the Kalman filter equations. Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed} (b)). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture up to a reasonable degree of error the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent mean-trajectory of each firework.
 
 \begin{figure}
 	\centering
@@ -1177,21 +1177,21 @@ Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. 
 
 
 \subsection{Example 2: Hybrid Kalman filter}
-In the following example, we assume that the latent dataset is continuous from time $t=0$ to time $t=T$. Furthermore, we assume that the observed dataset is the result of sampling the latent dataset at discrete intervals. More specifically, we denote the continuous pLDS as
+In the following example, we assume that the latent dataset is continuous and runs from time $t=0$ to  time $t=T$. Furthermore, we assume that the observed dataset is the result of sampling the latent dataset at discrete intervals. We denote the continuous pLDS as
 \begin{align}
-	\dot{\z}(t) &= {\bf A}\z(t) + \boldsymbol{\varepsilon},\\
-	\x(t) &= {\bf C} \dot{\z}(t) + \boldsymbol{\varphi}.
+	\dot{\z}(t) &= {\bf A}\z(t) + \boldsymbol{\varepsilon}_t,\\
+	\x(t) &= {\bf C} \dot{\z}(t) + \boldsymbol{\varphi}_t.
 \end{align} 
 Where $p(\boldsymbol{\varepsilon}) = \N(\boldsymbol{\varepsilon} \vert {\bf 0}, \boldsymbol{\Gamma})$, and $p(\boldsymbol{\varphi}) = \N(\boldsymbol{\varphi} \vert {\bf 0}, \boldsymbol{\Sigma})$.
 
-We assume that the latent system $\z(t)$ is let to evolve from $t=0$ to $t=T$. We observe $N$ distinct samples of $\x(t)$ at various intervals which we store in $\X = \{\x_n\}_{n=1}^N$. To recover the continuous latent system from discrete observations in $\X$, we modify the Kalman filter equations found in Theorem \ref{theorem:kalman-filter} by noting that going from the $n-1$-th to the $n$-th observation in our dataset, we have to evolve (or integrate) the system enough times to make the Kalman-filter correction.
+We assume that the latent system $\z(t)$ is let to evolve from $t=0$ to $t=T$. We observe $N$ distinct samples of $\x(t)$ at various intervals which we store in the observed dataset $\X = \{\x_n\}_{n=1}^N$. To recover the continuous latent system from the discrete observations in $\X$, we modify the Kalman filter equations found in Theorem \ref{theorem:kalman-filter} by noting that going from the $n-1$-th observation to the $n$-th observation in $\X$ requires that we evolve (or integrate) the system enough times to make the Kalman-filter correction.
 
-More explicitly, having obtained an estimated value $\boldsymbol{\mu}_{n-1}$, we denote by $\dot{\hat{\boldsymbol{\mu}}}_n$ the dynamics of the system between observations $n-1$ and $n$. Hence, we obtain
+More explicitly, having obtained an estimated value $\boldsymbol{\mu}_{n-1}$, we denote by $\dot{\hat{\boldsymbol{\mu}}}_n$ the dynamics of the system between observations $n-1$ and $n$. We obtain
 \begin{align}
 	\dot{\hat{\boldsymbol{\mu}}}_n &= {\bf A}\boldsymbol{\mu}_{n-1},\\
 	\dot{\hat{{\bf P}}}_{n-1} &= {\bf A}{\bf V}_{n-1}{\bf A}^T + \boldsymbol{\Gamma}.
 \end{align}
-After evolving the system enough times to reach the $n$-th observation, we proceed by computing the updated values as before
+After evolving the system enough times to reach the $n$-th observation, we proceed by computing the Kalman filter equations:
 \begin{align}
 	\boldsymbol{\mu}_n &= \hat{\boldsymbol{\mu}}_n + {\bf K}_n(\x_n -{\bf C}{\bf A}\boldsymbol\mu_{n-1}),\\
 	{\bf V}_n &=  ({\bf I} - {\bf K}_n{\bf C})\hat{\bf P}_{n-1},
@@ -1209,7 +1209,7 @@ For example, consider the system given by
 	\end{bmatrix},
 \end{align}
 
-and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noisless, and the observed space is corrupted by an isotropic covariance matrix of the form $\boldsymbol{\Sigma} = 0.01 {\bf I}_2$. Here ${\bf I}_m$ represents an identity matrix of size $m$. We show the complete dataset of the system in Figure \ref{fig:hybrid-kalman-filter} (a). In this scenario, the latent dataset is assumed to be continuous between $t=0$ and $t=5.5$ with dynamics governed by $\dot{\bf z} = {\bf A z}$. To obtain the observed dataset, we integrate the system using a second-order Runge-Kutta method (\texttt{add-reference}) with $dt=0.01$, and sample $N=70$ equally-spaced observations with added noise. We observe that the hybrid Kalman filter is capable of estimating the latent space given the discrete observations up to an acceptable degree of uncertainty after a couple of steps.
+and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noisless, and the observed space is corrupted by an isotropic covariance matrix of the form $\boldsymbol{\Sigma} = 0.01 {\bf I}_2$. Here ${\bf I}_m$ represents an identity matrix of size $m$. We show the complete dataset of the system in Figure \ref{fig:hybrid-kalman-filter} (a). In this scenario, the latent dataset is assumed to be continuous between $t=0$ and $t=5.5$ with dynamics governed by $\dot{\bf z} = {\bf A z}$. To obtain the observed dataset, we integrate the system using a second-order Runge-Kutta method with $dt=0.01$, and sample $N=70$ equally-spaced observations with added noise. We observe that the hybrid Kalman filter is capable of estimating the latent space given the discrete observations up to an acceptable degree of uncertainty after a couple of steps.
 
 \begin{figure}
 	\hfill
