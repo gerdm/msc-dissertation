@@ -84,7 +84,7 @@ An example of such system is presented in Figure \ref{fig:hidden-dynamical-syste
 	\label{fig:hidden-dynamical-system}
 \end{figure}
 
-In some settings, however, we assume that the underlying signal $\z_n$ and the observed value $\x_n$ do not behave deterministically. Suppose, for example, that we are interested in modelling the price of a stock. We would like to determine whether the price of the stock is likely to go up or down. To determine its trajectory, we assume that the stock has an underlying price that consists of natural fluctuations. Furthermore, market forces such as speculation, false information, or irrational behaviour may move the underlying price of the stock to higher or lower levels and add additional noise observed as market volatility. Our goal is to recover the underlying price of the stock by \textit{filtering out} the fluctuation introduced by the market and the natural fluctuation (see Figure \ref{fig:1d-stock-system}).
+In some settings, however, we assume that the underlying signal $\z_n$ and the observed value $\x_n$ do not behave deterministically. Suppose, for example, that we are interested in modelling the price of a stock. We would like to determine whether the price of the stock is likely to go up or down. To determine its trajectory, we assume that the stock has an underlying price that consists of natural fluctuations. Furthermore, market forces such as speculation, false information, or irrational behaviour may move the underlying price of the stock to higher or lower levels and add additional noise to the observed price. Our goal is to recover the underlying price of the stock by \textit{filtering out} the fluctuation introduced by the market and the natural fluctuation (see Figure \ref{fig:1d-stock-system}).
 
 \begin{figure}[h!]
 	\hfill
@@ -92,7 +92,7 @@ In some settings, however, we assume that the underlying signal $\z_n$ and the o
 	\hfill
 	\subfigure[Observed price]{\includegraphics[width=6cm]{../figures/observed-price}}
 	\hfill
-	\caption{One-dimensional linear dynamical system. Figure a (left) shows the underlying price of a stock. We observe that the underlying price of the stock oscilates around a mean price. Figure b (right) shows the observed market price. We note that the observed market price in this example closely follows the underlying price, but has an additional noise. In both figures above, we show the mean price of the stock that we are interested in recovering in dashed black lines.}
+	\caption{One-dimensional linear dynamical system. Figure a (left) shows the underlying price of a stock. We observe that the underlying price of the stock oscilates around a mean price. Figure b (right) shows the observed market price. We note that the observed market price in this example closely follows the underlying price, but has an additional noise. In both figures, we show the mean price of the stock that we are interested in recovering.}
 	\label{fig:1d-stock-system}
 \end{figure}
 
@@ -102,7 +102,7 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
-Throughout this work every random variables real-valued. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term.
+Throughout this work every random variable is taken to be real-valued. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term.
 
 \section{Linear dynamical systems with added noise}
 We begin this section by formalising our model of interest. For an $M$-dimensional Gaussian distribution we have $p(\z) = \mathcal{N}(\z \vert {\bf m}, {\bf S})$ with
@@ -121,13 +121,13 @@ In addition, we assume that the initial state of the system $\z_1$ is normally d
 \end{equation}
 A simulation of the evolution of such system is presented in Figure \ref{fig:hidden-noisy-dynamical-system}.
 
-\sloppy As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of complete data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance, but we are only given $\X$. Therefore, we require a procedure to estimate the latent dataset $\Z$. In the following two subsections, we develop a framework to work with the joint distribution given by the complete-data likelihood and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
+\sloppy As we can see from the model specification, the overall dynamics of the system are completely specified by the set of parameters $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. In this work, we take a frequentist approach and find the set of parameters $\boldsymbol\theta$ that best represent the complete dataset $(\X, \Z)$. This is usually done by maximising the log-likelihood of the data with respect to each of the parameters in $\boldsymbol{\theta}$. Maximising the log-likelihood of a pLDS, however, is not straightforward. The computation of a complete-data log-likelihood $\log p(\X, \Z \vert \theta)$ requires knowing the terms $\X$ and $\Z$ in advance. Since we are only given $\X$, we require a procedure to estimate the latent dataset $\Z$. In the following two subsections, we develop a framework to work with the joint distribution of our pLDS model, and a procedure to estimate the latent dataset $\Z$ and maximise the log-likelihood over the complete-dataset.
 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{../figures/hidden-stochastic-dynamical-system}
-	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in Figure \ref{fig:hidden-dynamical-system}, however, each state has added gaussian noise with diagonal covariance matrix.}
+	\caption{Example of a hidden dynamical system with added noise. The deterministic dynamics of the model are the same as the ones presented in Figure \ref{fig:hidden-dynamical-system}, however, each state is corrupted with multivariate-gaussian noise.}
 	\label{fig:hidden-noisy-dynamical-system}
 \end{figure}
 
@@ -177,7 +177,7 @@ It is important to remark that the Bayesian networks considered in this work can
 % Then, talk about the use of latent variables and the representation in a bayesian network
 % * Use the pLDS as an example to write the complete-data likelihood, and
 % * Write it as a probabilistic graphical model
-Given any Bayesian network, it is of interest to ask how does the factorisation in a graph changes if a set of random variables are conditioned on another nonintersecting set of random variables. Conditional probabilities allow us to find simpler simpler representations of conditional probabilities which simplifies the model and results in simpler computations. For this, we have the following definition
+Given any Bayesian network, it is of interest to ask how does the factorisation in a graph changes if a set of random variables are conditioned on another nonintersecting set of random variables. Conditional probabilities allow us to find simpler simpler representations of conditional probabilities which simplifies the model and results in more efficient computations. Consider the following definition
 
 
 % Then, write about conditional independence and why it is useful: to simplify the structure of a model and reduce the amount of computations required to perform learning and inference
@@ -209,7 +209,7 @@ The distinction between observed and unobserved nodes in a network allows us to 
 \begin{figure}[h!]
 	\centering
 	\input{../figures/lds.tikz}
-	\caption{Graphical representation of a pLDS. The filled nodes represent observed variables, whereas the empty nodes represent latent variables.7}
+	\caption{Graphical representation of a pLDS. The filled nodes represent observed variables, whereas the empty nodes represent latent variables.}
 	\label{fig:lds-gm}
 \end{figure}
 
@@ -218,7 +218,7 @@ The graphical representation of the Bayesian network induces the following joint
 	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
 \end{equation}
 
-The graphical representation of a model not only presents an illustration of the relationship between random variables, but it's also used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we define what a descendant is, and the types of connections of three nodes in a Bayesian network.
+The graphical representation of a model not only illustrates the relationship between random variables, but it can also be used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we define what a descendant is, and show the types of connections in a Bayesian network.
 
 \begin{definition}
 	Let $\mathcal G = \{\mathscr{N}, \mathscr{E}\}$ be a Bayesian network, and let $a \in \mathscr{N}$, $b \in \mathscr{N}$. We define a node $b$ as a \textbf{descendant} of node $a$ if there exists a path from $a$ to $b$.
@@ -226,9 +226,9 @@ The graphical representation of a model not only presents an illustration of the
 
 Let $a$, $b$, and $c$ be three nodes of a bayesian network $\mathcal G$. We say that
 \begin{itemize}
-	\item $a$ and $b$ meet head-to-head at $c$ if $a \rightarrow c \leftarrow b $;
-	\item $a$ and $b$ meet tail-to-tail at $c$ if $a \leftarrow c \rightarrow b $;
-	\item $a$ and $b$ meet head-to-tail at $c$ if $a \rightarrow c \rightarrow b $;
+	\item $a$ and $b$ meet \textbf{head-to-head} at $c$ if $a \rightarrow c \leftarrow b $;
+	\item $a$ and $b$ meet \textbf{tail-to-tail} at $c$ if $a \leftarrow c \rightarrow b $;
+	\item $a$ and $b$ meet \textbf{head-to-tail} at $c$ if $a \rightarrow c \rightarrow b $;
 \end{itemize}
 
 \begin{proposition}
@@ -247,7 +247,7 @@ Let $a$, $b$, and $c$ be three nodes of a bayesian network $\mathcal G$. We say 
 To exemplify the use of $d$-separation, we present the following proposition which simplifies later computations when developing the pLDS model.
 
 \begin{proposition} \label{prop:graphical-models-separation}
-	Let $({\bf Z}, {\bf X})$ be the complete-dataset of pLDS model. Then, the following factorisations holds true
+	Let $({\bf Z}, {\bf X})$ be the complete-dataset of a pLDS model. Then,
 	\begin{align}
 		p({\bf X}\vert\z_n) &= p({\x_1, \ldots, \x_n \vert \z_n})p({\x_{n+1}, \ldots, \x_N \vert \z_n}), \label{eq:gm-1}\\
 		p(\x_1, \ldots, \x_{n-1}\vert \x_n, \z_n) &= p(\x_1, \ldots, \x_{n-1}\vert \z_n), \label{eq:gm-2}\\
@@ -325,7 +325,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 
 \subsection{The EM algorithm}
 
-As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete-dataset, we require to maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided into two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{pml1Book}). We formally derive the EM algorithm in the following three propositions.
+As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete dataset, we maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided in two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{pml1Book}). We derive the EM algorithm in the following three propositions.
 
 \begin{proposition} \label{prop:log-likelihood-partition}
 	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
@@ -348,7 +348,7 @@ As we have previously mentioned, in order to find the parameters $\boldsymbol{\t
 		&= \log p({\bf X}\vert \boldsymbol\theta).
 	\end{align}
 \end{proof}
-The term $\mathcal{L}(q, \boldsymbol\theta)$ in Proposition \ref{prop:log-likelihood-partition} is called the lower bound, and the term $\KL{q}{p}$ is known as the Kullback-Leibler divergence of the distributions $p$ and $q$. 
+The term $\mathcal{L}(q, \boldsymbol\theta)$ in Proposition \ref{prop:log-likelihood-partition} is called the lower bound, and the term $\KL{q}{p}$ is known as the Kullback-Leibler divergence of the distributions $p$ and $q$. The proof also shows that maximising $\mathcal{L}(q, \boldsymbol\theta)$ increases $\log p({\bf X}\vert \boldsymbol\theta)$.
 
 %TODO: define a set \mathcal Q of "valid" distributions.
 %TODO: why is it relevant to only maximise the lower bound L?
@@ -411,7 +411,7 @@ To make use of the E-step, it is helpful to distinguish which elements depend on
 	  &\hspace{1cm} + \text{Tr}(\z_n\z_n^T{\bf C}^T\boldsymbol\Sigma^{-1}{\bf C})\big] + \text{const.} \label{eq:complete-log-likelihood}
 \end{align}
 
-Where ``const.'' are the terms that do not depend on $\boldsymbol{\theta}$. From equation \eqref{eq:complete-log-likelihood}, we observe that the expectation with respect to the posterior distribution is completely determined by the expectations $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$. That is,
+Where ``const.'' are the terms that do not depend on $\boldsymbol{\theta}$. From equation \eqref{eq:complete-log-likelihood}, we observe that the expectation with respect to the posterior distribution is completely determined by the expectations $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$. We obtain,
 
 \begin{align}
 	Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) &= \frac{1}{2}\log \vert
@@ -424,12 +424,12 @@ Where ``const.'' are the terms that do not depend on $\boldsymbol{\theta}$. From
 \end{align}
 
 
-To compute the expected values of the latent variables, we first find the posterior distribution of the latent variables $\gamma(\z_n) := p(\z_n\vert {\bf X})$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$. As we will see, computing these distributions show that their values are depended on the past and the future.
+To compute the expected values of the latent variables, we first find the posterior distribution of the latent variables $\gamma(\z_n) := p(\z_n\vert {\bf X})$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$.
 
 %why is it useful?
 
 \begin{proposition}\label{prop:gamma-factorisation}
-	The term $\gamma(\z_n)$ can be written as a product of the joint probabilities of the first $n$ observations and $\z_n$, and the conditional probability of the observations that follow $\z_n$ conditional on $\z_n$.
+	The term $\gamma(\z_n)$ can be written as the product of the joint probability of the first $n$ observations $\{\x_j\}_{j=1}^n$ and $\z_n$, and the conditional probability of the observations that follow $\z_n$, i.e. $\{\x_j\}_{j=n+1}^{N}$, conditional on $\z_n$.
 \end{proposition}
 
 \begin{proof}
@@ -517,7 +517,7 @@ Propositions \ref{prop:gamma-factorisation}, and \ref{prop:xi-factorisation} sho
 \end{proof}
 
 % We argue that alpha and beta values can become small very quick, so we require another way to compute its values
-For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve this drawback, we work with re-scaled values for $\alpha$ and $\beta$. This has the additional benefit that the re-scaled values $\alpha(\z_n)$ can be written in form of a Normal distribution whose updating equations are  called the \textbf{Kalman equations}.
+For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve this drawback, we work with re-scaled values of $\alpha$ and $\beta$. This has the additional benefit that the re-scaled values $\alpha(\z_n)$ can be written in form of a Normal distribution whose updating equations are  called the \textbf{Kalman filter equations}.
 
 % Introduce alpha hat and beta hat: show that they can be written
 
@@ -542,7 +542,7 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 		p(\x_1, \ldots, \x_N) &=  p(\x_1) p(\x_2 \vert \x_1) \cdots p(\x_N \vert \x_1, \ldots, \x_{N-1})\\
 		&= \prod_{n=1}^N c_n.
 	\end{align}
-	Considering the definition of $\hat\alpha(\z_n)$, we rewrite $\alpha(\z_n)$ as follows
+	Consider the definition of $\hat\alpha(\z_n)$. We rewrite $\alpha(\z_n)$ as follows
 	\begin{equation} \label{eq:alpha-rewrite}
 		\alpha(\z_n) = \hat\alpha(\z_n) p(\x_1, \ldots, \x_n) = \hat\alpha(\z_n) \prod_{j=1}^n c_j.
 	\end{equation}
@@ -595,20 +595,20 @@ For moderately large $N$, $\alpha$ and $\beta$ become small very quick. To solve
 %	\texttt{TODO: write proof}
 %\end{proof}
 
-The term $\hat\alpha(\z_n)$ is called the $\alpha$-forward message passing for a linear dynamical system or \textbf{Kalman filter equation}.  The term $\hat\beta(\z_n)$ is called the $\beta$-backward message passing of a linear dynamical system or \textbf{Kalman smoother equation}. Intuitively, $\hat\alpha(\z_n)$ represents the information that the history of the data has on the $n$-th observation, whereas $\hat\beta(\z_n)$ represents how a latent variable with with known value at time $n$ affects the future behaviour of the system.
+The term $\hat\alpha(\z_n)$ is called the $\alpha$-forward message passing for a linear dynamical system or \textbf{Kalman filter equation}.  The term $\hat\beta(\z_n)$ is called the $\beta$-backward message passing of a linear dynamical system or \textbf{Kalman smoother equation}. Intuitively, $\hat\alpha(\z_n)$ represents the information that the history of the data has on the $n$-th latent state, whereas $\hat\beta(\z_n)$ represents how a latent variable with with known value at time $n$ affects the future behaviour of the system.
 
 In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1}, \z_{n})$ can be written in terms of $\hat\alpha$ and $\hat\beta$. We later show that this induces a normal probability density function for $\gamma(\z_n)$ in terms of a recursive formula that allows to efficiently compute the expected values $\mathbb{E}[\z_n]$, $\mathbb{E}[\z_n\z_{n}^{T}]$, and  $\mathbb{E}[\z_n\z_{n-1}^{T}]$.
 
 % Show that gamma and xi can be written in terms of \hat\alpha and \hat\beta.
 
 \begin{proposition}\label{prop:gamma-rewrite-scaled}
-	$\gamma(\z_n)$ can be written in terms of the re-scaled factors $\hat\alpha(\z_n)$, and $\hat\beta(\z_n)$ as
+	The term $\gamma(\z_n)$ can be written in terms of the re-scaled factors $\hat\alpha(\z_n)$, and $\hat\beta(\z_n)$ as
 	\begin{equation}
 		\gamma(\z_n) = \hat\alpha(\z_n)\hat\beta(\z_n).
 	\end{equation}
 \end{proposition}
 
-\begin{proof} We begin this proof by writing down the definition for $\gamma(\z_n)$ and considering equations \eqref{eq:alpha-rewrite} and \eqref{eq:beta-rewrite} from Propositions \ref{prop:alpha-recursive} and \ref{prop:beta-recursive} respectively.
+\begin{proof} We begin this proof by writing down the definition for $\gamma(\z_n)$ and considering equations \eqref{eq:alpha-rewrite}, and \eqref{eq:beta-rewrite}. We obtain
 	\begin{align}
 		\gamma(\z_n) &= \frac{\alpha(\z_n) \beta(\z_n)}{p({\bf X})} \\
 		&= \frac{1}{p({\bf X})}\left(\hat\alpha(\z_n) \prod_{j=1}^n c_j\right)\left(\hat\beta(\z_n) \prod_{j={n+1}}^N c_j\right) \\
@@ -662,14 +662,14 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 		\boldsymbol{\mu}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1} \left\{{\bf C}\boldsymbol\Sigma^{-1}\x_1 + {\bf V}_0^{-1}\boldsymbol\mu_0\right\},\\
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}.
 	\end{align}
-	Next, we rewrite the covariance matrix using Proposition \ref{prop:woodbury-identity}. We notice that 
+	Next, we rewrite the covariance matrix using Proposition \ref{prop:woodbury-identity}.
 	\begin{align}
 		{\bf V}_1 &= \left({\bf V}_0^{-1} + {\bf C}^T\boldsymbol{\Sigma}^{-1} {\bf C}\right)^{-1}\\
 		&= {\bf V}_0 - {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}{\bf C}{\bf V}_0 \\
 		&= {\bf V}_0 - {\bf K}_1{\bf C}{\bf V}_0\\
 		&= ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0. \label{eq:part-v1-rewrite}
 	\end{align}
-	Where we have defined ${\bf K}_1 := {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}$. Note the result derived in Proposition \ref{prop:matrix-rewrite1} allow us to rewrite ${\bf K}_1$ as follows
+	Where we have defined ${\bf K}_1 := {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}$. The result derived in Proposition \ref{prop:matrix-rewrite1} allow us to rewrite ${\bf K}_1$ as follows
 	\begin{align}
 		{\bf K}_1 &= {\bf V}_0 {\bf C}^T\left(\boldsymbol\Sigma + {\bf C}{\bf V}_0{\bf C}^T\right)^{-1}\\
 				  &= \left({\bf V}_0^{-1} + {\bf C}^T \boldsymbol\Sigma^{-1}{\bf C}\right)^{-1}{\bf C}\boldsymbol{\Sigma}^{-1}. \label{eq:part-k1-rewrite}
@@ -980,7 +980,7 @@ We summarise Theorem \ref{theorem:kalman-smoother} as follows:
 
 
 \subsection{The M-step}
-In this section, we derive the updating equations of the parameters of the system. We denote by $\boldsymbol{\theta}^\text{old}$ the set of parameters used to compute the E-step terms, namely, $\expectation{\z_{n-1}\z_{n}}$, and $\expectation{\z_{n}}$. Our next step is to find new parameters $\boldsymbol{\theta}^\text{new}$ that maximise $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$, that is
+In this subsection, we derive the updating equations to estimate the parameters of the system. We denote by $\boldsymbol{\theta}^\text{old}$ the set of parameters used to compute the E-step terms, namely, $\expectation{\z_{n-1}\z_{n}}$, and $\expectation{\z_{n}}$. Our next step is to find new parameters $\boldsymbol{\theta}^\text{new}$ that maximise $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$, that is
 \begin{equation}
 	\boldsymbol{\theta}^\text{new} = \argmax{\boldsymbol\theta} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
 \end{equation}
@@ -1022,7 +1022,7 @@ Setting the last equation to zero and solving for ${\bf V}_0$, we find that
 \end{equation}
 \end{proof}
 
-Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, $\boldsymbol{\Sigma}$.
+Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, and $\boldsymbol{\Sigma}$.
 % ------- A-term -------
 \begin{proposition}
 	The updating equation of $\bf A$ in the M-step is given by
@@ -1076,7 +1076,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 		&= \frac{N-1}{2}\boldsymbol\Gamma -\frac{1}{2}\sum_{n=2}^N\Big(\expectation{\z_n\z_n^T} - \expectation{\z_n\z_{n-1}^T}({\bf A}^{\text{new}})^T  \nonumber \\
 		& \hspace{1cm} - {\bf A}^{\text{new}}\expectation{\z_n\z_{n-1}^T} + {\bf A}^{\text{new}}\expectation{\z_{n-1}\z_{n-1}^T}({\bf A}^{\text{new}})^T\Big). \label{eq:part-Gamma-terms2}
 	\end{align}	
-	Setting equation \eqref{eq:part-Gamma-terms2} to zero and solving for $\boldsymbol{\Gamma}$ gives back equation \eqref{eq:mstep-Gamma}.
+	Setting equation \eqref{eq:part-Gamma-terms2} to zero and solving for $\boldsymbol{\Gamma}$ yields equation \eqref{eq:mstep-Gamma}.
 \end{proof}
 
 % ------- C-term -------
@@ -1148,14 +1148,14 @@ In this section we discuss the results previously obtained and show some numeric
 
 In Subsection \ref{subsec:e-step} we derived two set of equations that we denoted as the Kalman filter and the Kalman smoothing equations. More specifically, we showed that the terms $\hat\alpha(\z_n) := p(\z_n \vert \x_1, \ldots, \x_n)$, and $\gamma(\z_n) := p(\z_n\vert {\bf X})$ are multivariate normal distributions whose mean and covariance matrices are computed iteratively. If the components in the system are known, Theorem \ref{theorem:kalman-filter} provides a method to estimate the latent state of the system given all past observations. On the other hand, if we wait until we have all observations, Theorem \ref{theorem:kalman-smoother} provides a set of equations that result in a much ``smoother'' estimation of the latent dataset.
 
-To better understand the Kalman filter equations in Theorem \ref{theorem:kalman-filter}, consider the estimated mean value $\boldsymbol{\mu}_n$ of the latent dataset. At time $n$, the expected latent-space position is obtained by taking the previously estimated mean latent position and evolving it one step forward by computing ${\bf A}\boldsymbol{\mu}_{n-1}$. Furthermore, we compute the discrepancy between the observed value $\x_n$ and the estimated observed-space value ${\bf CA}\boldsymbol{\mu}_n$. The \textit{relevance} in the discrepancy is determined by the \textbf{Kalman gain matrix} ${\bf K}_n$. The bigger the effect of ${\bf K}_n$, the greater the relevance of the current observation to determine the actual latent-space state. Furthermore, the covariance matrix ${\bf V}_n$, which provides a measurement of the uncertainty for the latent variable $\z_n$, is obtained by considering the \textit{natural} noise in the system $\boldsymbol{\Gamma}$ plus the previous covariance ${\bf V}_{n-1}$ spanned over the latent space by $\bf A$. From equation \eqref{eq:Vn-Kalman-filter}, we observe that the smaller the noise of the observed space, the more certainty we have about the latent dataset.
+To better understand the Kalman filter equations in Theorem \ref{theorem:kalman-filter}, consider $\boldsymbol{\mu}_n$. At time $n$, the expected latent-space position is obtained by taking the previously estimated mean latent position and evolving it one step forward by computing ${\bf A}\boldsymbol{\mu}_{n-1}$. Furthermore, we compute the discrepancy between the observed value $\x_n$ and the estimated observed-space value ${\bf CA}\boldsymbol{\mu}_n$. The \textit{relevance} in the discrepancy is determined by the \textbf{Kalman gain matrix} ${\bf K}_n$. The bigger the effect of ${\bf K}_n$, the greater the relevance of the current observation to determine the actual latent-space state. Furthermore, the covariance matrix ${\bf V}_n$, which provides a measurement of the uncertainty for the latent variable $\z_n$, is obtained by considering the \textit{natural} noise in the system $\boldsymbol{\Gamma}$ plus the previous covariance ${\bf V}_{n-1}$ spanned over the latent space by $\bf A$. From equation \eqref{eq:Vn-Kalman-filter}, we observe that the smaller the noise of the observed space, the more certainty we have about the latent dataset.
 
 Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:kalman-smoother}. Whereas the Kalman filter equations take the previous estimated mean value of the latent space, the Kalman smoother equations consider the current estimated mean $\boldsymbol{\mu}_n$ and covariance matrix ${\bf V}_n$, and make a correction based on the discrepancy between the next estimated value ${\bf A} \boldsymbol{\mu}_n$ and the next ``smoothed'' value $\hat{\boldsymbol{\mu}}_n$. The \textit{relevance} of this discrepancy is determined by the matrix ${\bf J}_n$ that takes the role of the Kalman gain matrix in the context of smoothing.
 
 In the following subsections, we apply the Kalman filter and Kalman smoother equations to illustrate their application.
 
 \subsection{Example 1: tracking fireworks}
-Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, we make use of the Kalman filter equations. Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed} (b)). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture up to a reasonable degree of error the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent mean-trajectory of each firework.
+Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, we make use of the Kalman filter equations (Figure \ref{fig:fireworks-filtered-smoothed} (a)). Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed} (b)). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture, up to a reasonable degree of error, the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent mean-trajectory of each firework.
 
 \begin{figure}
 	\centering
@@ -1222,9 +1222,9 @@ and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noisless, and th
 
 
 \section{Discussion and further work}
-In this work, we defined a linear model that describes the evolution of a system as a function of another latent (unseen) system. By representing the system as a graphical model, we were able to derive a set of equations that facilitate the computation of interactions between the observed and the latent datasets. Furthermore, making use of the EM algorithm, we obtained a set of equations that allow us to capture the latent dynamics of the system, and another set of recursive equations that helps us update the parameters in the system. In the examples, we showed that the iterative nature and linearity of the Kalman filter equations allow the model to adapt to different problems and scenarios. Rendering them useful for both real-time and retrospective analysis.
+In this work, we defined a linear model that describes the evolution of a system as a function of another latent (unseen) system. By representing the system as a graphical model, we were able to derive a set of equations that facilitate the computation of interactions between the observed and the latent datasets. Furthermore, making use of the EM algorithm, we obtained a set of equations that allow us to capture the latent dynamics of the system, and another set of equations that helps us update the parameters in the system. In the examples, we showed that the iterative nature and linearity of the Kalman filter equations allow the model to adapt to different problems and scenarios, rendering them useful for both real-time and retrospective analysis.
 
-A big limitation of a pLDS, however, happens whenever either the latent dynamics or the observed dynamics are not linear. In this scenario, we can make use of the Extended Kalman Filter (EKF) or the Unscented Kalman Filter (UKF) (see \cite{pml2Book}) for a first-order approximation of the latent space while retaining the equations provided by theorem \ref{theorem:kalman-filter}. Both EKF and UKF models assume that the the underlying nonlinear dynamics are known. If the latent and observed dynamics are nonlinear and unknown, \cite{krishnan2015deep} provide a method to estimate the  dynamics using deep neural networks. Finally, if the observed variables are assumed to affect one another, \cite{deeprl} propose a modification of the pLDS graphical model to consider additional factors that affect the observed space.
+A big limitation of a pLDS, however, happens when either the latent dynamics or the observed dynamics are not linear. In this scenario, we can make use of the Extended Kalman Filter (EKF) or the Unscented Kalman Filter (UKF) (see \cite{pml2Book}) for a first-order approximation of the latent space while retaining the equations provided by theorem \ref{theorem:kalman-filter}. Both EKF and UKF models assume that the the underlying nonlinear dynamics are known. If the latent and observed dynamics are nonlinear and unknown, \cite{krishnan2015deep} provide a method to estimate the  dynamics using deep neural networks. Finally, if the observed variables are assumed to affect one another, \cite{deeprl} propose a modification of the pLDS graphical model to consider additional factors that affect the observed space.
 
 \section{Conclusion}
 In this work, we lay out the theoretical framework for pLDSs. We showed that estimation of the model parameters can be divided between an E-step and an M-step. If model parameters are known, we show that the E-step can also be used as a technique to estimate the latent dataset in real time. Furthermore, if we wait until we have all observations, we provided a set of equations that estimate the latent dataset with greater certainty and less variability. We showed two examples of the versatility of the Kalman filter equations. Finally, we discussed the advantages and pitfalls of the pLDS and provided further that consider a nonlinear structure in the system.
