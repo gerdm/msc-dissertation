@@ -1253,14 +1253,22 @@ In this work, we lay out the theoretical framework for pLDSs. We showed that est
 \section{Linear Algebra}
 
 \begin{proposition} \label{prop:matrix-rewrite1}
-	Let ${\bf A}, {\bf B}, {\bf C}, {\bf D}$. Then
+	Let ${\bf A} \in \R^{N\times N}, {\bf B}\in \R^{M\times N}$, and ${\bf C}\in\R^{M\times M}$. Then
 	\begin{equation}
 		\left({\bf A}^{-1} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}{\bf B}^T {\bf C}^{-1} = {\bf A}{\bf B}^T\left({\bf B}{\bf A}{\bf B}^T + {\bf C}\right)^{-1}.
 	\end{equation}
 \end{proposition}
 
 \begin{proof}
-	\texttt{TODO: write proof}
+	We show the equality multiplying both sides of the equation by $({\bf B} {\bf A} {\bf B}^T + {\bf C})$. We obtain
+	\begin{align}
+		&\left({\bf A}^{-1} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}{\bf B}^T {\bf C}^{-1} = {\bf A}{\bf B}^T\left({\bf B}{\bf A}{\bf B}^T + {\bf C}\right)^{-1}\\
+		&\iff \left({\bf A}^{-1} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}{\bf B}^T {\bf C}^{-1}({\bf B} {\bf A} {\bf B}^T + {\bf C}) = {\bf A}{\bf B}^T\\
+		&\iff \left({\bf A}^{-1} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}({\bf B}^T {\bf C}^{-1}{\bf B} {\bf A} {\bf B}^T + {\bf B}^T {\bf C}^{-1}{\bf C}) = {\bf A}{\bf B}^T\\
+		&\iff \left({\bf A}^{-1} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}({\bf B}^T {\bf C}^{-1}{\bf B} {\bf A} {\bf B}^T + {\bf B}^T) = {\bf A}{\bf B}^T\\
+		&\iff \left({\bf A}^{-1} + {\bf B}^T {\bf C}^{-1} {\bf B}\right)^{-1}({\bf B}^T {\bf C}^{-1}{\bf B} + {\bf A}^{-1}){\bf A} {\bf B}^T = {\bf A}{\bf B}^T\\
+		&\iff {\bf A}{\bf B}^T = {\bf A}{\bf B}^T
+	\end{align}
 \end{proof}
 
 \begin{proposition} \label{prop:woodbury-identity}
