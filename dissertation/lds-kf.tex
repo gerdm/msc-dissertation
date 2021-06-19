@@ -1270,14 +1270,27 @@ In this work, we lay out the theoretical framework for pLDSs. We showed that est
 		&\iff {\bf A}{\bf B}^T = {\bf A}{\bf B}^T
 	\end{align}
 \end{proof}
-
 \begin{proposition} \label{prop:woodbury-identity}
 	Let ${\bf A}, {\bf B}, {\bf C}, {\bf D}$ matrices. Then,
 	\begin{equation}
 		\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right)^{-1} = {\bf A}^{-1} - {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}.
 	\end{equation}
 	\begin{proof}
-		\texttt{TODO: write proof}
+		To show Proposition \ref{prop:woodbury-identity}, we multiply both sides of the equality by $\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right)$ to obtain
+		\begin{align}
+			{\bf I} &=\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right) {\bf A}^{-1} - \left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right) {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}\\
+			&= {\bf I} + {\bf B} {\bf D}^{-1}{\bf C}{\bf A}^{-1} - \left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right) {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}.
+		\end{align}
+		We simplify the last term on the right-hand-side of the equation to obtain
+		\begin{align}
+			&\left({\bf A} + {\bf B} {\bf D}^{-1}{\bf C}\right) {\bf A}^{-1}{\bf B}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}\\
+			=& {\bf A} {\bf A}^{-1}{\bf B} \left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1} {\bf C}{\bf A}^{-1} + {\bf B}{\bf D}^{-1}{\bf C}{\bf A}^{-1}{\bf B} \left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1} \nonumber\\
+			=&  {\bf B} \left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1} {\bf C}{\bf A}^{-1} + + {\bf B}{\bf D}^{-1}{\bf C}{\bf A}^{-1}{\bf B} \left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)^{-1}{\bf C}{\bf A}^{-1}\\
+			=& {\bf B}\left({\bf I} + {\bf D}^{-1} {\bf C}{\bf A}^{-1}{\bf B}\right)\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}^{-1}\right){\bf C}{\bf A}^{-1}\\
+			=& {\bf B}{\bf D}^{-1}\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}\right)\left({\bf D} + {\bf C}{\bf A}^{-1}{\bf B}^{-1}\right){\bf C}{\bf A}^{-1}\\
+			=& {\bf B}{\bf D}^{-1}{\bf C}{\bf A}^{-1}.\\
+		\end{align}
+		This concludes the proof.
 	\end{proof}
 \end{proposition}
 
