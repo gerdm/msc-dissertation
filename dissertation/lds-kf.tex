@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[12pt, oneside]{book}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -10,10 +10,16 @@
 \usepackage{natbib}
 \usepackage{bibentry}
 \usepackage[nottoc]{tocbibind}
+\usepackage[titletoc]{appendix}
 \usepackage{mathrsfs}
 \usepackage{subfigure}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage{mathtools}
+\usepackage[colorlinks=true, urlcolor=blue, pdfborder={0 0 0}]{hyperref}
+\hypersetup{
+     colorlinks   = true,
+     citecolor    = blue
+}
 
 \usetikzlibrary{fit}
 \mathtoolsset{showonlyrefs}
@@ -43,13 +49,42 @@
 \title{Probabilistic Linear Dynamical Systems}
 \author{Gerardo Durán-Martín}
 \begin{document}
+	\begin{titlepage}
+	\begin{center}
+\vspace{-2cm}
+Mathematics MSc Dissertation MTHM038, 2020/21
+%Financial Computing MSc Dissertation MTH778P, 2019/20
+%Network Science MSc Dissertation MTH780P, 2019/20
+%
+		\\
+        \Huge
+        \textbf{Probabilistic Linear Dynamical Systems}
+        \\        
+        \vspace{0.4cm}        
+        \textbf{Gerardo Durán-Martín, ID 200774408}
+        \\
+        \large Supervisor: Prof.\ Alexander Gnedin
+        \\
+        \vspace{0.9cm}
+        \includegraphics[scale=0.3]{../figures/QMCrest.jpg}
+        \\
+        \vspace{0.9cm}        
+        \LARGE 
+        A thesis presented for the degree of\\
+        Master of Science in mathematics\\
+        \vspace{0.7cm}        
+        \Large
+        School of Mathematical Sciences\\ 
+        Queen Mary University of London \\
+	\end{center}
+	\end{titlepage}
+
 \allowdisplaybreaks
 % Add everything to bibliography, even if it is not cited.
 \nocite{*}
+\tableofcontents
 
-\maketitle
-
-\section{Introduction}
+\chapter{Introduction}
 
 Dynamical systems are models that capture the time evolution of a system (\cite{strogatz}). A discrete-time linear dynamical system is a $K$-dimensional vector $\z_n$ which evolves according to a real-valued matrix ${\bf A}\in\R^{K\times K}$ in the form
 
@@ -110,7 +145,8 @@ In this work, we show that if the proposed functions $f$ and $g$ are linear, and
 
 Throughout this work every random variable is taken to be real-valued. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term.
 
-\section{Linear dynamical systems with added noise}
+\chapter{The pLDS model}
+\section{Probabilistic linear dynamical systems (pLDS)}
 We begin this section by formalising our model of interest. For an $M$-dimensional Gaussian distribution we have $p(\z) = \mathcal{N}(\z \vert {\bf m}, {\bf S})$ with
 \begin{align}
 	p(\z) &= \N(\z \vert {\bf m}, {\bf S})\\
@@ -139,7 +175,7 @@ A simulation of the evolution of such a system is presented in Figure \ref{fig:h
 \end{figure}
 
 
-\subsection{Probabilistic Graphical Models}
+\section{Probabilistic Graphical Models}
 A useful way to analyse the structure of joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, and the conditional independence. Moreover, we provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or Chapter 8 of \cite{prml}.
 
 % The main subject in this subsection is to motivate the use of graphs for representing the joint distribution over random variables. 
@@ -330,7 +366,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 \end{proof}
 
 
-\subsection{The EM algorithm}
+\section{The EM algorithm}
 
 As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete dataset, we maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided in two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{pml1Book}). We derive the EM algorithm in the following three propositions.
 
@@ -403,10 +439,10 @@ The E and M steps are applied iteratively in sequence, until convergence of $\bo
 % TODO: the EM algorithm converges under some conditions which our LDS model
 % has. Write
 
-\section{Deriving a model for the pLDS}
-In this section, we derive the E-step and the M-steps for the linear dynamical system presented in the previous section.
+\chapter{Modelling a pLDS}
+In this section, we derive the E-step and the M-steps for the linear dynamical system presented in the previous chapter.
 
-\subsection{The E-step} \label{subsec:e-step}
+\section{The E-step} \label{subsec:e-step}
 To make use of the E-step, it is helpful to distinguish which elements depend on $\z_n$. Consider
 
 \begin{align}
@@ -1004,7 +1040,7 @@ We summarise Theorem \ref{theorem:kalman-smoother} as follows:
 \end{proof}
 
 
-\subsection{The M-step}
+\section{The M-step}
 In this subsection, we derive the updating equations to estimate the parameters of the system. We denote by $\boldsymbol{\theta}^\text{old}$ the set of parameters used to compute the E-step terms, namely, $\expectation{\z_{n-1}\z_{n}^T}$, and $\expectation{\z_{n}}$. Our next step is to find new parameters $\boldsymbol{\theta}^\text{new}$ that maximise $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$,
 \begin{equation}
 	\boldsymbol{\theta}^\text{new} = \argmax{\boldsymbol\theta} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
@@ -1168,7 +1204,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 	\end{align}
 \end{tcolorbox}
 
-\section{Numerical results}
+\chapter{Numerical results}
 In this section we discuss the results previously obtained and show some numerical applications of the pLDS model.
 
 In Section \ref{subsec:e-step}, we derived two set of equations that we denoted as the Kalman filter and the Kalman smoothing equations. More specifically, we showed that the terms $\hat\alpha(\z_n) := p(\z_n \vert \x_1, \ldots, \x_n)$, and $\gamma(\z_n) := p(\z_n\vert {\bf X})$ are multivariate normal distributions whose mean and covariance matrices are computed iteratively. If the components in the system are known, Theorem \ref{theorem:kalman-filter} provides a method to estimate the current latent state of the system given all past observations. On the other hand, if we wait until we have all observations, Theorem \ref{theorem:kalman-smoother} provides a set of equations that result in a much ``smoother'' estimation of the latent dataset.
@@ -1179,7 +1215,7 @@ Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:ka
 
 In the following subsections, we apply the Kalman filter and Kalman smoother equations to illustrate their application.
 
-\subsection{Example 1: tracking fireworks}
+\section{Example 1: Tracking fireworks}
 Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, we make use of the Kalman filter equations (Figure \ref{fig:fireworks-filtered-smoothed} (a)). Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed} (b)). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture, up to a reasonable degree of error, the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent mean-trajectory of each firework.
 
 \begin{figure}
@@ -1200,7 +1236,7 @@ Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. 
 \end{figure}
 
 
-\subsection{Example 2: Hybrid Kalman filter}
+\section{Example 2: Hybrid Kalman filter}
 In the following example, we assume that the latent dataset is continuous and runs from time $t=0$ to  time $t=T$. Furthermore, we assume that the observed dataset is the result of sampling the latent dataset at discrete intervals. We denote the continuous pLDS as
 \begin{align}
 	\dot{\z}(t) &= {\bf A}\z(t) + \boldsymbol{\varepsilon}_t,\\
@@ -1246,18 +1282,19 @@ and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noiseless, and t
 \end{figure}
 
 
-\section{Discussion and further work}
+\chapter{Discussion and further work}
 In this work, we defined a linear model that describes the evolution of a system as a function of another latent (unseen) system. By representing the system as a graphical model, we were able to derive a set of equations that facilitate the computation of interactions between the observed and the latent datasets. Furthermore, making use of the EM algorithm, we obtained a set of equations that allows us to capture the latent dynamics of the system, and another set of equations that helps us update the parameters in the system. In the examples, we showed that the iterative nature and linearity of the Kalman filter equations allow the model to adapt to different problems and scenarios, rendering them useful for both real-time and retrospective analysis.
 
 A big limitation of a pLDS, however, happens when either the latent dynamics or the observed dynamics are not linear. In this scenario, we can make use of the extended Kalman filter (EKF) or the unscented Kalman filter (UKF) (see \cite{pml2Book}) for a first-order approximation of the latent space while retaining the equations provided by theorem \ref{theorem:kalman-filter}. Both EKF and UKF models assume that the underlying nonlinear dynamics are known. If the latent and observed dynamics are nonlinear and unknown, \cite{krishnan2015deep} provide a method to estimate the  dynamics using deep neural networks. Finally, if the observed variables are assumed to affect one another, \cite{deeprl} propose a modification of the pLDS graphical model to consider additional factors that affect the observed space.
 
-\section{Conclusion}
+\chapter{Conclusion}
 In this work, we lay out the theoretical framework for pLDSs. We showed that estimation of the model parameters can be divided between an E-step and an M-step. If model parameters are known, we show that the E-step can also be used as a technique to estimate the latent dataset in real time. Furthermore, if we wait until we have all observations, we provided a set of equations that estimate the latent dataset with greater certainty and less variability. We showed two examples of the versatility of the Kalman filter equations. Next, we discussed the advantages and drawbacks of the pLDS. Finally, we presented ideas that consider a nonlinear structure in the dynamical system.
 
 \bibliography{bib}
 
-\appendix
-\section{Normal Distribution}
+\begin{appendices}
+\chapter{}
+\section{Normal distribution}
 \begin{proposition} \label{prop:multivariate-normal-combination}
 	Let $\x$ and ${\bf y}$ be two multivariate normals of the form
 	\begin{align}
@@ -1276,8 +1313,7 @@ In this work, we lay out the theoretical framework for pLDSs. We showed that est
 	See \cite{prml} chapter 2.
 \end{proof}
 
-\section{Linear Algebra}
-
+\section{Linear algebra}
 \begin{proposition} \label{prop:matrix-rewrite1}
 	Let ${\bf A} \in \R^{N\times N}, {\bf B}\in \R^{M\times N}$, and ${\bf C}\in\R^{M\times M}$. Then
 	\begin{equation}
@@ -1319,5 +1355,5 @@ In this work, we lay out the theoretical framework for pLDSs. We showed that est
 		This concludes the proof.
 	\end{proof}
 \end{proposition}
-
+\end{appendices}
 \end{document}
