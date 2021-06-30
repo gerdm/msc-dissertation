@@ -49,35 +49,33 @@
 \title{Probabilistic Linear Dynamical Systems}
 \author{Gerardo Durán-Martín}
 \begin{document}
-	\begin{titlepage}
+\begin{titlepage}
 	\begin{center}
-\vspace{-2cm}
-Mathematics MSc Dissertation MTHM038, 2020/21
-%Financial Computing MSc Dissertation MTH778P, 2019/20
-%Network Science MSc Dissertation MTH780P, 2019/20
-%
-		\\
-        \Huge
-        \textbf{Probabilistic Linear Dynamical Systems}
-        \\        
-        \vspace{0.4cm}        
-        \textbf{Gerardo Durán-Martín, ID 200774408}
-        \\
-        \large Supervisor: Prof.\ Alexander Gnedin
-        \\
-        \vspace{0.9cm}
-        \includegraphics[scale=0.3]{../figures/QMCrest.jpg}
-        \\
-        \vspace{0.9cm}        
-        \LARGE 
-        A thesis presented for the degree of\\
-        Master of Science in mathematics\\
-        \vspace{0.7cm}        
-        \Large
-        School of Mathematical Sciences\\ 
-        Queen Mary University of London \\
+	\vspace{-2cm}
+	Mathematics MSc Dissertation MTHM038, 2020/21
+	\\
+    \Huge
+    \textbf{Probabilistic Linear Dynamical Systems}
+    \\
+    \Large
+    \vspace{0.4cm}        
+    \textbf{Gerardo Durán-Martín, ID 200774408}
+    \\
+    \large Supervisor: Prof.\ Alexander Gnedin
+    \\
+    \vspace{0.9cm}
+    \includegraphics[scale=0.3]{../figures/QMCrest.jpg}
+    \\
+    \vspace{0.9cm}        
+    \LARGE 
+    A thesis presented for the degree of\\
+    Master of Science in mathematics\\
+    \vspace{0.7cm}        
+    \Large
+    School of Mathematical Sciences\\ 
+    Queen Mary University of London \\
 	\end{center}
-	\end{titlepage}
+\end{titlepage}
 
 \allowdisplaybreaks
 % Add everything to bibliography, even if it is not cited.
@@ -147,7 +145,7 @@ Throughout this work every random variable is taken to be real-valued. To be spe
 
 \chapter{The pLDS model}
 \section{Probabilistic linear dynamical systems (pLDS)}
-We begin this section by formalising our model of interest. For an $M$-dimensional Gaussian distribution we have $p(\z) = \mathcal{N}(\z \vert {\bf m}, {\bf S})$ with
+We begin this chapter by formalising our model of interest. For an $M$-dimensional Gaussian distribution we have $p(\z) = \mathcal{N}(\z \vert {\bf m}, {\bf S})$ with
 \begin{align}
 	p(\z) &= \N(\z \vert {\bf m}, {\bf S})\\
 		  &= (2\pi)^{-M/2} \vert {\bf S}\vert^{-1/2}\exp\left(-\frac{1}{2}(\z - {\bf m})^T{\bf S}^{-1}(\z - {\bf m})\right).
@@ -440,11 +438,10 @@ The E and M steps are applied iteratively in sequence, until convergence of $\bo
 % has. Write
 
 \chapter{Modelling a pLDS}
-In this section, we derive the E-step and the M-steps for the linear dynamical system presented in the previous chapter.
+In this chapter, we derive the E-step and the M-steps for the linear dynamical system presented in the previous chapter.
 
 \section{The E-step} \label{subsec:e-step}
 To make use of the E-step, it is helpful to distinguish which elements depend on $\z_n$. Consider
-
 \begin{align}
 	\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta) &= \log p(\z_1) + \sum_{n=2}^N \log p(\z_n\vert \z_{n-1}) + \sum_{n=1}^N \log p(\x_n\vert \z_n)\\
 	   &=\frac{1}{2}\log\vert{\bf V}_0^{-1}\vert - \frac{1}{2}(\z_1 - \boldsymbol\mu_0)^T{\bf V}_0^{-1}(\z_1 - \boldsymbol\mu_0) \nonumber \\
@@ -475,7 +472,7 @@ where ``const.'' denotes the terms that do not depend on $\boldsymbol{\theta}$. 
 To compute the expected values of the latent variables, we first find the posterior distribution of the latent variables $\gamma(\z_n) := p(\z_n\vert {\bf X})$, and $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$.
 
 %why is it useful?
-
+\subsection{Forward-backward equations}
 \begin{proposition}\label{prop:gamma-factorisation}
 	The term $\gamma(\z_n)$ can be written as the product of the joint probability of the first $n$ observations $\{\x_j\}_{j=1}^n$ and $\z_n$, and the conditional probability of the observations that follow $\z_n$, i.e. $\{\x_j\}_{j=n+1}^{N}$, conditional on $\z_n$.
 \end{proposition}
@@ -698,6 +695,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 % TODO: write it more clearly
 % Show that alpha hat is a normal distribution
 %	* Derive the Kalman Filter Equations
+\subsection{Kalman filtering}
 \begin{theorem} (\textbf{Kalman Filter: initial condition}) \label{theorem:kalman-filter-initial}
 	The factor $\hat\alpha(\z_1)$ can be written as a normal probability density function with mean and covariance matrix given by
 	\begin{align}
@@ -855,7 +853,7 @@ We summarise Theorems \ref{theorem:kalman-filter-initial}, and \ref{theorem:kalm
 % Show that gamma is also a normal distribution
 The last two theorems can be used to show that $\gamma(\z_n)$ is a normal probability density function. Hence, the expectations required to compute the E-step can be derived from the mean of a normal distribution and the computation of the covariance between two normal distributions. This is formally shown in the following theorems.
 
-
+\subsection{Kalman smoothing}
 \begin{theorem} (\textbf{Kalman smoother}) \label{theorem:kalman-smoother}
 	The term $\gamma(\z_n)$ can be written as a normal distribution of the form
 	\begin{equation}
@@ -982,6 +980,7 @@ We summarise Theorem \ref{theorem:kalman-smoother} as follows:
 	\end{align}
 \end{tcolorbox}
 
+\subsection{Second-moment equations}
 \begin{theorem}
 	The term $\xi(\z_n, \z_{n-1})$ can be written as a normal distribution given by
 	\begin{equation}
