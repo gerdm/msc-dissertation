@@ -121,7 +121,6 @@ Figure \ref{fig:discrete-dynamical-system} shows an example of discrete dynamica
 In this work, we are interested in dynamical systems that depend on unobserved values, usually called latent variables, and on a set of observed values that are directly derived from the source signal. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We will use $\mathcal{D} = ({\bf X}, {\bf Z})$ to denote the complete-dataset.
 
 A linear dynamical system with latent variables assumes the existence of an unobserved signal $\z_n \in \mathbb{R}^K$ that evolves linearly over time according to a matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n+1}$ is obtained, the observed value $\x_{n+1} \in \mathbb{R}^M$ is the result of a linear transformation over $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such a system can be written as follows:
-
 \begin{align*}
 	\z_{n+1} &= {\bf A} \z_{n},\\
 	\x_{n+1} &= {\bf C} \z_{n+1}.
@@ -1296,13 +1295,12 @@ and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noiseless, and t
 \end{figure}
 
 
-\chapter{Discussion and further work}
+\chapter{Discussion and final remarks}
+In this work, we lay out the theoretical framework for modelling pLDSs. We showed that the estimation of the model parameters can be divided between an E-step and an M-step. If model parameters are known, we showed that the E-step can used as a technique to estimate the latent dataset in real time. Furthermore, if we wait until we have all observations, we provided a set of equations that estimate the latent dataset with greater certainty and less variability. We showed two examples of the use of the Kalman filter equations. Next, we discussed the advantages and drawbacks of the pLDS. Finally, we presented ideas that consider a nonlinear structure in the dynamical system.
+
 In this work, we defined a linear model that describes the evolution of a system as a function of another latent (unseen) system. By representing the system as a graphical model, we were able to derive a set of equations that facilitate the computation of interactions between the observed and the latent datasets. Furthermore, making use of the EM algorithm, we obtained a set of equations that allows us to capture the latent dynamics of the system, and another set of equations that helps us update the parameters in the system. In the examples, we showed that the iterative nature and linearity of the Kalman filter equations allow the model to adapt to different problems and scenarios, rendering them useful for both real-time and retrospective analysis.
 
 A big limitation of a pLDS, however, happens when either the latent dynamics or the observed dynamics are not linear. In this scenario, we can make use of the extended Kalman filter (EKF) or the unscented Kalman filter (UKF) (see \cite{pml2Book}) for a first-order approximation of the latent space while retaining the equations provided by theorem \ref{theorem:kalman-filter}. Both EKF and UKF models assume that the underlying nonlinear dynamics are known. If the latent and observed dynamics are nonlinear and unknown, \cite{krishnan2015deep} provide a method to estimate the  dynamics using deep neural networks. Finally, if the observed variables are assumed to affect one another, \cite{deeprl} propose a modification of the pLDS graphical model to consider additional factors that affect the observed space.
-
-\chapter{Conclusion}
-In this work, we lay out the theoretical framework for modelling pLDSs. We showed that the estimation of the model parameters can be divided between an E-step and an M-step. If model parameters are known, we showed that the E-step can used as a technique to estimate the latent dataset in real time. Furthermore, if we wait until we have all observations, we provided a set of equations that estimate the latent dataset with greater certainty and less variability. We showed two examples of the use of the Kalman filter equations. Next, we discussed the advantages and drawbacks of the pLDS. Finally, we presented ideas that consider a nonlinear structure in the dynamical system.
 
 \bibliography{bib}
 
