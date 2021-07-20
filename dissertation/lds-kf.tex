@@ -135,17 +135,17 @@ An example of such a system is presented in Figure \ref{fig:hidden-dynamical-sys
 	\label{fig:hidden-dynamical-system}
 \end{figure}
 
-In some settings, however, we assume that the underlying signal $\z_n$ and the observed value $\x_n$ do not behave deterministically. Suppose, for example, that we are interested in modelling the price of a stock. We would like to determine whether the price of the stock is likely to go up or down. To determine its trajectory, we assume that the stock has an underlying price that consists of natural fluctuations. Furthermore, market forces such as speculation, false information, or irrational behaviour may move the underlying price of the stock to higher or lower levels and add additional noise to the observed price. Our goal is to recover the underlying price of the stock by \textit{filtering out} the fluctuation introduced by the market and the natural fluctuation (see Figure \ref{fig:1d-stock-system}). 
+In some settings, however, we assume that the underlying signal $\z_n$ and the observed value $\x_n$ do not behave deterministically. Suppose, for example, that we are interesting in determining the mean path of a one-dimensional spacecraft. We assume that the actual position of the spacecraft oscillates around a mean (unknown) trajectory. Furthermore, empirical observations taken from the position of the spacecraft introduces an additional error on its mean position. Our goal is to take the observations from the spacecraft and recover its mean position by \textit{filtering out} the noise introduced by our observations and the noisy movements of the spacecraft (see Figure \ref{fig:1d-stock-system}).
 
-Hence, in Panel (a), we observe that the underlying price of the stock oscillates around a mean price, whereas in {Panel (b) the observed market price closely follows the underlying price with an additional noise.
+Hence, in Panel (a), we observe that the spacecraft oscillates around a mean trajectory, whereas in {Panel (b) the observed position of the spacecraft closely follows the actual trajectory of the spacecraft plus an additional noise.
 
 \begin{figure}[h!]
 	\hfill
-	\subfigure[Underlying price]{\includegraphics[width=6cm]{../figures/underlying-price}}
+	\subfigure[Actual spacecraft position]{\includegraphics[width=6cm]{../figures/spacecraft-actual}}
 	\hfill
-	\subfigure[Observed price]{\includegraphics[width=6cm]{../figures/observed-price}}
+	\subfigure[Observed spacecraft position]{\includegraphics[width=6cm]{../figures/spacecraft-observed}}
 	\hfill
-	\caption{One-dimensional linear dynamical system. Panel (a) shows the underlying price of a stock. Panel (b) shows the observed market price. In both Panels, we show the mean price of the stock that we are interested in recovering (dashed line).}
+	\caption{One-dimensional linear dynamical system. Panel (a) shows the underlying position of the spacecraft. Panel (b) shows the observed spacecraft path. In both Panels, we show the mean position of the spacecraft (dashed line).}
 	\label{fig:1d-stock-system}
 \end{figure}
 
