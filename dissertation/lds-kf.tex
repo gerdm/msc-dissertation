@@ -155,7 +155,7 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
-Throughout this work every random variable is taken to be real-valued. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term.
+Throughout this work every random variable is taken to be real-valued. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term. Furthermore, we denote by $p(x)$ the \textit{density} of a random variable $X$ evaluated at $x$.
 
 \chapter{The pLDS model}
 \section{Probabilistic linear dynamical systems (pLDS)}
@@ -188,7 +188,7 @@ A simulation of the evolution of such a system is presented in Figure \ref{fig:h
 
 
 \section{Probabilistic Graphical Models}
-A useful way to analyse the structure of joint distributions over random variables is by representing the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, and the conditional independence. Moreover, we provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or Chapter 8 of \cite{prml}.
+A useful way to analyse the structure of joint distributions over random variables defined over the same probability space is to represent the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, and the conditional independence. Moreover, we provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or Chapter 8 of \cite{prml}.
 
 % The main subject in this subsection is to motivate the use of graphs for representing the joint distribution over random variables. 
 Suppose $a$, $b$, and $c$ are random variables with marginal probability density function given by $p(a)$, $p(b)$, and $p(c)$ respectively. Depending on the relationship between each pair of random variables, the joint distribution $p(a,b,c)$ could be written differently. For example, if we assume that every node is independent of each other node, $p(a,b,c) = p(a) p(b) p(c)$. A Bayesian network is a graphical representation of the joint distribution of a set of random variables that expresses conditional relationships.
@@ -270,13 +270,13 @@ The distinction between observed and unobserved nodes in a network allows us to 
 
 The graphical representation of the Bayesian network induces the following joint distribution between latent and random variables:
 \begin{equation}
-	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1)\prod_{n=2}^N p(\z_n\vert \z_{n-1})\prod_{n=1}^N p(\x_n\vert \z_n).
+	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0)\prod_{n=2}^N p(\z_n\vert \z_{n-1}, {\bf A}, \boldsymbol\Gamma)\prod_{n=1}^N p(\x_n\vert \z_n, {\bf C}, \boldsymbol\Sigma).
 \end{equation}
 
 The graphical representation of a model not only illustrates the relationship between random variables, but it can also be used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we define what a descendant is, and show the types of connections in a Bayesian network.
 
 \begin{definition}
-	Let $\mathcal G = \{\mathscr{N}, \mathscr{E}\}$ be a Bayesian network, and let $a \in \mathscr{N}$, $b \in \mathscr{N}$. We define a node $b$ as a \textbf{descendant} of node $a$ if there exists a path from $a$ to $b$.
+	Let $\mathcal G = \{\mathscr{N}, \mathscr{E}\}$ be a Bayesian network, and let $a \in \mathscr{N}$, $b \in \mathscr{N}$. We define a node $b$ as a \textbf{descendant} of node $a$ if there exists a directed path from $a$ to $b$.
 \end{definition}
 
 Let $a$, $b$, and $c$ be three nodes of a bayesian network $\mathcal G$. We say that
@@ -287,12 +287,12 @@ Let $a$, $b$, and $c$ be three nodes of a bayesian network $\mathcal G$. We say 
 \end{itemize}
 
 \begin{proposition}
-	(\textbf{d-separation}) Let $\mathcal G = \{\{A, B, C\}, \mathscr{E}\}$ be a Bayesian network with with $A$, $B$, and $C$ arbitrary nonintersecting set of nodes. To assert whether $A \perp B \vert C$ is induced by the network, we consider all possible paths from any node in $A$ to any node in $B$. Any such path is said to be \textbf{blocked} if it includes a node such that either
+	(\textbf{d-separation}) Let $\mathcal G = \{\{A, B, C\}, \mathscr{E}\}$ be a Bayesian network with with $A$, $B$, and $C$ arbitrary nonintersecting set of nodes. To assert whether $A \perp B \vert C$ is implied by the network, we consider all possible paths from any node in $A$ to any node in $B$. Any such path is said to be \textbf{blocked} if it includes a node such that either
 	\begin{enumerate}
 		\item the arrows on the path meet either head-to-tail or tail-to-tail at a node in the set $C$, or
 		\item the arrows meet head-to-head at a node not in the set $C$, or any of its descendants.
 	\end{enumerate}
-	If all paths are blocked, then $A$ is said to be $d$-separable from $B$ by $C$, and the joint distribution over all variables in the graph satisfies $A \perp B \vert C$.
+	If all paths are blocked, then $A$ is said to be $d$-separable from $B$ by $C$, and the joint distribution over all variables in the graph satisfy $A \perp B \vert C$.
 \end{proposition}
 
 % Finally, 
@@ -704,7 +704,7 @@ In the following two propositions we show that $\gamma(\z_n)$ and $\xi(\z_{n-1},
 	\end{align}
 \end{proof}
 
-As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented as the probability density function of a normal distribution whose mean and covariance matrix depend on previous means and covariances. We formalise this in the following two theorems
+As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented as the probability density function of a normal distribution whose mean and covariance matrix depend on previous means and covariances. We formalise this in the following two theorems.
 
 % TODO: write it more clearly
 % Show that alpha hat is a normal distribution
