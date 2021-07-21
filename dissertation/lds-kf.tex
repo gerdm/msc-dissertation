@@ -716,7 +716,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 		\boldsymbol{\mu}_1 &= \boldsymbol{\mu}_0 + {\bf K}_1(\x_1 -{\bf C}\boldsymbol\mu_0),\\
 		{\bf V}_1 &=  ({\bf I} - {\bf K}_1{\bf C}){\bf V}_0.
 	\end{align}
-	Furthermore, $c_1$ is a normal probability density function of the form
+	Furthermore, $c_1$ is a normalisation constant that takes the value
 	\begin{equation}
 		c_1 = \N(\x_1\vert {\bf C}\boldsymbol\mu_0, \boldsymbol\Sigma + {\bf C} {\bf V}_0 {\bf C}),
 	\end{equation}
@@ -724,7 +724,7 @@ As we have previously mentioned, the term $\hat\alpha(\z_n)$ can be represented 
 \end{theorem}
 
 \begin{proof}
-	From Proposition \ref{prop:alpha-hat} we have $\hat\alpha(\z_1) = p(\z_1\vert\x_1)$. Then, $\hat\alpha(\z_1) \propto p(\z_1)p(\x_1\vert\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)$. Thus, $\hat\alpha(\z_1)$ is a Normal distribution with mean $\boldsymbol{\mu}_1$ and covariance matrix ${\bf V}_1$. We write
+	From Proposition \ref{prop:alpha-hat} we have $\hat\alpha(\z_1) = p(\z_1\vert\x_1)$. Then, $\hat\alpha(\z_1) \propto p(\z_1)p(\x_1\vert\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)$ ($\equiv \hat{\alpha}(\z_n) = k p(\z_1)p(\x_1\vert\z_1)$ for some $k \in \R$). Thus, $\hat\alpha(\z_1)$ is a Normal distribution with mean $\boldsymbol{\mu}_1$ and covariance matrix ${\bf V}_1$. We write
 	\begin{align}
 		&c_1 \hat\alpha(\z_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma)\\
 		\iff& c_1 \N(\z_1\vert \boldsymbol\mu, {\bf V}_1) = \N(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0) \N(\x_1\vert {\bf C}\z_1, \boldsymbol\Sigma),
@@ -780,7 +780,7 @@ More generally, we have the following proposition
 		{\bf P}_{n-1} &:= \boldsymbol{\Gamma} + {\bf A}{\bf V}_{n-1}{\bf A}^T,\\
 		{\bf K}_n &:= {\bf P}_{n-1}{\bf C}^T({\bf C} {\bf P}_{n-1}{\bf C}^T + \boldsymbol\Sigma)^{-1}.
 	\end{align}
-	Furthermore, $c_n$ is a normal probability density function of the form
+	Furthermore, $c_n$ is a normalisation constant that takes the value
 	\begin{equation}
 		c_n = \N(\x_n \vert {\bf CA}\boldsymbol\mu_{n-1}, \boldsymbol\Sigma + {\bf C P}_{n-1}{\bf C}^\text{T}).
 	\end{equation}
@@ -793,7 +793,7 @@ More generally, we have the following proposition
 		\iff& c_n \N(\z_n \vert \boldsymbol\mu_n, \boldsymbol\Sigma_n) = \N(\x_n \vert {\bf C}\z_n) \nonumber \\
 			&\hspace{1cm} \int \N(\z_{n-1} \vert \boldsymbol\mu_{n-1}, {\bf V}_{n-1}) \N(\z_n \vert {\bf A}\z_{n-1}, \boldsymbol\Gamma) d\z_{n-1} \label{eq:part-zn-rewrite-1}.
 	\end{align}
-	To find the terms $\boldsymbol\mu_n$ and ${\bf V}_n$, we first solve the integral in equation \eqref{eq:part-zn-rewrite-1} by using the result presented in equation \eqref{eq:normal-marginal}, and we obtain
+	To find the terms $\boldsymbol\mu_n$ and ${\bf V}_n$, we first evaluate the integral in equation \eqref{eq:part-zn-rewrite-1} by using the result presented in equation \eqref{eq:normal-marginal}, and we obtain
 	\begin{equation}
 		\int \N(\z_{n-1} \vert \boldsymbol\mu_{n-1}, {\bf V}_{n-1}) \N(\z_n \vert {\bf A}\z_{n-1}, \boldsymbol\Gamma) d\z_{n-1} = \N(\z_n \vert {\bf A} \boldsymbol\mu_{n-1}, {\bf P}_{n-1}),
 	\end{equation}
@@ -996,7 +996,7 @@ We summarise Theorem \ref{theorem:kalman-smoother} as follows:
 
 \subsection{Second-moment equations}
 \begin{theorem}
-	The term $\xi(\z_n, \z_{n-1})$ can be written as a normal distribution given by
+	The term $\xi(\z_n, \z_{n-1})$ can be written as a normal density function given by
 	\begin{equation}
 		\xi(\z_n, \z_{n-1}) = \N\left(\left[\gamma(\z_{n-1}), \gamma(\z_{n})\right]^T, {\bf J}_{n-1}\hat{\bf V}_{n}\right).
 	\end{equation}
@@ -1018,7 +1018,7 @@ We summarise Theorem \ref{theorem:kalman-smoother} as follows:
 	% 		cn \alpha_n = p(x_n | z_n) p(z_n) 
 	%	* We used equations 1.132 and 1.133 (page 17) to derive p(z_{n-1} | z_n) is
 	%		a normal distribution. Look at the last equation.
-	Equation \eqref{eq:part-xi-rewrite-1} shows that $\xi(\z_{n-1}, \z_n)$ is indeed a normal distribution. In order to find its respective mean and covariance matrix, consider the first two moments of the distribution.
+	Equation \eqref{eq:part-xi-rewrite-1} shows that $\xi(\z_{n-1}, \z_n)$ is indeed a normal density. In order to find its respective mean and covariance matrix, consider the first two moments of the distribution.
 	\begin{align}
 		\expectation{\z_{n-1}\z_n^T} 
 		&= \iint \z_{n-1}\z_{n}^T p(\z_{n-1} \vert \z_n) \gamma(\z_n) d\z_{n-1}d\z_n\\
@@ -1072,7 +1072,7 @@ To achieve the E-step, we require to take the derivative of $Q(\boldsymbol{\thet
 	We begin by computing the update equations for initial condition, namely, $\boldsymbol\mu$, and $\bf Z$. From equation \eqref{eq:Q-LDS}, we notice that the only terms that depend on $\boldsymbol{\mu}_0$ are given only by the terms in $p(\z_1)$. Hence
 
 \begin{align}
-	\argmax{\boldsymbol{\mu}_0} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) = \argmax{\boldsymbol{\mu}_0} \boldsymbol{\mu}_0 {\bf V}_0^{-1}\boldsymbol{\mu}_0^T -2\mathbb{E}[{\z_1}]{\bf V}_0^{-1}\boldsymbol{\mu}_0.
+	\argmax{\boldsymbol{\mu}_0} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}) = \argmax{\boldsymbol{\mu}_0}\left( \boldsymbol{\mu}_0 {\bf V}_0^{-1}\boldsymbol{\mu}_0^T -2\mathbb{E}[{\z_1}]{\bf V}_0^{-1}\boldsymbol{\mu}_0\right).
 \end{align}
 Taking the derivative with respect to the vector $\boldsymbol{\mu}_0$ we find that
 \begin{equation}
@@ -1099,7 +1099,7 @@ Setting the last equation to zero and solving for ${\bf V}_0$, we find that
 Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{\Gamma}$, $\bf C$, and $\boldsymbol{\Sigma}$.
 % ------- A-term -------
 \begin{proposition}
-	The updating equation of $\bf A$ in the M-step is given by
+	The updating equation for $\bf A$ in the M-step is given by
 	
 	\begin{align}
 		{\bf A}^{\text{\normalfont new}} &= \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1} \label{eq:mstep-A}.
@@ -1107,14 +1107,14 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 \end{proposition}
 
 \begin{proof}
-	Consider the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$, we obtain
+	Considering the terms in equation \eqref{eq:Q-LDS} that depend on $\bf A$, we obtain
 	\begin{align}
 		& -\frac{1}{2}\sum_{n=2}^N \text{Tr}\left({\bf A}^T\boldsymbol{\Gamma}^{-1}{\bf A}\expectation{\z_{n-1}\z_{n-1}^T}\right) + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}\expectation{\z_{n-1}\z_n^T}\boldsymbol{\Gamma}^{-1}\right) \nonumber\\
 		&\hspace{2.1cm} + \frac{1}{2}\sum_{n=1}^N\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} \expectation{\z_n\z_{n-1}^T}\right)\\
 		&= \frac{1}{2}\text{Tr}\left({\bf A} \sum_{n=2}^N \expectation{\z_{n-1}\z_n^T} \boldsymbol\Gamma^{-1}\right) + \frac{1}{2}\text{Tr}\left({\bf A}^T\boldsymbol\Gamma^{-1} \sum_{n=1}^N\expectation{\z_n\z_{n-1}}\right) \nonumber\\
 		&\hspace{2.1cm} - \frac{1}{2}\text{Tr}\left({\bf A}^T \boldsymbol\Gamma^{-1} {\bf A}\sum_{n=1}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)\label{eq:part-A-terms1}.
 	\end{align}	
-	Taking the derivative of equation \eqref{eq:part-A-terms1} and setting the value to zero, we obtain equation \eqref{eq:mstep-A}:
+	Differentiating equation \eqref{eq:part-A-terms1} in $\bf A$ and equating the derivative to $0$, we obtain equation \eqref{eq:mstep-A}:
 	\begin{align}
 		&\boldsymbol{\Gamma}^{-1} \sum_{n=2}^N \expectation{\z_n\z_{n-1}^T} - \boldsymbol{\Gamma}^{-1} {\bf A} \sum_{n=2}^N\expectation{\z_{n-1}\z_{n-1}^T} = 0\\
 		\iff& {\bf A}^{\text{new}} = \left(\sum_{n=2}^N \expectation{\z_n \z_{n-1}^T}\right)\left(\sum_{n=2}^N \expectation{\z_{n-1}\z_{n-1}^T}\right)^{-1}.
@@ -1142,7 +1142,7 @@ Next, we derive the updating equations for the parameters $\bf A$, $\boldsymbol{
 		&= \frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert -\frac{1}{2}\sum_{n=2}^N\text{Tr}\Big(\boldsymbol{\Gamma}^{-1}\Big[\expectation{\z_n\z_n^T} - {\bf A}\expectation{\z_{n-1}\z_n^T} \nonumber \\
 		&\hspace{1cm} -\expectation{\z_n\z_{n-1}^T}{\bf A}^T + {\bf A}\expectation{\z_{n-1}\z_{n-1}^T}{\bf A}^T \Big]\Big) \label{eq:part-Gamma-terms1}.
 	\end{align}
-	To maximise equation \eqref{eq:part-Gamma-terms1} with respect to $\boldsymbol{\Gamma}$, we take the derivative of $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ with respect to $\boldsymbol{\Gamma}^{-1}$ and considering fixed ${\bf A}^{\text{new}}$. We obtain
+	To maximise the function in $\boldsymbol \Gamma$ for ${\bf A}^\text{new}$ fixed,  we take the derivative of $Q(\boldsymbol\theta, \boldsymbol\theta^\text{old})$ with respect to $\boldsymbol{\Gamma}^{-1}$. We obtain
 	\begin{align}
 		&\frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}Q(\boldsymbol\theta, \boldsymbol\theta^{\text{old}}) \\
 		&= \frac{\partial}{\partial \boldsymbol{\Gamma}^{-1}}\Bigg(\frac{N-1}{2}\log\vert\boldsymbol\Gamma^{-1}\vert -\frac{1}{2}\sum_{n=2}^N\text{Tr}\Big(\boldsymbol{\Gamma}^{-1}\Big[\expectation{\z_n\z_n^T} - {\bf A}^{\text{new}}\expectation{\z_{n-1}\z_n^T} \nonumber \\
