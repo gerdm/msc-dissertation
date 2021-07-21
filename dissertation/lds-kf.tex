@@ -187,7 +187,7 @@ A simulation of the evolution of such a system is presented in Figure \ref{fig:h
 \end{figure}
 
 
-\section{Probabilistic Graphical Models}
+\section{Probabilistic Graphical Models} \label{section:graphical-models}
 A useful way to analyse the structure of joint distributions over random variables defined over the same probability space is to represent the dependencies of the joint distribution as a probabilistic graphical model. In this subsection, we define and motivate the use of Bayesian networks, and the conditional independence. Moreover, we provide the rules of $d$-separation, and postulate a set of factorisation equations that helps us analyse pLDSs. For an in-depth overview of probabilistic graphical models, see \cite{koller2009}, or Chapter 8 of \cite{prml}.
 
 % The main subject in this subsection is to motivate the use of graphs for representing the joint distribution over random variables. 
@@ -488,6 +488,8 @@ To compute the expected values of the latent variables, we first find the poster
 
 %why is it useful?
 \subsection{Forward-backward equations}
+In the previous subsection, we denoted $\gamma(\z_n) := p(\z_n\vert {\bf X})$ as the posterior distribution of the latent variable at time $n$. Furthermore, we denoted $\xi(\z_{n-1}, \z_{n}) := p(\z_{n-1}, \z_n\vert {\bf X})$ as the joint posterior distribution between two subsequent latent variables $\z_{n-1}$ and $\z_{n}$. In this subsection, we make use of the tools presented in Section \ref{section:graphical-models} to show that $\gamma(\z_n)$ and $\xi(\z_{n-1}, \z_{n})$ can be obtained through a procedure know as the forward and backward equations.
+
 \begin{proposition}\label{prop:gamma-factorisation}
 	The term $\gamma(\z_n)$ can be written as the product of the joint probability of the first $n$ observations $\{\x_j\}_{j=1}^n$ and $\z_n$, and the conditional probability of the observations that follow $\z_n$, i.e. $\{\x_j\}_{j=n+1}^{N}$, conditional on $\z_n$.
 \end{proposition}
