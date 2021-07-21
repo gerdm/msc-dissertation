@@ -126,7 +126,7 @@ A linear dynamical system with latent variables assumes the existence of an unob
 	\x_{n+1} &= {\bf C} \z_{n+1}.
 \end{align*}
 
-An example of such a system is presented in Figure \ref{fig:hidden-dynamical-system}, in which the dynamics of the vector $\x_n$ are completely determined by the vector $\z_n$. Hence, the evolution of the system is specified by the initial condition $\z_0$. Assuming that $\z_0$ is known and we observe a fixed number $N$ of observations, the problem reduces to find matrices ${\bf A}$ and ${\bf C}$ that generate the observed values.
+An example of such a system is presented in Figure \ref{fig:hidden-dynamical-system}, in which the dynamics of the vector $\x_n$ are completely determined by the vector $\z_n$. Hence, the evolution of the system is specified by the initial condition $\z_0$. Assuming that $\z_0$ is known and we observe a fixed number $N \geq 1$ of observations, the problem reduces to find matrices ${\bf A}$ and ${\bf C}$ that generate the observed values.
 
 \begin{figure}[h!]
 	\centering
@@ -155,7 +155,7 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
-Throughout this work every random variable is taken to be real-valued. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term. Furthermore, we denote by $p(x)$ the \textit{density} of a random variable $X$ evaluated at $x$.
+Throughout this work every random variable is taken to be real-valued and every random vector is taken to be a real-valued column vector. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$, where $K \geq 1$ is the dimensionality of the latent space and $M \geq 1$ is the dimensionality of the observed space. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term. Furthermore, we denote by $p(x)$ the \textit{density} of a random variable $X$ evaluated at $x$.
 
 \chapter{The pLDS model}
 \section{Probabilistic linear dynamical systems (pLDS)}
@@ -237,13 +237,13 @@ Given any Bayesian network, it is of interest to ask how does the factorisation 
 
 % Then, write about conditional independence and why it is useful: to simplify the structure of a model and reduce the amount of computations required to perform learning and inference
 \begin{definition}
-	\textbf{Conditional independence}: Two random variables, $a$ and $b$, are said to be conditionally independent over a third random variable $c$, denoted as $a \perp b \vert c$, if the following formula holds
+	\textbf{Conditional independence}: Two sets of random variables, $A$ and $B$, are said to be conditionally independent over a third set of random variables, $C$, denoted as $A \perp B \vert C$, if the following relationship holds
 	\begin{equation}
-		a \perp b \vert c \iff p(a, b \vert c) = p(a \vert c) p(b \vert c).
+		A \perp B \vert C \iff p(A, B \vert C) = p(A \vert C) p(B \vert C).
 	\end{equation}
 	Equivalently,
 	\begin{equation}
-		a \perp b \vert c \iff p(a \vert b, c) = p(a \vert c).
+		A \perp B \vert C \iff p(A \vert B, C) = p(A \vert C).
 	\end{equation}
 \end{definition}
 
@@ -272,6 +272,11 @@ The graphical representation of the Bayesian network induces the following joint
 \begin{equation}
 	p({\bf X}, {\bf Z} \vert\boldsymbol\theta) = p(\z_1 \vert \boldsymbol\mu_0, {\bf V}_0)\prod_{n=2}^N p(\z_n\vert \z_{n-1}, {\bf A}, \boldsymbol\Gamma)\prod_{n=1}^N p(\x_n\vert \z_n, {\bf C}, \boldsymbol\Sigma).
 \end{equation}
+
+More generally, we have the following definition
+\begin{definition}
+	\textbf{Conditional independence}.
+\end{definition}
 
 The graphical representation of a model not only illustrates the relationship between random variables, but it can also be used to simplify the representation of conditional probabilities using a set of rules known as \textit{d-separation}. Before we introduce the rules of $d$-separation, we define what a descendant is, and show the types of connections in a Bayesian network.
 
@@ -380,7 +385,7 @@ To exemplify the use of $d$-separation, we present the following proposition whi
 
 \section{The EM algorithm}
 
-As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete dataset, we maximise the log-likelihood of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided in two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{pml1Book}). We derive the EM algorithm in the following three propositions.
+As we have previously mentioned, in order to find the parameters $\boldsymbol{\theta}$ that best represent the complete dataset, we maximise the likelihood (or equivalently, the log-likelihood) of the complete dataset with respect to each of the parameters in $\boldsymbol{\theta}$. In this section, we present the Expectation Maximisation (EM) algorithm: a two-step iterative approach that maximises the log-likelihood of the complete-dataset. Broadly speaking, the EM algorithm is divided in two steps: the E-step attempts to estimate a plausible dataset $\Z$ given current estimates of $\boldsymbol\theta$; the M-step, fixes the estimated values of $\Z$ and updates $\boldsymbol{\theta}$. Under certain conditions, it can be shown that the EM algorithm converges to a local maximum (\cite{pml1Book}). We derive the EM algorithm in the following three propositions.
 
 \begin{proposition} \label{prop:log-likelihood-partition}
 	The log-likelihood $\log p({\bf X} \vert \boldsymbol{\theta})$ can be written as the sum of two factors
@@ -437,7 +442,7 @@ The KL divergence between $p$ and $q$ serves as a nonnegative dissimilarity meas
 \end{proposition}
 
 \begin{proof}
-	We rewrite the maximisation of the lower bound with fixed $q$, and we obtain
+	Let $\boldsymbol{\theta}^\text{old}$ denote the estimated (fixed) parameters of the model obtained in the previous iteration of the EM algorithm. By rewriting the lower bound $\mathcal{L}(q, \boldsymbol{\theta})$ with fixed $q({\bf Z}) = p({\bf Z} \vert {\bf X}, \boldsymbol\theta^\text{old})$, we maximise $\mathcal{L}(q, \boldsymbol{\theta})$ with respect to the model parameters $\boldsymbol{\theta}$. We denote the newly obtained set of parameters by $\boldsymbol{\theta}^\text{new}$. Note that both $\boldsymbol{\theta}^\text{old}$ and $\boldsymbol{\theta}^\text{new}$ are fixed values, whereas $\boldsymbol{\theta}$ denotes a variable of the function $\mathcal{L}(q, \boldsymbol{\theta})$. We obtain
 	\begin{align}
 		\boldsymbol{\theta}^\text{new} &= \argmax{\boldsymbol\theta} \mathcal{L}(q, \boldsymbol\theta)\\
 		&= \argmax{\boldsymbol{\theta}} \int p(\Z \vert \X, \boldsymbol{\theta}^\text{old}) \log\left(\frac{p(\X, \Z \vert \boldsymbol\theta)}{p(\Z \vert \X, \boldsymbol\theta^\text{old})}\right) d\Z\\
@@ -445,11 +450,7 @@ The KL divergence between $p$ and $q$ serves as a nonnegative dissimilarity meas
 		&= \argmax{\boldsymbol{\theta}} \mathbb{E}_{{\bf Z}\vert {\bf X}, \boldsymbol{\theta}^\text{old}}[\log p({\bf X}, {\bf Z}\vert \boldsymbol\theta)].
 	\end{align}
 \end{proof}
-
 The E and M steps are applied iteratively in sequence, until convergence of $\boldsymbol{\theta}$, that is, changes in theta are below a fixed tolerance.
-
-% TODO: the EM algorithm converges under some conditions which our LDS model
-% has. Write
 
 \chapter{Modelling a pLDS}
 In this chapter, we derive the E-step and the M-steps for the linear dynamical system presented in the previous chapter.
@@ -1367,5 +1368,8 @@ A big limitation of a pLDS, however, happens when either the latent dynamics or 
 		This concludes the proof.
 	\end{proof}
 \end{proposition}
+
+\section{Matrix differentiation}
+
 \end{appendices}
 \end{document}
