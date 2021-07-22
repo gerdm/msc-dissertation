@@ -1073,7 +1073,13 @@ In this subsection, we derive the updating equations to estimate the parameters 
 \begin{equation}
 	\boldsymbol{\theta}^\text{new} = \argmax{\boldsymbol\theta} Q(\boldsymbol\theta, \boldsymbol\theta^\text{old}).
 \end{equation}
-To achieve the E-step, we require to take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. We use the results found in \cite{matrix-cookbook} to take derivatives with respect to matrices. We divide the task of finding the updating equations in the following propositions:
+To achieve the E-step, we require to take the derivative of $Q(\boldsymbol{\theta}, \boldsymbol{\theta}^\text{old})$ with respect to each term in $\boldsymbol\theta = \{{\bf A}, {\bf C}, \boldsymbol\Gamma, \boldsymbol\Sigma, \boldsymbol\mu_0, {\bf V}_0\}$. We use the results found in \cite{matrix-cookbook} to take derivatives with respect to matrices. To derive the following terms, note that we will be working with a function of the form $f:\mathbb{\R^{M \times M} \to \R}$. Then, a derivative $\bf F$ of $f({\bf X})$ for ${\bf X}\in\R^{M\times M}$ is defined as
+
+\begin{equation}
+	{\bf F}_{ij} = \frac{\partial}{\partial {\bf X}_{ij}} f({\bf X}).
+\end{equation}
+
+We divide the task of finding the updating equations in the following propositions:
 
 \begin{proposition}
 	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}_0$, ${\bf V}_0$ are given by
