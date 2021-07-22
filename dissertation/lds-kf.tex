@@ -98,15 +98,24 @@ Finally, I would like to thank my family and friends for their encouragement and
 \tableofcontents
 
 \chapter{Introduction}
+% Introduce the topic and research question (Why this topic?)
+In many machine learning models, we assume that the data used to train the models contain all of the information required to make a prediction. Examples of these models are the linear regression (and its variants), the logistic regression, and neural networks. This assumption extends to time-series models such as the ARMA, GARCH, and VAR models, on which the estimation of the next time-step is a function of previously-seen observations. In an $\text{VAR}(p)$ model, for example, the evolution of a $K$-dimensional vector $\z_n$ is taken to be a linear combination of the previous $K$ observations that preceded $\z_n$. That is,
+\begin{equation}
+	\z_{n} = \sum_{k=1}^K {\bf A}_k\z_{n-k} + \boldsymbol{\varepsilon}_n, \label{eq:var-model}
+\end{equation}
+where $\boldsymbol{\varepsilon}_n$ is some noise term.
 
-Dynamical systems are models that capture the time evolution of a system (\cite{strogatz}). A discrete-time linear dynamical system is a $K$-dimensional vector $\z_n$ which evolves according to a real-valued matrix ${\bf A}\in\R^{K\times K}$ in the form
+If the data we want to model is taken to be noise-less. We might pose the problem in terms of a dynamical system. A dynamical system model captures the times evolution of a system (\cite{strogatz}). A discrete-time linear dynamical system is a $K$-dimensional vector $\z_n$ which evolves according to a real-valued matrix ${\bf A}\in\R^{K\times K}$ in the form
 
 \begin{equation}
-	\z_{n+1} = {\bf A}\z_n.
+	\z_{n+1} = {\bf A}\z_n \label{eq:linear-dynamical-system}
 \end{equation}
 
 Figure \ref{fig:discrete-dynamical-system} shows an example of discrete dynamical, which starts at the state $\x_0$ and ends in the state $
-\x_{18}$.
+\x_{18}$. If compare equations \eqref{eq:var-model} and \eqref{eq:linear-dynamical-system}, we observe that a linear dynamical system can be seen as a noise-less $\text{VAR}(1)$ model.
+
+% Why do we care that a VAR(1) model can be seen as a linear dynamical system?
+
 
 % An example of a linear dynamical system is...
 \begin{figure}[h!]
@@ -116,9 +125,7 @@ Figure \ref{fig:discrete-dynamical-system} shows an example of discrete dynamica
 	\label{fig:discrete-dynamical-system}
 \end{figure}
 
-
-
-In this work, we are interested in dynamical systems that depend on unobserved values, usually called latent variables, and on a set of observed values that are directly derived from the source signal. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We will use $\mathcal{D} = ({\bf X}, {\bf Z})$ to denote the complete-dataset.
+In some occasions, we seek to model a time series dataset assuming that the model that drives the dynamics of the dataset has an inherent variable that is not directly observed. In this work, we are interested in dynamical systems that depend on unobserved values, usually called latent variables, and on a set of observed values that are directly derived from the source signal. We define the set of observed variables $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ as the observed dataset, and the set of latent variables $\Z = \{\z_n \in \mathbb{R}^K \vert n=1,\ldots, N\}$ as the latent dataset. We will use $\mathcal{D} = ({\bf X}, {\bf Z})$ to denote the complete-dataset.
 
 A linear dynamical system with latent variables assumes the existence of an unobserved signal $\z_n \in \mathbb{R}^K$ that evolves linearly over time according to a matrix ${\bf A}\in\mathbb{R}^{K\times K}$. Once $\z_{n+1}$ is obtained, the observed value $\x_{n+1} \in \mathbb{R}^M$ is the result of a linear transformation over $\z_{n+1}$ induced by the matrix ${\bf C}\in \mathbb{R}^{M\times K}$. The equations that govern such a system can be written as follows:
 \begin{align*}
@@ -156,6 +163,8 @@ More generally, let $\X = \{\x_n \in \mathbb{R}^M \vert n=1,\ldots, N\}$ be an o
 In this work, we show that if the proposed functions $f$ and $g$ are linear, and the noise terms are zero-mean Gaussian random variables, we can make use of the so-called Expectation Maximisation (EM) algorithm to determine $f$ and $g$, and estimate the underlying latent dataset $\Z$ using a procedure known as Kalman Filtering.
 
 Throughout this work every random variable is taken to be real-valued and every random vector is taken to be a real-valued column vector. To be specific, for every $n$, $\z_n \in \R^K$ and $\x_n \in \R^M$, where $K \geq 1$ is the dimensionality of the latent space and $M \geq 1$ is the dimensionality of the observed space. To reduce clutter in the notation, every integral  symbol in this work assumes a definite integral over the real numbers with dimension specified by the differential term. Furthermore, we denote by $p(x)$ the \textit{density} of a random variable $X$ evaluated at $x$.
+
+We begin Chapter 2 outlining our model of interest, the probabilistic linear dynamical system (pLDS), and presenting the tools that we use throughout this work. Namely, the framework of the probabilistic graphical models framework and the Expectation-Maximisation (EM) algorithm. In Chapter 3, we make use of probabilistic graphical models and the EM algorithm to  derive a parameter-estimation procedure of the pLDS. We show that the E-step in the EM algorithm gives rise to the Kalman filter and Kalman smoother equations. Furthermore, we show that under a pLDS, the M-step results in a closed-form solution which can be readily evaluated at each iteration. In Chapter 4, we present two numerical applications on the use of Kalman filtering. Finally, in chapter 5, we draw some conclusions about the use and the applications of the model. Furthermore, we provide references to works that expand the ideas presented in this dissertation.
 
 \chapter{The pLDS model}
 \section{Probabilistic linear dynamical systems (pLDS)}
