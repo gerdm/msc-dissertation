@@ -1241,7 +1241,25 @@ Next, we consider the Kalman smoother equations given in Theorem \ref{theorem:ka
 In the following subsections, we apply the Kalman filter and Kalman smoother equations to illustrate their application.
 
 \section{Example 1: Tracking fireworks}
-Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). To track the path of each firework in real-time, we make use of the Kalman filter equations (Figure \ref{fig:fireworks-filtered-smoothed} (a)). Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed} (b)). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture, up to a reasonable degree of error, the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent mean-trajectory of each firework.
+Consider the following example based on \cite{pml2Book}, and \cite{koller2009}. We want to track a set of fireworks in the air. We have multiple noisy observations of the fireworks and we seek to recover the \textit{true} latent path (see Figure \ref{fig:fireworks-latent-observed}). We model the latent space of each firework in a 4-dimensional space: the first two dimensions relate to the position of the firework, while the last two dimensions relate to the velocity of the firework. We capture the latent dynamics in the following matrix $\bf A$:
+\begin{equation}
+	{\bf A} = \begin{bmatrix}
+		1 & 0 & \Delta & 0 \\
+		0 & 1 & 0 & \Delta \\
+		0 & 0 & 1 & 0 \\
+		0 & 0 & 0 & 1 \\
+	\end{bmatrix},
+\end{equation}
+
+with $\Delta \in \R^+$. Next, the observed space is taken to be a linear projection of the latent space onto $\R^2$ via 
+\begin{equation}
+	{\bf C} = \begin{bmatrix}
+		1 & 0 & 0 & 0\\
+		0 & 1 & 0 & 0\\
+	\end{bmatrix}.
+\end{equation}
+
+To track the path of each firework in real-time, we make use of the Kalman filter equations (Figure \ref{fig:fireworks-filtered-smoothed} (a)). Once computed the mean trajectory using the Kalman filter equations, we make a correction on the real-time estimation using the Kalman smoother equations (Figure \ref{fig:fireworks-filtered-smoothed} (b)). We observe that the filtered \textit{real-time} tracing of each firework using the Kalman filter equations capture, up to a reasonable degree of error, the trajectory of each firework. If we wait until we have all observations, we see that the Kalman-smoother equations provide a lower degree of variability and uncertainty of the latent mean-trajectory of each firework.
 
 \begin{figure}
 	\centering
@@ -1294,7 +1312,7 @@ For example, consider the system given by
 	\end{bmatrix},
 \end{align}
 
-and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noiseless, and the observed space is corrupted by an isotropic covariance matrix of the form $\boldsymbol{\Sigma} = 0.01 {\bf I}_2$. Here ${\bf I}_m$ represents an identity matrix of size $m$. We show the complete dataset of the system in panel (a) of Figure \ref{fig:hybrid-kalman-filter}. In this scenario, the latent dataset is assumed to be continuous between $t=0$ and $t=5.5$ with dynamics governed by $\dot{\bf z} = {\bf A z}$. To obtain the observed dataset, we integrate the system using a second-order Runge-Kutta method with $dt=0.01$, and sample $N=70$ equally-spaced observations with added noise. We observe that the hybrid Kalman filter is capable of estimating the latent space given the discrete observations up to an acceptable degree of uncertainty after a couple of steps.
+and ${\bf C} = {\bf I}_2$. We assume that the latent dataset is noiseless (as presented in equation \eqref{eq:noisless-dynamical-system-1}), and the observed space is corrupted by an isotropic covariance matrix of the form $\boldsymbol{\Sigma} = 0.01 {\bf I}_2$. Here ${\bf I}_m$ represents an identity matrix of size $m$. We show the complete dataset of the system in panel (a) of Figure \ref{fig:hybrid-kalman-filter}. In this scenario, the latent dataset is assumed to be continuous between $t=0$ and $t=5.5$ with dynamics governed by $\dot{\bf z} = {\bf A z}$. To obtain the observed dataset, we integrate the system using a second-order Runge-Kutta method with $dt=0.01$, and sample $N=70$ equally-spaced observations with added noise. We observe that the hybrid Kalman filter is capable of estimating the latent space given the discrete observations up to an acceptable degree of uncertainty after a couple of steps.
 
 \begin{figure}
 	\hfill
