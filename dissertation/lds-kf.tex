@@ -95,7 +95,12 @@ My appreciation also goes out to CONACyT for their financial support while pursu
 
 Finally, I would like to thank my family and friends for their encouragement and support while pursuing my studies in these challenging times.
 
-\tableofcontents
+
+{
+  \hypersetup{linkcolor=black}
+  \tableofcontents
+}
+
 
 \chapter{Introduction}
 % Introduce the topic and research question (Why this topic?)
@@ -1079,7 +1084,7 @@ To achieve the E-step, we require to take the derivative of $Q(\boldsymbol{\thet
 	{\bf F}_{ij} = \frac{\partial}{\partial {\bf X}_{ij}} f({\bf X}).
 \end{equation}
 
-We divide the task of finding the updating equations in the following propositions:
+For the M-step, we consider the function $Q(\boldsymbol\theta, {\boldsymbol\theta}^\text{old})$, which takes matrices as inputs and returns a real number. We divide the task of finding the updating equations in the following propositions:
 
 \begin{proposition}
 	The updating equations for the parameters of the initial condition $\boldsymbol{\mu}_0$, ${\bf V}_0$ are given by
@@ -1408,8 +1413,6 @@ It is important to consider that limitation of a pLDS occurs when either the lat
 		This concludes the proof.
 	\end{proof}
 \end{proposition}
-
-\section{Matrix differentiation}
 
 \end{appendices}
 \end{document}
